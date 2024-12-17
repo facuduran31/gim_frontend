@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class NavbarComponent {
 
+  notificaciones = [
+    {redirectTo: '#', mensaje: 'Notificacion 1', fecha: '17 de Diciembre de 2024'}
+  ];
+
 }

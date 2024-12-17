@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarComponent } from './components/utilities/sidebar/sidebar.component';
 import { NavbarComponent } from './components/utilities/navbar/navbar.component';
 import { FooterComponent } from './components/utilities/footer/footer.component';
+import { AlertComponent } from './components/utilities/alert/alert.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -21,7 +22,8 @@ const routes: Routes = [
     MainComponent,
     SidebarComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
