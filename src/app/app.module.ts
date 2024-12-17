@@ -8,6 +8,7 @@ import { MainComponent } from './components/pages/main/main.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarComponent } from './components/utilities/sidebar/sidebar.component';
 import { NavbarComponent } from './components/utilities/navbar/navbar.component';
+import { FooterComponent } from './components/utilities/footer/footer.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
     LoginComponent,
     MainComponent,
     SidebarComponent,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
