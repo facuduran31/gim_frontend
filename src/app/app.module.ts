@@ -13,6 +13,7 @@ import { AlertComponent } from './components/utilities/alert/alert.component';
 import { CardMainComponent } from './components/utilities/card-main/card-main.component';
 import { MisGimnasiosComponent } from './components/pages/mis-gimnasios/mis-gimnasios.component';
 import { RegisterComponent } from './components/pages/register/register.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -37,7 +38,8 @@ const routes: Routes = [
     BrowserModule,
     AppRoutingModule,
     RouterModule.forRoot(routes),
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
