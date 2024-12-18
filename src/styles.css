@@ -10862,6 +10862,7 @@
   
   .clickable:hover{
     background-color: rgba(0, 0, 0, 0.075);
+    cursor: pointer;
   }
 
   .bg-login-image {
