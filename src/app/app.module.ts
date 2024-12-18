@@ -12,9 +12,11 @@ import { FooterComponent } from './components/utilities/footer/footer.component'
 import { AlertComponent } from './components/utilities/alert/alert.component';
 import { CardMainComponent } from './components/utilities/card-main/card-main.component';
 import { MisGimnasiosComponent } from './components/pages/mis-gimnasios/mis-gimnasios.component';
+import { RegisterComponent } from './components/pages/register/register.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
+  {path: 'register', component: RegisterComponent},
   {path: 'main', component: MainComponent},
   {path: 'mis-gimnasios', component: MisGimnasiosComponent}
 ];
@@ -28,7 +30,8 @@ const routes: Routes = [
     FooterComponent,
     AlertComponent,
     CardMainComponent,
-    MisGimnasiosComponent
+    MisGimnasiosComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
