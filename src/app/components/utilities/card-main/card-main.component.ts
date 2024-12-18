@@ -11,5 +11,6 @@ export class CardMainComponent {
   @Input() subtitle: string = '';
   @Input() classes: string = '';
   @Input() color: string = '';
+  @Input() redirectTo: string = '';
 
 }
