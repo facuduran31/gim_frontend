@@ -14,6 +14,7 @@ import { CardMainComponent } from './components/utilities/card-main/card-main.co
 import { MisGimnasiosComponent } from './components/pages/mis-gimnasios/mis-gimnasios.component';
 import { RegisterComponent } from './components/pages/register/register.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -39,7 +40,8 @@ const routes: Routes = [
     AppRoutingModule,
     RouterModule.forRoot(routes),
     NgbModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
