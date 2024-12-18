@@ -10860,6 +10860,10 @@
     }
   }
   
+  .clickable:hover{
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+
   .bg-login-image {
     background: url("./assets/img/fondo_gimnasio.jpg");
     background-position: center;

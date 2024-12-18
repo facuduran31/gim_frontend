@@ -10,8 +10,11 @@
 
             <app-navbar></app-navbar>
             <!-- Main Content -->
-             
-
+            <div class="row p-3">
+                <div *ngFor="let card of options" class="col-xl-3 col-md-6 mb-4">
+                    <app-card-main [title]="card.title" [subtitle]="card.subtitle" [classes]="card.classes" [color]="card.color"></app-card-main>
+                </div>
+            </div>
             <app-footer></app-footer>
 
         </div>

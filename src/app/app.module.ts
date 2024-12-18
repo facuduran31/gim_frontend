@@ -10,6 +10,7 @@ import { SidebarComponent } from './components/utilities/sidebar/sidebar.compone
 import { NavbarComponent } from './components/utilities/navbar/navbar.component';
 import { FooterComponent } from './components/utilities/footer/footer.component';
 import { AlertComponent } from './components/utilities/alert/alert.component';
+import { CardMainComponent } from './components/utilities/card-main/card-main.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
     SidebarComponent,
     NavbarComponent,
     FooterComponent,
-    AlertComponent
+    AlertComponent,
+    CardMainComponent
   ],
   imports: [
     BrowserModule,
