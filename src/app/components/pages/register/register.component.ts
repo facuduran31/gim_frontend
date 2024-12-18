@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Usuario } from 'src/app/models/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -9,7 +10,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class RegisterComponent {
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(private usuarioService: UsuarioService, private route: Router) { }
 
   inputNombre: string = '';
   inputApellido: string = '';
@@ -22,7 +23,11 @@ export class RegisterComponent {
 
     this.usuarioService.createUsuario(usuario).subscribe(
       {
-        next: (data) => { console.log('Usuario registrado:', data); },
+        next: (data) => { 
+          console.log('Usuario registrado:', data); 
+          alert('Usuario registrado correctamente');
+          this.route.navigate(['/']);
+        },
         error: (error) => { console.error('Error al registrar usuario:', error); }
       }
     );
