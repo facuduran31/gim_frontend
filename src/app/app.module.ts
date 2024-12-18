@@ -11,10 +11,12 @@ import { NavbarComponent } from './components/utilities/navbar/navbar.component'
 import { FooterComponent } from './components/utilities/footer/footer.component';
 import { AlertComponent } from './components/utilities/alert/alert.component';
 import { CardMainComponent } from './components/utilities/card-main/card-main.component';
+import { MisGimnasiosComponent } from './components/pages/mis-gimnasios/mis-gimnasios.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
-  {path: 'main', component: MainComponent}
+  {path: 'main', component: MainComponent},
+  {path: 'mis-gimnasios', component: MisGimnasiosComponent}
 ];
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ const routes: Routes = [
     NavbarComponent,
     FooterComponent,
     AlertComponent,
-    CardMainComponent
+    CardMainComponent,
+    MisGimnasiosComponent
   ],
   imports: [
     BrowserModule,
