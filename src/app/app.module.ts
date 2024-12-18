@@ -15,11 +15,12 @@ import { MisGimnasiosComponent } from './components/pages/mis-gimnasios/mis-gimn
 import { RegisterComponent } from './components/pages/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthGuard } from './guard/guard';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'main', component: MainComponent},
+  {path: 'main', component: MainComponent, canActivate: [AuthGuard]},
   {path: 'mis-gimnasios', component: MisGimnasiosComponent}
 ];
 @NgModule({

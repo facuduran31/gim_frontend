@@ -2,17 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from 'environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://tu-backend.com/api/auth'; // Cambia a tu endpoint real
+  private apiUrl = environment.urlApi
 
   constructor(private http: HttpClient) {}
 
-  login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+  login(credentials: { mail: string; password: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/usuarios/login`, credentials).pipe(
       tap((response) => {
         // Guardar el token en localStorage o cookies
         localStorage.setItem('token', response.token);
