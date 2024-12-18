@@ -12,23 +12,23 @@ export class GimnasioService {
 
   constructor(private http: HttpClient) { }
 
-  getGimnasios() {
-    return this.http.get(`${this.urlApi}/gimnasios`);
+  getGimnasios(){
+    return this.http.get<Gimnasio[]>(`${this.urlApi}/gimnasios`);
   }
 
-  getGimnasio(id: string) {
-    return this.http.get(`${this.urlApi}/gimnasios/${id}`);
+  getGimnasioById(id:number){
+    return this.http.get<Gimnasio>(`${this.urlApi}/gimnasios/${id}`);
   }
 
-  postGimnasio(gimnasio: Gimnasio) {
+  createGimnasio(gimnasio:Gimnasio){
     return this.http.post(`${this.urlApi}/gimnasios`, gimnasio);
   }
 
-  putGimnasio(id: number, gimnasio: Gimnasio) {
-    return this.http.put(`${this.urlApi}/gimnasios/${id}`, gimnasio);
+  updateGimnasio(gimnasio:Gimnasio){
+    return this.http.put(`${this.urlApi}/gimnasios/${gimnasio.id}`, gimnasio);
   }
 
-  deleteGimnasio(id: number) {
+  deleteGimnasio(id:number){
     return this.http.delete(`${this.urlApi}/gimnasios/${id}`);
   }
 }
