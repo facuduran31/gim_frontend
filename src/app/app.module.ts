@@ -21,7 +21,7 @@ const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'main', component: MainComponent, canActivate: [AuthGuard]},
-  {path: 'mis-gimnasios', component: MisGimnasiosComponent}
+  {path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard]}
 ];
 @NgModule({
   declarations: [

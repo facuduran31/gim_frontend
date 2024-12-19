@@ -12,11 +12,9 @@
                 <a href="/main" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
                 <a href="/main" class="btn btn-success ms-3"><i class="fas fa-plus"></i> Crear gimnasio</a>
                 <div class="row mt-3">
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <!-- Faltan definir bien los parametros del app card main -->
-                        <div *ngFor="let gimnasio of gimnasios">
-                            <app-card-main [title]="gimnasio.nombre" [subtitle]="gimnasio.nombre" [classes]="''" [color]="'primary'" [redirectTo]="''"></app-card-main>
-                        </div>
+                    <!-- Faltan definir bien los parametros del app card main -->
+                    <div *ngFor="let gimnasio of gimnasios" class="col-xl-3 col-md-6 mb-4">
+                        <app-card-main [title]="gimnasio.nombre" [subtitle]="gimnasio.nombre" [classes]="''" [color]="'primary'" [redirectTo]="''"></app-card-main>
                     </div>
                 </div>
                 
