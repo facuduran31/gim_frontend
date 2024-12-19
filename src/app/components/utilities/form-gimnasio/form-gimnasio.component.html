@@ -6,15 +6,15 @@
             </div>
             <form class="user">
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nombre">
+                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nombre del gimnasio" [(ngModel)]="inputNombreGimnasio" name="nombreGimnasio">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Logo">
+                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="URL logo del gimnasio" [(ngModel)]="inputLogoGimnasio" name="logoGimnasio">
                 </div>
             </form>
-            <a href="login.html" class="btn btn-primary btn-user btn-block">
+            <button type="submit" class="btn btn-primary btn-block" (click)="crearGimnasio()">
                 Crear gimnasio
-            </a>
+            </button>
         </div>
     </div>
 </div>
