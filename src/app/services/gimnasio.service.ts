@@ -31,4 +31,8 @@ export class GimnasioService {
   deleteGimnasio(id:number){
     return this.http.delete(`${this.urlApi}/gimnasios/${id}`);
   }
+
+  getGimnasiosByIdUsuario(idUsuario:number){
+    return this.http.get<Gimnasio[]>(`${this.urlApi}/gimnasios/usuario/${idUsuario}`);
+  }
 }

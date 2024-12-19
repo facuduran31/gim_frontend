@@ -11,4 +11,8 @@ export class Usuario {
         this.mail = email;
         this.password = password;
     }
+
+    asignarId(id: number) {
+        this.id = id;
+    }
 }

@@ -46,6 +46,7 @@ export class AuthService {
       usuario.apellido = user.apellido;
       usuario.mail = user.mail;
       usuario.password = user.password;
+      usuario.asignarId(user.idUsuario);
     }
     return usuario;
   }
