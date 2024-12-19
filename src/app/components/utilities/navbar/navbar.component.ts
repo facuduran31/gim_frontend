@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Route, Router } from '@angular/router';
+import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from 'src/app/services/authservice.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,6 +10,8 @@ import { AuthService } from 'src/app/services/authservice.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+  usuarioLogeado: Usuario = this.authService.getUsuario();
 
   notificaciones = [
     {redirectTo: '#', mensaje: 'Notificacion 1', fecha: '17 de Diciembre de 2024'}
@@ -18,6 +22,10 @@ export class NavbarComponent {
   logout() {
     this.authService.logout();
     this.route.navigate(['/']);
+  }
+
+  getUsuario() {
+    return this.authService.getUsuario();
   }
 
 }

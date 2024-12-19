@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'environment';
+import { Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,19 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getUsuario(): Usuario {
+    // Decodificar el token y retornar el usuario
+    const token = this.getToken();
+    const usuario = new Usuario('', '', '', '');
+    if (token) {
+      const user = JSON.parse(atob(token.split('.')[1]));
+      usuario.nombre = user.nombre;
+      usuario.apellido = user.apellido;
+      usuario.mail = user.mail;
+      usuario.password = user.password;
+    }
+    return usuario;
   }
 }
