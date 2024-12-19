@@ -16,6 +16,7 @@ import { RegisterComponent } from './components/pages/register/register.componen
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './guard/guard';
+import { FormGimnasioComponent } from './components/utilities/form-gimnasio/form-gimnasio.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -34,7 +35,8 @@ const routes: Routes = [
     AlertComponent,
     CardMainComponent,
     MisGimnasiosComponent,
-    RegisterComponent
+    RegisterComponent,
+    FormGimnasioComponent
   ],
   imports: [
     BrowserModule,

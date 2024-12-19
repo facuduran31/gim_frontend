@@ -12,6 +12,7 @@ export class MisGimnasiosComponent {
 
   constructor(private authService: AuthService, private gimnasioService: GimnasioService) { this.obtenerGimnasios() }
 
+  modoCrearGimnasio = false;
   usuarioLogeado = this.authService.getUsuario();
   gimnasios: Gimnasio[] = [];
 
@@ -22,5 +23,9 @@ export class MisGimnasiosComponent {
           this.gimnasios = [...gimnasio];
         });
     }
+  }
+
+  toggleModoCrearGimnasio() {
+    this.modoCrearGimnasio = !this.modoCrearGimnasio;
   }
 }
