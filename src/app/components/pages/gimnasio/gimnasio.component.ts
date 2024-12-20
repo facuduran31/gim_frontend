@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Gimnasio } from 'src/app/models/gimnasio';
 import { GimnasioService } from 'src/app/services/gimnasio.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-gimnasio',
@@ -19,7 +20,7 @@ export class GimnasioComponent implements OnInit{
     {title: 'Validar ingresos', subtitle: 'Ingresos', classes: 'fas fa-table', color: 'warning', redirectTo: ''}
   ]
 
-  constructor(private route:ActivatedRoute, private gimnasioService: GimnasioService) {}
+  constructor(private route:ActivatedRoute, private gimnasioService: GimnasioService, private router: Router) {}
 
   ngOnInit(): void {
     this.obtenerGimnasio()
@@ -33,5 +34,35 @@ export class GimnasioComponent implements OnInit{
       });
     })
     
+  }
+
+  borrarGimnasio() {
+    Swal.fire({
+      title: '¡ADVERTENCIA!',
+      text: 'SI BORRAS EL GIMNASIO TODA LA INFORMACIÓN SE PERDERÁ DE MANERA DEFINITIVA',
+      icon: 'warning',
+      showConfirmButton: true,
+      showCloseButton: true,
+      showDenyButton: true,
+      confirmButtonText: 'BORRAR',
+      denyButtonText: 'Cancelar',
+      confirmButtonColor: '#ff0000',
+      denyButtonColor: '#555555'
+    }).then((result) => {
+      if(result.isConfirmed)
+      {
+        this.gimnasioService.deleteGimnasio(this.id).subscribe(() => {
+          Swal.fire({
+            title: 'Gimnasio borrado con exito',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            confirmButtonColor: '#00aa00',
+          }).then((result) => {
+            this.router.navigate(['/mis-gimnasios']);
+          })
+        });
+      }
+      
+    })
   }
 }
