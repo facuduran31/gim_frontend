@@ -1,5 +1,5 @@
 export class Gimnasio {
-    id: number | undefined;
+    idGimnasio: number | undefined;
     nombre: string;
     logo: string;
     idUsuario: number | undefined;

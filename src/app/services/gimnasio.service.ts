@@ -25,7 +25,7 @@ export class GimnasioService {
   }
 
   updateGimnasio(gimnasio:Gimnasio){
-    return this.http.put(`${this.urlApi}/gimnasios/${gimnasio.id}`, gimnasio);
+    return this.http.put(`${this.urlApi}/gimnasios/${gimnasio.idGimnasio}`, gimnasio);
   }
 
   deleteGimnasio(id:number){

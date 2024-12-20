@@ -14,7 +14,7 @@
                 <div class="row mt-3" *ngIf="!modoCrearGimnasio">
                     <!-- Faltan definir bien los parametros del app card main -->
                     <div *ngFor="let gimnasio of gimnasios" class="col-xl-3 col-md-6 mb-4">
-                        <app-card-main [title]="gimnasio.nombre" [subtitle]="gimnasio.nombre" [color]="'primary'" [redirectTo]="'gimnasio/'+gimnasio.id" [object]="gimnasio"></app-card-main>
+                        <app-card-main [title]="gimnasio.nombre" [subtitle]="gimnasio.nombre" [color]="'primary'" [redirectTo]="'gimnasio/'+gimnasio.idGimnasio" [object]="gimnasio"></app-card-main>
                     </div>
                 </div>
                 <app-form-gimnasio *ngIf="modoCrearGimnasio"></app-form-gimnasio>
