@@ -14,11 +14,12 @@ export class GimnasioComponent implements OnInit{
   id: number = 0;
   gimnasio: Gimnasio | undefined;
   options = [
-    {title: 'Editar informacion', subtitle: 'Modificar gimnasio', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: ''},
+    {title: 'Editar informacion', subtitle: 'Modificar gimnasio', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: '/'},
     {title: 'Agregar o editar planes', subtitle: 'Administrar planes', classes: 'fas fa-dollar-sign', color: 'success', redirectTo: ''},
     {title: 'Administrar socios', subtitle: 'Socios', classes: 'fas fa-user', color: 'danger', redirectTo: ''},
     {title: 'Validar ingresos', subtitle: 'Ingresos', classes: 'fas fa-table', color: 'warning', redirectTo: ''}
-  ]
+  ];
+  modoEditarGimnasio = false;
 
   constructor(private route:ActivatedRoute, private gimnasioService: GimnasioService, private router: Router) {}
 
@@ -33,6 +34,12 @@ export class GimnasioComponent implements OnInit{
         this.gimnasio = gim[0];
       });
     })
+    
+  }
+
+  toggleModoEditar() {
+    this.modoEditarGimnasio = !this.modoEditarGimnasio;
+    console.log(this.modoEditarGimnasio);
     
   }
 
