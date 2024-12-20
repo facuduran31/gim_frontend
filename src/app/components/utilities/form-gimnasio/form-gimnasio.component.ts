@@ -4,6 +4,7 @@ import { Gimnasio } from 'src/app/models/gimnasio';
 import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from 'src/app/services/authservice.service';
 import { GimnasioService } from 'src/app/services/gimnasio.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-gimnasio',
@@ -25,12 +26,23 @@ export class FormGimnasioComponent {
     this.gimnasio.idUsuario = this.usuarioLogeado.id;
     this.gimnasioService.createGimnasio(this.gimnasio).subscribe(
       (response) => {
-        alert('Gimnasio creado');
-        this.route.navigate(['/mis-gimnasios']);
-        console.log(response);
+        Swal.fire({
+          title: 'Gimnasio creado con exito',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#00aa00',
+        }).then((result) => {
+          this.route.navigate(['/mis-gimnasios']);
+        })
       },
       (error) => {
-        console.log(error);
+        Swal.fire({
+          title: 'Error al crear el gimnasio',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#0000aa'
+        })
       }
     );
   }
