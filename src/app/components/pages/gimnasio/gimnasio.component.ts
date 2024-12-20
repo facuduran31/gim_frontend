@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export class GimnasioComponent implements OnInit{
 
   id: number = 0;
-  gimnasio: Gimnasio | undefined;
+  gimnasio: Gimnasio = new Gimnasio('', '');
   options = [
     {title: 'Editar informacion', subtitle: 'Modificar gimnasio', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: '/'},
     {title: 'Agregar o editar planes', subtitle: 'Administrar planes', classes: 'fas fa-dollar-sign', color: 'success', redirectTo: ''},

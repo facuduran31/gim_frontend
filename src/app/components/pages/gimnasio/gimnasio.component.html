@@ -25,7 +25,7 @@
                 
                 <div *ngIf="modoEditarGimnasio">
                     <a (click)="toggleModoEditar()" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
-                    <app-form-gimnasio></app-form-gimnasio>
+                    <app-form-gimnasio [gimnasio]="gimnasio"></app-form-gimnasio>
                 </div>
             </div>
             <app-footer></app-footer>

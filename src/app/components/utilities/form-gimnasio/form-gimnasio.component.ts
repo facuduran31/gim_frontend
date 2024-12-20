@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Gimnasio } from 'src/app/models/gimnasio';
 import { Usuario } from 'src/app/models/usuario';
@@ -11,14 +11,18 @@ import Swal from 'sweetalert2';
   templateUrl: './form-gimnasio.component.html',
   styleUrls: ['./form-gimnasio.component.css']
 })
-export class FormGimnasioComponent {
+export class FormGimnasioComponent implements OnInit {
 
   constructor(private gimnasioService: GimnasioService, private authService: AuthService, private route: Router) { }
 
-  gimnasio: Gimnasio = new Gimnasio('', '');
+  @Input() gimnasio: Gimnasio = new Gimnasio('', '');
   usuarioLogeado: Usuario = this.authService.getUsuario();
   inputNombreGimnasio: string = '';
   inputLogoGimnasio: string = '';
+
+  ngOnInit(): void {
+    this.inputNombreGimnasio = this.gimnasio.nombre;
+  }
 
   crearGimnasio() {
     this.gimnasio.nombre = this.inputNombreGimnasio;
@@ -32,7 +36,9 @@ export class FormGimnasioComponent {
           confirmButtonText: 'Ok',
           confirmButtonColor: '#00aa00',
         }).then((result) => {
-          this.route.navigate(['/mis-gimnasios']);
+          this.route.navigateByUrl('/mis-gimnasios', { skipLocationChange: true }).then(() => {
+            window.location.reload(); // Recarga la página
+          });
         })
       },
       (error) => {
