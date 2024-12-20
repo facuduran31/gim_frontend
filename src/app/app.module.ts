@@ -17,12 +17,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './guard/guard';
 import { FormGimnasioComponent } from './components/utilities/form-gimnasio/form-gimnasio.component';
+import { GimnasioComponent } from './components/pages/gimnasio/gimnasio.component';
+import { Gimnasio } from './models/gimnasio';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'main', component: MainComponent, canActivate: [AuthGuard]},
-  {path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard]}
+  {path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard]},
+  {path: 'gimnasio/:id', component: GimnasioComponent, canActivate: [AuthGuard]}
 ];
 @NgModule({
   declarations: [
@@ -36,7 +39,8 @@ const routes: Routes = [
     CardMainComponent,
     MisGimnasiosComponent,
     RegisterComponent,
-    FormGimnasioComponent
+    FormGimnasioComponent,
+    GimnasioComponent
   ],
   imports: [
     BrowserModule,
