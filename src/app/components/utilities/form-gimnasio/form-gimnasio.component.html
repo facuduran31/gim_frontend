@@ -2,7 +2,7 @@
     <div class="col-lg-6 m-auto">
         <div class="p-5">
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">Crear gimnasio</h1>
+                <h1 class="h4 text-gray-900 mb-4">{{modoEditar ? 'Editar' : "Crear"}} gimnasio</h1>
             </div>
             <form class="user">
                 <div class="form-group">
@@ -12,8 +12,8 @@
                     <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="URL logo del gimnasio" [(ngModel)]="inputLogoGimnasio" name="logoGimnasio">
                 </div>
             </form>
-            <button type="submit" class="btn btn-primary btn-block" (click)="crearGimnasio()">
-                Crear gimnasio
+            <button type="submit" class="btn btn-primary btn-block" (click)="modoEditar ? editarGimnasio() : crearGimnasio()">
+                {{modoEditar ? 'Editar' : "Crear"}} gimnasio
             </button>
         </div>
     </div>

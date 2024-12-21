@@ -13,6 +13,8 @@ import Swal from 'sweetalert2';
 })
 export class FormGimnasioComponent implements OnInit {
 
+  modoEditar: boolean = false;
+
   constructor(private gimnasioService: GimnasioService, private authService: AuthService, private route: Router) { }
 
   @Input() gimnasio: Gimnasio = new Gimnasio('', '');
@@ -22,6 +24,9 @@ export class FormGimnasioComponent implements OnInit {
 
   ngOnInit(): void {
     this.inputNombreGimnasio = this.gimnasio.nombre;
+    if(this.inputNombreGimnasio != '') {
+      this.modoEditar = true;
+    }
   }
 
   crearGimnasio() {
@@ -44,6 +49,34 @@ export class FormGimnasioComponent implements OnInit {
       (error) => {
         Swal.fire({
           title: 'Error al crear el gimnasio',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#0000aa'
+        })
+      }
+    );
+  }
+
+  editarGimnasio() {
+    this.gimnasio.nombre = this.inputNombreGimnasio;
+    this.gimnasio.logo = this.inputLogoGimnasio;
+    this.gimnasioService.updateGimnasio(this.gimnasio).subscribe(
+      (response) => {
+        Swal.fire({
+          title: 'Gimnasio editado con exito',
+          icon: 'success',
+          confirmButtonText: 'Ok',
+          confirmButtonColor: '#00aa00',
+        }).then((result) => {
+          this.route.navigateByUrl('/mis-gimnasios', { skipLocationChange: true }).then(() => {
+            window.location.reload(); // Recarga la página
+          });
+        })
+      },
+      (error) => {
+        Swal.fire({
+          title: 'Error al editar el gimnasio',
           text: error,
           icon: 'error',
           confirmButtonText: 'Ok',
