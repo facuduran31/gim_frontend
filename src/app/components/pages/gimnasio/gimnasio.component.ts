@@ -14,8 +14,8 @@ export class GimnasioComponent implements OnInit{
   id: number = 0;
   gimnasio: Gimnasio = new Gimnasio('', '');
   options = [
-    {title: 'Editar informacion', subtitle: 'Modificar gimnasio', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: '/'},
-    {title: 'Agregar o editar planes', subtitle: 'Administrar planes', classes: 'fas fa-dollar-sign', color: 'success', redirectTo: ''},
+    {title: 'Editar informacion', subtitle: 'Modificar gimnasio', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: null},
+    {title: 'Agregar o editar planes', subtitle: 'Administrar planes', classes: 'fas fa-dollar-sign', color: 'success', redirectTo: '/planes'},
     {title: 'Administrar socios', subtitle: 'Socios', classes: 'fas fa-user', color: 'danger', redirectTo: ''},
     {title: 'Validar ingresos', subtitle: 'Ingresos', classes: 'fas fa-table', color: 'warning', redirectTo: ''}
   ];
