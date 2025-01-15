@@ -27,7 +27,7 @@ const routes: Routes = [
   {path: 'main', component: MainComponent, canActivate: [AuthGuard]},
   {path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id', component: GimnasioComponent, canActivate: [AuthGuard]},
-  {path: 'planes', component: PlanesComponent, canActivate: [AuthGuard]}
+  {path: 'gimnasio/:id/planes', component: PlanesComponent, canActivate: [AuthGuard]}
 ];
 @NgModule({
   declarations: [

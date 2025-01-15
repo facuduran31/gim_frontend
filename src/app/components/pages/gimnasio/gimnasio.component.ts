@@ -13,18 +13,23 @@ export class GimnasioComponent implements OnInit{
 
   id: number = 0;
   gimnasio: Gimnasio = new Gimnasio('', '');
-  options = [
-    {title: 'Editar informacion', subtitle: 'Modificar gimnasio', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: null},
-    {title: 'Agregar o editar planes', subtitle: 'Administrar planes', classes: 'fas fa-dollar-sign', color: 'success', redirectTo: '/planes'},
-    {title: 'Administrar socios', subtitle: 'Socios', classes: 'fas fa-user', color: 'danger', redirectTo: ''},
-    {title: 'Validar ingresos', subtitle: 'Ingresos', classes: 'fas fa-table', color: 'warning', redirectTo: ''}
-  ];
+  options: any;
   modoEditarGimnasio = false;
 
   constructor(private route:ActivatedRoute, private gimnasioService: GimnasioService, private router: Router) {}
 
   ngOnInit(): void {
     this.obtenerGimnasio()
+    this.definirOptions();
+  }
+
+  definirOptions() {
+    this.options = [
+      {title: 'Editar informacion', subtitle: 'Modificar gimnasio', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: null},
+      {title: 'Agregar o editar planes', subtitle: 'Administrar planes', classes: 'fas fa-dollar-sign', color: 'success', redirectTo: '/gimnasio/'+this.id+'/planes'},
+      {title: 'Administrar socios', subtitle: 'Socios', classes: 'fas fa-user', color: 'danger', redirectTo: ''},
+      {title: 'Validar ingresos', subtitle: 'Ingresos', classes: 'fas fa-table', color: 'warning', redirectTo: ''}
+    ];
   }
 
   obtenerGimnasio() {
