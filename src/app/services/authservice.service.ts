@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'environment';
 import { Usuario } from '../models/usuario';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,43 +12,44 @@ import { Usuario } from '../models/usuario';
 export class AuthService {
   private apiUrl = environment.urlApi
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(credentials: { mail: string; password: string }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/usuarios/login`, credentials).pipe(
-      tap((response) => {
-        // Guardar el token en localStorage o cookies
-        localStorage.setItem('token', response.token);
-      })
-    );
+    return this.http.post<any>(`${this.apiUrl}/usuarios/login`, credentials,{
+      withCredentials: true // Permitir envío de cookies
+})
   }
+
+
 
   logout(): void {
     // Eliminar el token al cerrar sesión
-    localStorage.removeItem('token');
+    const url = `${this.apiUrl}/logout`;
+    this.http.post<any>(url,{},{withCredentials: true}).subscribe(res=>{
+      this.router.navigate(['/']);
+    });
   }
 
   isLoggedIn(): boolean {
     // Verificar si el token existe y no ha expirado
-    return !!localStorage.getItem('token');
+    return !!this.getCookie('user');
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  // getToken(): string | null { //NO LA BORRO POR LAS DUDAS PERO NO HACE FALTA
+  //   return localStorage.getItem('token');
+  // }
+
+  getCookie(name:any) { //Obtiene solo la cookie que tiene los datos del usuario
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()!.split(';').shift();
+    return null;
   }
 
   getUsuario(): Usuario {
-    // Decodificar el token y retornar el usuario
-    const token = this.getToken();
-    const usuario = new Usuario('', '', '', '');
-    if (token) {
-      const user = JSON.parse(atob(token.split('.')[1]));
-      usuario.nombre = user.nombre;
-      usuario.apellido = user.apellido;
-      usuario.mail = user.mail;
-      usuario.password = user.password;
-      usuario.asignarId(user.idUsuario);
-    }
-    return usuario;
+    const encodedUser = this.getCookie('user');  // Obtener el valor de la cookie
+    const decodedUser = JSON.parse(decodeURIComponent(encodedUser!));  // Decodificar y convertir a objeto
+
+    return decodedUser;
   }
 }

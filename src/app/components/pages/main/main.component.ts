@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/authservice.service';
 
 @Component({
   selector: 'app-main',
@@ -6,6 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {
+
+  constructor(private authService: AuthService) { }
+
 
   options = [
     {title: 'Gestiona tus gimnasios', subtitle: 'Mis gimnasios', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: 'mis-gimnasios'},
@@ -16,5 +20,5 @@ export class MainComponent {
     {title: 'Ver tablas', subtitle: 'Ver tablas', classes: 'fas fa-table', color: 'dark', redirectTo: ''}
   ]
 
-  
+
 }

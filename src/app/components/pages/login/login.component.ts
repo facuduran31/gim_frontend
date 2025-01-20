@@ -15,8 +15,9 @@ export class LoginComponent {
 
   login() {
     this.authService.login({ mail: this.email, password: this.password }).subscribe({
-      next: () => {
+      next: (res) => {
         // Redirigir a la página protegida
+        console.log(res)
         this.router.navigate(['/main']);
       },
       error: (error) => {
@@ -25,4 +26,6 @@ export class LoginComponent {
       }
     });
   }
+
+
 }
