@@ -33,6 +33,6 @@ export class GimnasioService {
   }
 
   getGimnasiosByIdUsuario(idUsuario:number){
-    return this.http.get<Gimnasio[]>(`${this.urlApi}/gimnasios/usuario/${idUsuario}`);
+    return this.http.get<Gimnasio[]>(`${this.urlApi}/gimnasios/usuario/${idUsuario}`,  {withCredentials: true});
   }
 }

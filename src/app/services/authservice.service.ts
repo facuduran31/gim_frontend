@@ -24,7 +24,7 @@ export class AuthService {
 
   logout(): void {
     // Eliminar el token al cerrar sesión
-    const url = `${this.apiUrl}/logout`;
+    const url = `${this.apiUrl}/usuarios/logout`;
     this.http.post<any>(url,{},{withCredentials: true}).subscribe(res=>{
       this.router.navigate(['/']);
     });
