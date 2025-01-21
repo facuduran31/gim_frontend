@@ -13,22 +13,23 @@ export class UsuarioService {
   constructor(private http: HttpClient) { }
 
   getUsuarios(){
-    return this.http.get<Usuario[]>(`${this.urlApi}/usuarios`);
+    return this.http.get<Usuario[]>(`${this.urlApi}/usuarios`, {withCredentials: true});
   }
 
   getUsuarioById(id:number){
-    return this.http.get<Usuario>(`${this.urlApi}/usuarios/${id}`);
+    return this.http.get<Usuario>(`${this.urlApi}/usuarios/${id}`, {withCredentials: true});
   }
 
+ 
   createUsuario(usuario:Usuario){
-    return this.http.post(`${this.urlApi}/usuarios`, usuario);
+    return this.http.post(`${this.urlApi}/usuarios`, usuario, {withCredentials: true});
   }
 
   updateUsuario(usuario:Usuario){
-    return this.http.put(`${this.urlApi}/usuarios/${usuario.id}`, usuario);
+    return this.http.put(`${this.urlApi}/usuarios/${usuario.id}`, usuario, {withCredentials: true});
   }
 
   deleteUsuario(id:number){
-    return this.http.delete(`${this.urlApi}/usuarios/${id}`);
+    return this.http.delete(`${this.urlApi}/usuarios/${id}`, {withCredentials: true});
   }
 }
