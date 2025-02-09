@@ -20,6 +20,10 @@ export class PlanService {
     return this.http.get<Plan>(`${this.urlApi}/planes/${id}`, {withCredentials: true});
   }
 
+  getPlanesByIdGimnasio(idGimnasio:number){
+    return this.http.get<Plan[]>(`${this.urlApi}/planes/gimnasio/${idGimnasio}`, {withCredentials: true});
+  }
+
   createPlan(plan:Plan){
     return this.http.post(`${this.urlApi}/planes`, plan, {withCredentials: true});
   }
