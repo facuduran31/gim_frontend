@@ -10,6 +10,7 @@ import { PlanService } from 'src/app/services/plan.service';
 })
 export class PlanesComponent implements OnInit {
 
+  modoCrearPlan: boolean = false;
   planes: Plan[] = [];
 
   constructor(private planesService: PlanService, private route:ActivatedRoute) { }
@@ -23,4 +24,7 @@ export class PlanesComponent implements OnInit {
     });
   }
 
+  toggleModoCrearPlan() {
+    this.modoCrearPlan = !this.modoCrearPlan;
+  }
 }
