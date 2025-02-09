@@ -10,6 +10,41 @@
             <!-- Main content-->
             <div class="p-3">
                 <a routerLink="../" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
+                <button class="btn btn-success ms-3" redirectTo="./agregar"><i class="fas fa-plus"></i> Crear plan</button>
+            </div>
+
+            <div class="container-fluid">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h1 class="m-0 font-weight-bold text-primary">Planes</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Precio</th>
+                                        <th>Duración</th>
+                                        <th>Días por semana</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let plan of planes">
+                                        <td>{{ plan.id }}</td>
+                                        <td>{{ plan.nombre }}</td>
+                                        <td>{{ plan.descripcion }}</td>
+                                        <td>{{ plan.precio }}</td>
+                                        <td>{{ plan.duracion }}</td>
+                                        <td>{{ plan.diasPorSemana }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <app-footer></app-footer>
         </div>
