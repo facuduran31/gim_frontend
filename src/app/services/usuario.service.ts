@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environment';
 import { Usuario } from '../models/usuario';
 
@@ -32,4 +32,13 @@ export class UsuarioService {
   deleteUsuario(id:number){
     return this.http.delete(`${this.urlApi}/usuarios/${id}`, {withCredentials: true});
   }
+
+  forgotPassword(mail:string){
+    return this.http.post(`${this.urlApi}/usuarios/request-password-reset`, {mail});
+  }   
+
+  resetPassword(token:string,password:string){
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); //Acá uso token en ves de cookies pq el usuario no está logueado
+    return this.http.post(`${this.urlApi}/usuarios/password-reset`, {password}, { headers });
+  } 
 }

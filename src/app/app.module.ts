@@ -20,6 +20,8 @@ import { FormGimnasioComponent } from './components/utilities/form-gimnasio/form
 import { GimnasioComponent } from './components/pages/gimnasio/gimnasio.component';
 import { Gimnasio } from './models/gimnasio';
 import { PlanesComponent } from './components/pages/planes/planes.component';
+import { ForgotPasswordComponent } from './components/pages/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
 import { FormPlanesComponent } from './components/utilities/form-planes/form-planes.component';
 
 const routes: Routes = [
@@ -29,7 +31,9 @@ const routes: Routes = [
   {path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id', component: GimnasioComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id/planes', component: PlanesComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id/planes/agregar', component: FormPlanesComponent, canActivate: [AuthGuard]}
+  {path: 'gimnasio/:id/planes/agregar', component: FormPlanesComponent, canActivate: [AuthGuard]},
+  {path: 'forgot-password', component: ForgotPasswordComponent},
+  {path: 'reset-password/:t', component: ResetPasswordComponent}, //Necesita guard?
 ];
 @NgModule({
   declarations: [
@@ -46,6 +50,8 @@ const routes: Routes = [
     FormGimnasioComponent,
     GimnasioComponent,
     PlanesComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
     FormPlanesComponent
   ],
   imports: [
