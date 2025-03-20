@@ -1,5 +1,5 @@
 export class Plan {
-    id: number;
+    idPlan: number;
     nombre: string;
     descripcion: string;
     precio: number;
@@ -8,7 +8,7 @@ export class Plan {
     idGimnasio: number;
 
     constructor(id: number, nombre: string, descripcion: string, precio: number, duracion: number, diasPorSemana: number, idGimnasio: number) {
-        this.id = id;
+        this.idPlan = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;

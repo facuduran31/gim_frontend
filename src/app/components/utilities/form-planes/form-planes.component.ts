@@ -39,9 +39,9 @@ export class FormPlanesComponent implements OnInit {
   crearPlan() {
     this.plan.nombre = this.inputNombrePlan;
     this.plan.descripcion = this.inputDescripcion;
-    this.plan.precio = this.inputPrecio;
-    this.plan.duracion = this.inputDuracion;
-    this.plan.diasPorSemana = this.inputDiasPorSemana;
+    this.plan.precio = parseInt(this.inputPrecio.toString());
+    this.plan.duracion = parseInt(this.inputDuracion.toString());
+    this.plan.diasPorSemana = parseInt(this.inputDiasPorSemana.toString());
     this.planesService.createPlan(this.plan).subscribe(
       (response) => {
         Swal.fire({

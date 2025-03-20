@@ -29,7 +29,7 @@ export class PlanService {
   }
 
   updatePlan(plan:Plan){
-    return this.http.put(`${this.urlApi}/planes/${plan.id}`, plan, {withCredentials: true});
+    return this.http.put(`${this.urlApi}/planes/${plan.idPlan}`, plan, {withCredentials: true});
   }
 
   deletePlan(id:number){
