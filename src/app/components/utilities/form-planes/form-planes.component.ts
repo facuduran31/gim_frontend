@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Plan } from 'src/app/models/plan';
 import { PlanService } from 'src/app/services/plan.service';
 import Swal from 'sweetalert2';
@@ -13,7 +13,7 @@ export class FormPlanesComponent implements OnInit {
 
   modoEditar: boolean = false;
 
-  constructor(private planesService: PlanService, private route: Router) { }
+  constructor(private planesService: PlanService, private route: Router, private router: ActivatedRoute) { }
 
   @Input() plan: Plan = new Plan(0, '', '', 0, 0, 0, 0);
   inputNombrePlan: string = '';
@@ -24,6 +24,13 @@ export class FormPlanesComponent implements OnInit {
 
   ngOnInit(): void {
     this.inputNombrePlan = this.plan.nombre;
+    this.inputDescripcion = this.plan.descripcion;
+    this.inputPrecio = this.plan.precio;
+    this.inputDuracion = this.plan.duracion;
+    this.inputDiasPorSemana = this.plan.diasPorSemana;
+    this.router.paramMap.subscribe(params => {
+      this.plan.idGimnasio = parseInt(params.get('id')!);
+    });
     if(this.inputNombrePlan != '') {
       this.modoEditar = true;
     }
