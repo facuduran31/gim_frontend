@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,16 +15,22 @@ export class ForgotPasswordComponent {
 
   
 
-  forgotPassword(){
+  forgotPassword(btn: HTMLButtonElement) {
+    Swal.showLoading();
     this.userService.forgotPassword(this.email).subscribe({
       next: (res) => {
-        console.log(res);
-        alert('Se ha enviado un correo a tu dirección de correo electrónico');
+        Swal.fire("Se ha enviado un correo a tu dirección de correo electrónico para restablecer tu contraseña");
       },
       error: (error) => {
         console.error('Error al cambiar contraseña:', error);
-        alert('Error al cambiar contraseña');
+        Swal.fire({
+          title: "Error",
+          text: "Hubo un error al enviar el correo, intenta de nuevo mas tarde",
+          icon: "error"
+        });
+       
       }
+      
     });
   }
 }
