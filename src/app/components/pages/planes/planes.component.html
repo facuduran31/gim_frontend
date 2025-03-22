@@ -10,10 +10,11 @@
             <!-- Main content-->
             <div class="p-3">
                 <a routerLink="../" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
-                <button class="btn btn-success ms-3" redirectTo="./agregar"><i class="fas fa-plus"></i> Crear plan</button>
+                <button class="btn btn-success ms-3" *ngIf="!modoCrearPlan" (click)="toggleModoCrearPlan()"><i class="fas fa-plus"></i> Crear plan</button>
+                <app-form-planes *ngIf="modoCrearPlan"></app-form-planes>
             </div>
 
-            <div class="container-fluid">
+            <div class="container-fluid" *ngIf="!modoCrearPlan">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <h1 class="m-0 font-weight-bold text-primary">Planes</h1>
@@ -33,7 +34,7 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let plan of planes">
-                                        <td>{{ plan.id }}</td>
+                                        <td>{{ plan.idPlan }}</td>
                                         <td>{{ plan.nombre }}</td>
                                         <td>{{ plan.descripcion }}</td>
                                         <td>{{ plan.precio }}</td>
