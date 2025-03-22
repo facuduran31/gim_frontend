@@ -42,7 +42,7 @@ export class ResetPasswordComponent {
           console.error('Error al cambiar contraseña:', error);
           Swal.fire({
             title: "Error al cambiar contraseña",
-            text: "Intenta de nuevo màs tarde",
+            text: "Intenta de nuevo más tarde",
             icon: "error"
           });
         }

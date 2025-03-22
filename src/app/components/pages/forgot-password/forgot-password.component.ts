@@ -15,11 +15,14 @@ export class ForgotPasswordComponent {
 
   
 
-  forgotPassword(btn: HTMLButtonElement) {
+  forgotPassword() {
     Swal.showLoading();
     this.userService.forgotPassword(this.email).subscribe({
       next: (res) => {
-        Swal.fire("Se ha enviado un correo a tu dirección de correo electrónico para restablecer tu contraseña");
+         Swal.fire({
+            text: "Se ha enviado un correo a tu dirección de correo electrónico para restablecer tu contraseña",
+            icon: "info"
+        });
       },
       error: (error) => {
         console.error('Error al cambiar contraseña:', error);
