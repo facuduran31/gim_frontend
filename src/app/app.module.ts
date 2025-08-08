@@ -25,6 +25,8 @@ import { ResetPasswordComponent } from './components/pages/reset-password/reset-
 import { FormPlanesComponent } from './components/utilities/form-planes/form-planes.component';
 import { MiCuentaComponent } from './components/pages/mi-cuenta/mi-cuenta.component';
 import { NecesitoAyudaComponent } from './components/pages/necesito-ayuda/necesito-ayuda.component';
+import { AdministrarSociosComponent } from './components/pages/administrar-socios/administrar-socios.component';
+import { FormSociosComponent } from './components/utilities/form-socios/form-socios.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -37,7 +39,8 @@ const routes: Routes = [
   {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'reset-password/:t', component: ResetPasswordComponent}, //Necesita guard?
   {path: 'mi-cuenta', component: MiCuentaComponent, canActivate: [AuthGuard]},
-  {path: 'necesito-ayuda', component: NecesitoAyudaComponent}
+  {path: 'necesito-ayuda', component: NecesitoAyudaComponent},
+  {path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard]}
 ];
 @NgModule({
   declarations: [
@@ -58,7 +61,9 @@ const routes: Routes = [
     ResetPasswordComponent,
     FormPlanesComponent,
     MiCuentaComponent,
-    NecesitoAyudaComponent
+    NecesitoAyudaComponent,
+    AdministrarSociosComponent,
+    FormSociosComponent
   ],
   imports: [
     BrowserModule,
