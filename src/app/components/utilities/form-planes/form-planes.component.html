@@ -6,24 +6,29 @@
             </div>
             <form class="user">
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nombre del plan" [(ngModel)]="inputNombrePlan" name="nombreGimnasio">
+                    <span class="">Nombre del plan</span>
+                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="" [(ngModel)]="inputNombrePlan" name="nombreGimnasio">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Descripción del plan" [(ngModel)]="inputDescripcion" name="descripcionPlan">
+                    <span>Descripción del plan</span>
+                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="" [(ngModel)]="inputDescripcion" name="descripcionPlan">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Precio del plan" [(ngModel)]="inputPrecio" name="precioPlan">
+                    <span>Precio del plan</span>
+                    <input type="number" class="form-control form-control-user" id="exampleLastName" placeholder="" [(ngModel)]="inputPrecio" name="precioPlan">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Duración del plan" [(ngModel)]="inputDuracion" name="duracionPlan">
+                    <span>Duración del plan (en días)</span>
+                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="" [(ngModel)]="inputDuracion" name="duracionPlan">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Cantidad de clases por semana" [(ngModel)]="inputDiasPorSemana" name="diasPorSemana">
+                    <span>Cantidad de ingresos por semana permitido</span>
+                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="" [(ngModel)]="inputDiasPorSemana" name="diasPorSemana">
                 </div>
 
             </form>
             <button type="submit" class="btn btn-primary btn-block" (click)="modoEditar ? editarPlan() : crearPlan()">
-                {{modoEditar ? 'Editar' : "Crear"}} gimnasio
+                {{modoEditar ? 'Editar' : "Crear"}} plan
             </button>
         </div>
     </div>
