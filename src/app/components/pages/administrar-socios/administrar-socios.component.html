@@ -1,0 +1,54 @@
+<body id="page-top">
+    <div id="wrapper">
+        
+        <app-sidebar></app-sidebar>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <app-navbar></app-navbar>
+
+            <!-- Main content-->
+             <div class="p-3">
+                <a routerLink="../" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
+                <button class="btn btn-success ms-3" *ngIf="!modoAgregarSocio" (click)="toggleModoAgregarSocio()"><i class="fas fa-plus"></i> Agregar socio</button>
+                <app-form-socios *ngIf="modoAgregarSocio"></app-form-socios>
+            </div>
+
+            <div class="container-fluid" *ngIf="!modoAgregarSocio">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h1 class="m-0 font-weight-bold text-primary">Socios</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>DNI</th>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Teléfono</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let socio of socios">
+                                        <td>{{ socio.idSocio }}</td>
+                                        <td>{{ socio.dni }}</td>
+                                        <td>{{ socio.nombre }}</td>
+                                        <td>{{ socio.apellido }}</td>
+                                        <td>{{ socio.telefono }}</td>
+                                        <td>{{ socio.estado ? 'Activo' : 'Inactivo'  }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <app-footer></app-footer>
+        </div>
+    </div>
+</body>

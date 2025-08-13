@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reset-password',
@@ -25,23 +26,41 @@ export class ResetPasswordComponent {
 
 
   resetPassword(){
-    if(this.password == this.password2){
+    if(this.password == this.password2 && this.password.trimEnd() != '' && this.password2.trimEnd() != ''){
       //Llamar al servicio de reset password
       this.userService.resetPassword(this.token,this.password).subscribe({
         next: (res) => {
           console.log(res);
-          alert('Contraseña cambiada correctamente');
+          Swal.fire({
+            title: "Confirmado",
+            text: "Contraseña cambiada correctamente",
+            icon: "success"
+          });
           this.router.navigate(['/']);
         },
         error: (error) => {
           console.error('Error al cambiar contraseña:', error);
-          alert('Error al cambiar contraseña');
+          Swal.fire({
+            title: "Error al cambiar contraseña",
+            text: "Intenta de nuevo más tarde",
+            icon: "error"
+          });
         }
       });
       
-    }else{
-      alert('Las contraseñas no coinciden');
+    }else if(this.password.trimEnd() == '' || this.password2.trimEnd() == '') {
+      Swal.fire({
+        title: "Error al cambiar contraseña",
+        text: "La contraseña no puede estar vacía",
+        icon: "error"
+      });
     }
+    else
+    Swal.fire({
+      title: "Error al cambiar contraseña",
+      text: "Las contraseñas no coinciden",
+      icon: "error"
+    });
   }
 
 

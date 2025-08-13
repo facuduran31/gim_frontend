@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/authservice.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,11 @@ export class LoginComponent {
       },
       error: (error) => {
         console.error('Error al iniciar sesión:', error);
-        alert('Credenciales inválidas');
+        Swal.fire({
+          title: "Creedenciales incorrectas",
+          text: "Por favor, verifique su email y contraseña",
+          icon: "error"
+        });
       }
     });
   }

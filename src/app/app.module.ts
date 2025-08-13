@@ -13,7 +13,7 @@ import { AlertComponent } from './components/utilities/alert/alert.component';
 import { CardMainComponent } from './components/utilities/card-main/card-main.component';
 import { MisGimnasiosComponent } from './components/pages/mis-gimnasios/mis-gimnasios.component';
 import { RegisterComponent } from './components/pages/register/register.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './guard/guard';
 import { FormGimnasioComponent } from './components/utilities/form-gimnasio/form-gimnasio.component';
@@ -23,6 +23,10 @@ import { PlanesComponent } from './components/pages/planes/planes.component';
 import { ForgotPasswordComponent } from './components/pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
 import { FormPlanesComponent } from './components/utilities/form-planes/form-planes.component';
+import { MiCuentaComponent } from './components/pages/mi-cuenta/mi-cuenta.component';
+import { NecesitoAyudaComponent } from './components/pages/necesito-ayuda/necesito-ayuda.component';
+import { AdministrarSociosComponent } from './components/pages/administrar-socios/administrar-socios.component';
+import { FormSociosComponent } from './components/utilities/form-socios/form-socios.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -34,6 +38,9 @@ const routes: Routes = [
   {path: 'gimnasio/:id/planes/agregar', component: FormPlanesComponent, canActivate: [AuthGuard]},
   {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'reset-password/:t', component: ResetPasswordComponent}, //Necesita guard?
+  {path: 'mi-cuenta', component: MiCuentaComponent, canActivate: [AuthGuard]},
+  {path: 'necesito-ayuda', component: NecesitoAyudaComponent},
+  {path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard]}
 ];
 @NgModule({
   declarations: [
@@ -52,7 +59,11 @@ const routes: Routes = [
     PlanesComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
-    FormPlanesComponent
+    FormPlanesComponent,
+    MiCuentaComponent,
+    NecesitoAyudaComponent,
+    AdministrarSociosComponent,
+    FormSociosComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +71,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     NgbModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

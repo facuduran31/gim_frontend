@@ -41,4 +41,8 @@ export class UsuarioService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); //Acá uso token en ves de cookies pq el usuario no está logueado
     return this.http.post(`${this.urlApi}/usuarios/password-reset`, {password}, { headers });
   } 
+
+  sendEmail(data:any){
+    return this.http.post(`${this.urlApi}/usuarios/send-email`, data, {withCredentials: true});
+  }
 }
