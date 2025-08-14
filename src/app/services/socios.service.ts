@@ -13,7 +13,15 @@ export class SociosService {
   constructor(private http: HttpClient) { }
 
 
-  getSociosByIdGimnasio(id:number){
-    return this.http.get<Socio[]>(`${this.urlApi}/gimnasio/${id}`, {withCredentials: true})
+  getSociosByIdGimnasio(idGimnasio:number){
+    return this.http.get<Socio[]>(`${this.urlApi}/gimnasio/${idGimnasio}`, {withCredentials: true})
+  }
+
+  createSocio(socio:Socio){
+    return this.http.post(this.urlApi, socio, {withCredentials:true})
+  }
+
+  deleteSocio(idSocio:number){
+    return this.http.delete(`${this.urlApi}/${idSocio}`, {withCredentials: true})
   }
 }

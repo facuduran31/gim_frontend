@@ -1,4 +1,4 @@
-<!-- <div class="row">
+<div class="row">
     <div class="col-lg-6 m-auto">
         <div class="p-5">
             <div class="text-center">
@@ -6,25 +6,26 @@
             </div>
             <form class="user">
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nombre del plan" [(ngModel)]="inputDniSocio" name="DniSocio">
+                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="DNI del socio" [(ngModel)]="inputDniSocio" name="DniSocio">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Descripción del plan" [(ngModel)]="inputNombreSocio" name="nombreSocio">
+                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Nombre del socio" [(ngModel)]="inputNombreSocio" name="nombreSocio">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Precio del plan" [(ngModel)]="inputApellidoSocio" name="apellidoSocio">
+                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Apellido del socio" [(ngModel)]="inputApellidoSocio" name="apellidoSocio">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Duración del plan" [(ngModel)]="inputTelefonoSocio" name="telefonoSocio">
+                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Teléfono del socio" [(ngModel)]="inputTelefonoSocio" name="telefonoSocio">
                 </div>
-                <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Cantidad de clases por semana" [(ngModel)]="inputEstadoSocio" name="estadoSocio">
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="estadoSocio" [(ngModel)]="inputEstadoSocio" name="estadoSocio">
+                    <label class="form-check-label" for="estadoSocio">Activo</label>
                 </div>
 
             </form>
             <button type="submit" class="btn btn-primary btn-block" (click)="modoEditar ? editarSocio() : crearSocio()">
-                {{modoEditar ? 'Editar' : "Crear"}} gimnasio
+                {{modoEditar ? 'Editar' : "Crear"}} Socio
             </button>
         </div>
     </div>
-</div> -->
+</div>
