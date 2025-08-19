@@ -19,7 +19,8 @@ export class NecesitoAyudaComponent {
   });
 
 
-  sendEmail(){ //Cambiar alerts por modales con SweetAlert
+  sendEmail(){
+    Swal.showLoading();
     this.userService.sendEmail(this.needHelpForm.value).subscribe({
       next: (res) => {
         Swal.fire({

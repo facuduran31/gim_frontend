@@ -30,7 +30,6 @@ export class ResetPasswordComponent {
       //Llamar al servicio de reset password
       this.userService.resetPassword(this.token,this.password).subscribe({
         next: (res) => {
-          console.log(res);
           Swal.fire({
             title: "Confirmado",
             text: "Contraseña cambiada correctamente",
