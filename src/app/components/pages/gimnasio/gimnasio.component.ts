@@ -28,6 +28,7 @@ export class GimnasioComponent implements OnInit{
       {title: 'Editar informacion', subtitle: 'Modificar gimnasio', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: null},
       {title: 'Agregar o editar planes', subtitle: 'Administrar planes', classes: 'fas fa-dollar-sign', color: 'success', redirectTo: '/gimnasio/'+this.id+'/planes'},
       {title: 'Administrar socios', subtitle: 'Socios', classes: 'fas fa-user', color: 'danger', redirectTo: '/gimnasio/'+this.id+'/administrar-socios'},
+      {title: 'Administrar inscripciones', subtitle: 'Inscripciones', classes: 'fas fa-table', color: 'secondary', redirectTo: '/gimnasio/'+this.id+'/administrar-inscripciones'},
       {title: 'Validar ingresos', subtitle: 'Ingresos', classes: 'fas fa-table', color: 'warning', redirectTo: ''}
     ];
   }

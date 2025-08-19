@@ -27,6 +27,7 @@ import { MiCuentaComponent } from './components/pages/mi-cuenta/mi-cuenta.compon
 import { NecesitoAyudaComponent } from './components/pages/necesito-ayuda/necesito-ayuda.component';
 import { AdministrarSociosComponent } from './components/pages/administrar-socios/administrar-socios.component';
 import { FormSociosComponent } from './components/utilities/form-socios/form-socios.component';
+import { AdministrarInscripcionesComponent } from './components/pages/administrar-inscripciones/administrar-inscripciones.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -37,10 +38,12 @@ const routes: Routes = [
   {path: 'gimnasio/:id/planes', component: PlanesComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id/planes/agregar', component: FormPlanesComponent, canActivate: [AuthGuard]},
   {path: 'forgot-password', component: ForgotPasswordComponent},
-  {path: 'reset-password/:t', component: ResetPasswordComponent}, //Necesita guard?
+  {path: 'reset-password/:t', component: ResetPasswordComponent},
   {path: 'mi-cuenta', component: MiCuentaComponent, canActivate: [AuthGuard]},
   {path: 'necesito-ayuda', component: NecesitoAyudaComponent},
-  {path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard]}
+  {path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard]},
+  {path: 'gimnasio/:id/administrar-inscripciones', component: AdministrarInscripcionesComponent, canActivate: [AuthGuard]}
+
 ];
 @NgModule({
   declarations: [
@@ -63,7 +66,8 @@ const routes: Routes = [
     MiCuentaComponent,
     NecesitoAyudaComponent,
     AdministrarSociosComponent,
-    FormSociosComponent
+    FormSociosComponent,
+    AdministrarInscripcionesComponent
   ],
   imports: [
     BrowserModule,

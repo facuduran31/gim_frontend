@@ -16,8 +16,9 @@
                         <div *ngFor="let card of options" class="col-xl-3 col-md-6 mb-4">
                             <app-card-main [title]="card.title" [subtitle]="card.subtitle" [classes]="card.classes" [color]="card.color" [redirectTo]="card.redirectTo" (click)="toggleModoEditar()"></app-card-main>
                         </div>
-    
-                        <div class="col-xl-3 m-auto mt-5 p-5">
+                    </div>
+                    <div class="row mt-4">
+                         <div class="col-xl-3 m-auto mt-5 p-5">
                             <button class="btn btn-danger" (click)="borrarGimnasio()"><i class="fas fa-trash"></i> BORRAR ESTE GIMNASIO</button>
                         </div>
                     </div>
