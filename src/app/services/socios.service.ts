@@ -13,6 +13,11 @@ export class SociosService {
   constructor(private http: HttpClient) { }
 
 
+
+  getSocioById(idSocio:number){
+    return this.http.get<Socio>(`${this.urlApi}/${idSocio}`, {withCredentials: true})
+  }
+
   getSociosByIdGimnasio(idGimnasio:number){
     return this.http.get<Socio[]>(`${this.urlApi}/gimnasio/${idGimnasio}`, {withCredentials: true})
   }
