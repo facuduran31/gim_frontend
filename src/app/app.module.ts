@@ -28,6 +28,7 @@ import { NecesitoAyudaComponent } from './components/pages/necesito-ayuda/necesi
 import { AdministrarSociosComponent } from './components/pages/administrar-socios/administrar-socios.component';
 import { FormSociosComponent } from './components/utilities/form-socios/form-socios.component';
 import { AdministrarInscripcionesComponent } from './components/pages/administrar-inscripciones/administrar-inscripciones.component';
+import { FormInscripcionesComponent } from './components/utilities/form-inscripciones/form-inscripciones.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -67,7 +68,8 @@ const routes: Routes = [
     NecesitoAyudaComponent,
     AdministrarSociosComponent,
     FormSociosComponent,
-    AdministrarInscripcionesComponent
+    AdministrarInscripcionesComponent,
+    FormInscripcionesComponent
   ],
   imports: [
     BrowserModule,

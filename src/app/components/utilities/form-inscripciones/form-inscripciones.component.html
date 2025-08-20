@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-lg-6 m-auto">
+    <div class="p-5">
+      <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">{{ modoEditar ? 'Editar' : "Crear" }} Inscripción</h1>
+      </div>
+      <form class="user">
+        <!-- Lista de socios --> <!--ME FALTA TERMINAR LOS DESPLEGABLES-->
+        <div class="form-group">
+          <select class="form-control form-control-user"
+                  [(ngModel)]="inputDniSocio"
+                  name="dniSocio">
+            <option  value="" disabled selected>Seleccionar socio</option>
+            <option *ngFor="let socio of socios" [value]="socio.dni">
+              {{ socio.dni }} - {{ socio.nombre }} {{ socio.apellido }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Lista de planes -->
+        <div class="form-group">
+          <select class="form-control form-control-user"
+                  [(ngModel)]="inputNombrePlan"
+                  name="nombrePlan">
+            <option value="" disabled selected>Seleccionar plan</option>
+            <option *ngFor="let plan of planes" [value]="plan.nombre">
+              {{ plan.nombre }}
+            </option>
+          </select>
+        </div>
+      </form>
+
+      <button type="submit"
+              class="btn btn-primary btn-block"
+              (click)="modoEditar ? editarInscripcion() : crearInscripcion()">
+        {{ modoEditar ? 'Editar' : "Crear" }} Inscripción
+      </button>
+    </div>
+  </div>
+</div>

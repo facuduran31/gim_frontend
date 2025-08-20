@@ -11,7 +11,7 @@
              <div class="p-3">
                 <a routerLink="../" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
                 <button class="btn btn-success ms-3" *ngIf="!modoAgregarInscripcion" (click)="toggleModoAgregarInscripcion()"><i class="fas fa-plus"></i> Inscribir socio</button>
-                <app-form-socios *ngIf="modoAgregarInscripcion"></app-form-socios>
+                <app-form-inscripciones *ngIf="modoAgregarInscripcion"></app-form-inscripciones>
             </div>
 
             <div class="container-fluid" *ngIf="!modoAgregarInscripcion">
