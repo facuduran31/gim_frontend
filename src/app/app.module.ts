@@ -36,8 +36,8 @@ const routes: Routes = [
   {path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id', component: GimnasioComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id/planes', component: PlanesComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id/planes/:idplan', component: PlanesComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id/planes/agregar', component: PlanesComponent, canActivate: [AuthGuard]},
+  {path: 'gimnasio/:id/planes/:idplan', component: FormPlanesComponent, canActivate: [AuthGuard]},
+  {path: 'gimnasio/:id/planes/agregar', component: FormPlanesComponent, canActivate: [AuthGuard]},
   {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'reset-password/:t', component: ResetPasswordComponent}, //Necesita guard? no boludo
   {path: 'mi-cuenta', component: MiCuentaComponent, canActivate: [AuthGuard]},

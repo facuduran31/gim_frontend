@@ -26,19 +26,8 @@ export class PlanesComponent implements OnInit {
       const idPlan = Number(params.get('idplan')) || 0;
   
       this.planesService.getPlanesByIdGimnasio(idGimnasio).subscribe(planes => {
-        this.planes = planes;
+        this.planes = [...planes];
       });
-  
-      if (idPlan > 0) {
-        
-        this.planesService.getPlanById(idPlan).subscribe(plan => {
-          this.plan = plan;
-          this.modoEditarPlan = true;
-        });
-      } else {
-        this.modoEditarPlan = false;
-        this.plan = new Plan(0, '', '', 0, 0, 0, 0);
-      }
     });
   }
   
@@ -46,6 +35,11 @@ export class PlanesComponent implements OnInit {
   toggleModoCrearPlan() {
     this.modoCrearPlan = !this.modoCrearPlan;
   }
+
+  editarPlan(idPlan: number) {
+    this.router.navigate([idPlan], { relativeTo: this.route });
+  }
+
 
   borrarPlan(id: number) {
       Swal.fire({
@@ -74,11 +68,6 @@ export class PlanesComponent implements OnInit {
           });
         }
         
-      })
-    }
-
-    editarPlan(id: number) {
-      let idGimnasio = this.route.snapshot.paramMap.get('id') || '0'
-      this.router.navigate(['gimnasio', idGimnasio,'planes', id])
-    }
+      });
+  }
 }

@@ -1,35 +1,63 @@
-<div class="row">
-    <div class="col-lg-6 m-auto">
-        <div class="p-5">
-            <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">{{modoEditar ? 'Editar' : "Crear"}} plan</h1>
-            </div>
-            <form class="user">
-                <div class="form-group">
-                    <span class="">Nombre del plan</span>
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="" [(ngModel)]="inputNombrePlan" name="nombreGimnasio">
-                </div>
-                <div class="form-group">
-                    <span>Descripción del plan</span>
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="" [(ngModel)]="inputDescripcion" name="descripcionPlan">
-                </div>
-                <div class="form-group">
-                    <span>Precio del plan</span>
-                    <input type="number" class="form-control form-control-user" id="exampleLastName" placeholder="" [(ngModel)]="inputPrecio" name="precioPlan">
-                </div>
-                <div class="form-group">
-                    <span>Duración del plan (en días)</span>
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="" [(ngModel)]="inputDuracion" name="duracionPlan">
-                </div>
-                <div class="form-group">
-                    <span>Cantidad de ingresos por semana permitido</span>
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="" [(ngModel)]="inputDiasPorSemana" name="diasPorSemana">
-                </div>
+<body id="page-top">
+<div id="wrapper">
+    <app-sidebar></app-sidebar>
 
-            </form>
-            <button type="submit" class="btn btn-primary btn-block" (click)="modoEditar ? editarPlan() : crearPlan()">
-                {{modoEditar ? 'Editar' : "Crear"}} plan
-            </button>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <app-navbar></app-navbar>
+
+        <div class="p-3">
+            <a routerLink="../" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
+            <div class="row">
+                <div class="col-lg-6 m-auto">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">
+                                {{modoEditar ? 'Editar' : 'Crear'}} plan
+                            </h1>
+                        </div>
+                        <form class="user" (ngSubmit)="guardarPlan()">
+
+                            <div class="form-group">
+                                <span>Nombre del plan</span>
+                                <input type="text" class="form-control form-control-user" 
+                                       [(ngModel)]="inputNombrePlan" name="inputNombrePlan" required>
+                            </div>
+
+                            <div class="form-group">
+                                <span>Descripción del plan</span>
+                                <input type="text" class="form-control form-control-user" 
+                                       [(ngModel)]="inputDescripcion" name="inputDescripcion" required>
+                            </div>
+
+                            <div class="form-group">
+                                <span>Precio del plan</span>
+                                <input type="number" class="form-control form-control-user" 
+                                       [(ngModel)]="inputPrecio" name="inputPrecio" required>
+                            </div>
+
+                            <div class="form-group">
+                                <span>Duración del plan (en días)</span>
+                                <input type="number" class="form-control form-control-user" 
+                                       [(ngModel)]="inputDuracion" name="inputDuracion" required>
+                            </div>
+
+                            <div class="form-group">
+                                <span>Días por semana</span>
+                                <input type="number" class="form-control form-control-user" 
+                                       [(ngModel)]="inputDiasPorSemana" name="inputDiasPorSemana" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                {{modoEditar ? 'Editar' : 'Crear'}} plan
+                            </button>
+                        </form>
+                    </div>
+                    <app-footer></app-footer>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
+
+</body>
