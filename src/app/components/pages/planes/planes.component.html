@@ -1,56 +1,64 @@
 <body id="page-top">
-    <div id="wrapper">
-        
-        <app-sidebar></app-sidebar>
+  <div id="wrapper">
+    <app-sidebar></app-sidebar>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <app-navbar></app-navbar>
 
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <app-navbar></app-navbar>
-
-            <!-- Main content-->
-            <div class="p-3">
-                <a routerLink="../" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
-                <button class="btn btn-success ms-3" *ngIf="!modoCrearPlan" (click)="toggleModoCrearPlan()"><i class="fas fa-plus"></i> Crear plan</button>
-                <app-form-planes *ngIf="modoCrearPlan"></app-form-planes>
-            </div>
-
-            <div class="container-fluid" *ngIf="!modoCrearPlan">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h1 class="m-0 font-weight-bold text-primary">Planes</h1>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th>
-                                        <th>Precio</th>
-                                        <th>Duración</th>
-                                        <th>Días por semana</th>
-                                        <th class="text-center">Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let plan of planes" class="text-e">
-                                        <td>{{ plan.idPlan }}</td>
-                                        <td>{{ plan.nombre }}</td>
-                                        <td>{{ plan.descripcion }}</td>
-                                        <td>${{ plan.precio }}</td>
-                                        <td>{{ plan.duracion }} meses</td>
-                                        <td>{{ plan.diasPorSemana }}</td>
-                                        <td class="text-center"><button type="button" class="btn btn-danger" (click)="borrarPlan(plan.idPlan)"><i class="fas fa-trash"></i></button>
-                                            <!-- <button (click)="editarPlan(plan.idPlan)" type="button" class="btn btn-warning ms-2"><i class="fas fa-pencil"></i></button> --></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <app-footer></app-footer>
+      <!-- Main content-->
+      <div class="p-3">
+        <a routerLink="../" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
+        <button class="btn btn-success ms-3" *ngIf="!modoCrearPlan" (click)="toggleModoCrearPlan()">
+          <i class="fas fa-plus"></i> Crear plan
+        </button>
+        <app-form-planes *ngIf="modoCrearPlan"></app-form-planes>
+        <div class="p-3" *ngIf="modoEditarPlan">
+          <app-form-planes [plan]="plan"></app-form-planes>
         </div>
+      </div>
+
+      <div class="container-fluid" *ngIf="!modoCrearPlan && !modoEditarPlan">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h1 class="m-0 font-weight-bold text-primary">Planes</h1>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Duración</th>
+                    <th>Días por semana</th>
+                    <th class="text-center">Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let plan of planes" class="text-e">
+                    <td>{{ plan.idPlan }}</td>
+                    <td>{{ plan.nombre }}</td>
+                    <td>{{ plan.descripcion }}</td>
+                    <td>${{ plan.precio }}</td>
+                    <td>{{ plan.duracion }} meses</td>
+                    <td>{{ plan.diasPorSemana }}</td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-danger" (click)="borrarPlan(plan.idPlan)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button (click)="editarPlan(plan.idPlan)" type="button" class="btn btn-warning ms-2">
+                        <i class="fas fa-pencil"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-footer></app-footer>
     </div>
+  </div>
 </body>

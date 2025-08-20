@@ -12,48 +12,65 @@ import Swal from 'sweetalert2';
 export class FormPlanesComponent implements OnInit {
 
   modoEditar: boolean = false;
-
-  constructor(private planesService: PlanService, private route: Router, private router: ActivatedRoute) { }
-
   @Input() plan: Plan = new Plan(0, '', '', 0, 0, 0, 0);
+
   inputNombrePlan: string = '';
   inputDescripcion: string = '';
   inputPrecio: number = 0;
   inputDuracion: number = 0;
   inputDiasPorSemana: number = 0;
 
+  constructor(
+    private planesService: PlanService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
   ngOnInit(): void {
-    this.inputNombrePlan = this.plan.nombre;
-    this.inputDescripcion = this.plan.descripcion;
-    this.inputPrecio = this.plan.precio;
-    this.inputDuracion = this.plan.duracion;
-    this.inputDiasPorSemana = this.plan.diasPorSemana;
-    this.router.paramMap.subscribe(params => {
-      this.plan.idGimnasio = parseInt(params.get('id')!);
+    this.route.paramMap.subscribe(params => {
+      const idGimnasio = Number(params.get('id')) || 0;
+      const idPlan = Number(params.get('idplan')) || 0;
+      console.log(idPlan);
+      
+      this.plan.idGimnasio = idGimnasio;
+      if (idPlan > 0) {
+        console.log(idPlan); // DEVUELVE 7
+        
+        // Obtener el plan antes de inicializar inputs
+        this.planesService.getPlanById(idPlan).subscribe(plan => {
+          this.plan = plan;
+          console.log(plan);
+          
+          this.inputNombrePlan = plan.nombre;
+          console.log(this.inputNombrePlan); // DEVUELVE undefined (EL PLAN NO TIENE undefined EN .nombre)
+          
+          this.inputDescripcion = plan.descripcion;
+          this.inputPrecio = plan.precio;
+          this.inputDuracion = plan.duracion;
+          this.inputDiasPorSemana = plan.diasPorSemana;
+          this.modoEditar = true;
+        });
+      }
     });
-    if(this.inputNombrePlan != '') {
-      this.modoEditar = true;
-    }
   }
 
   crearPlan() {
     this.plan.nombre = this.inputNombrePlan;
     this.plan.descripcion = this.inputDescripcion;
-    this.plan.precio = parseInt(this.inputPrecio.toString());
-    this.plan.duracion = parseInt(this.inputDuracion.toString());
-    this.plan.diasPorSemana = parseInt(this.inputDiasPorSemana.toString());
+    this.plan.precio = this.inputPrecio;
+    this.plan.duracion = this.inputDuracion;
+    this.plan.diasPorSemana = this.inputDiasPorSemana;
+
     this.planesService.createPlan(this.plan).subscribe(
-      (response) => {
+      () => {
         Swal.fire({
-          title: 'Plan creado con exito',
+          title: 'Plan creado con éxito',
           icon: 'success',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#00aa00',
-        }).then((result) => {
-          this.route.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            window.location.reload(); // Recarga la página
-          });
-        })
+        }).then(() => {
+          this.router.navigate(['/mis-planes']);
+        });
       },
       (error) => {
         Swal.fire({
@@ -62,7 +79,7 @@ export class FormPlanesComponent implements OnInit {
           icon: 'error',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#0000aa'
-        })
+        });
       }
     );
   }
@@ -75,17 +92,15 @@ export class FormPlanesComponent implements OnInit {
     this.plan.diasPorSemana = this.inputDiasPorSemana;
 
     this.planesService.updatePlan(this.plan).subscribe(
-      (response) => {
+      () => {
         Swal.fire({
-          title: 'Plan editado con exito',
+          title: 'Plan editado con éxito',
           icon: 'success',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#00aa00',
-        }).then((result) => {
-          this.route.navigateByUrl('/mis-plans', { skipLocationChange: true }).then(() => {
-            window.location.reload(); // Recarga la página
-          });
-        })
+        }).then(() => {
+          this.router.navigate(['/mis-planes']);
+        });
       },
       (error) => {
         Swal.fire({
@@ -94,9 +109,8 @@ export class FormPlanesComponent implements OnInit {
           icon: 'error',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#0000aa'
-        })
+        });
       }
     );
   }
-
 }

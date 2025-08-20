@@ -44,8 +44,6 @@ export class GimnasioComponent implements OnInit{
 
   toggleModoEditar() {
     this.modoEditarGimnasio = !this.modoEditarGimnasio;
-    console.log(this.modoEditarGimnasio);
-    
   }
 
   borrarGimnasio() {

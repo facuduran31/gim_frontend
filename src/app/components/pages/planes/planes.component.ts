@@ -12,21 +12,36 @@ import Swal from 'sweetalert2';
 export class PlanesComponent implements OnInit {
 
   modoCrearPlan: boolean = false;
+  modoEditarPlan: boolean = false;
+  plan: Plan = new Plan(0, '', '', 0, 0, 0, 0);
   planes: Array<Plan> = [];
 
   constructor(private planesService: PlanService, private route:ActivatedRoute, private router:Router) { }
 
   ngOnInit(): void {
+    console.log(this.plan);
+    
     this.route.paramMap.subscribe(params => {
-      const idGimnasio = parseInt(params.get('id') || '0')
+      const idGimnasio = Number(params.get('id')) || 0;
+      const idPlan = Number(params.get('idplan')) || 0;
+  
       this.planesService.getPlanesByIdGimnasio(idGimnasio).subscribe(planes => {
-        this.planes = [...planes];
-        console.log(planes);
-        
-        
+        this.planes = planes;
       });
+  
+      if (idPlan > 0) {
+        
+        this.planesService.getPlanById(idPlan).subscribe(plan => {
+          this.plan = plan;
+          this.modoEditarPlan = true;
+        });
+      } else {
+        this.modoEditarPlan = false;
+        this.plan = new Plan(0, '', '', 0, 0, 0, 0);
+      }
     });
   }
+  
 
   toggleModoCrearPlan() {
     this.modoCrearPlan = !this.modoCrearPlan;
@@ -60,5 +75,10 @@ export class PlanesComponent implements OnInit {
         }
         
       })
+    }
+
+    editarPlan(id: number) {
+      let idGimnasio = this.route.snapshot.paramMap.get('id') || '0'
+      this.router.navigate(['gimnasio', idGimnasio,'planes', id])
     }
 }
