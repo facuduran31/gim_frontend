@@ -1,0 +1,42 @@
+<body id="page-top">
+  <div id="wrapper">
+    <app-sidebar></app-sidebar>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <app-navbar></app-navbar>
+
+            <!-- Main content-->
+            <div class="p-3 d-flex">
+                <a routerLink="../" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
+                <input type="text" class="form-control w-25 ms-2" placeholder="Ingrese DNI" autofocus>
+                <button class="btn btn-success ms-2" type="submit">Ingresar</button>
+            </div>
+            
+            <div class="container-fluid">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h1 class="m-0 font-weight-bold text-primary">Planes</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Día de pago</th>
+                                        <th>Plan</th>
+                                        <th>Hora ingreso</th>
+                                        <th class="text-center">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <app-footer></app-footer>
+        </div>
+    </div>
+</body>

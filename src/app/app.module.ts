@@ -28,6 +28,7 @@ import { NecesitoAyudaComponent } from './components/pages/necesito-ayuda/necesi
 import { AdministrarSociosComponent } from './components/pages/administrar-socios/administrar-socios.component';
 import { FormSociosComponent } from './components/utilities/form-socios/form-socios.component';
 import { AuthInterceptorService } from './services/interceptor.service';
+import { ValidarIngresoComponent } from './components/pages/validar-ingreso/validar-ingreso.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -35,6 +36,7 @@ const routes: Routes = [
   {path: 'main', component: MainComponent, canActivate: [AuthGuard]},
   {path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id', component: GimnasioComponent, canActivate: [AuthGuard]},
+  {path: 'gimnasio/:id/validar-ingresos', component: ValidarIngresoComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id/planes', component: PlanesComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id/planes/:idplan', component: FormPlanesComponent, canActivate: [AuthGuard]},
   {path: 'gimnasio/:id/planes/agregar', component: FormPlanesComponent, canActivate: [AuthGuard]},
@@ -65,7 +67,8 @@ const routes: Routes = [
     MiCuentaComponent,
     NecesitoAyudaComponent,
     AdministrarSociosComponent,
-    FormSociosComponent
+    FormSociosComponent,
+    ValidarIngresoComponent
   ],
   imports: [
     BrowserModule,
