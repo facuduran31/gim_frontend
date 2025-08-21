@@ -14,7 +14,7 @@ import { CardMainComponent } from './components/utilities/card-main/card-main.co
 import { MisGimnasiosComponent } from './components/pages/mis-gimnasios/mis-gimnasios.component';
 import { RegisterComponent } from './components/pages/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from './guard/guard';
 import { FormGimnasioComponent } from './components/utilities/form-gimnasio/form-gimnasio.component';
 import { GimnasioComponent } from './components/pages/gimnasio/gimnasio.component';
@@ -27,6 +27,7 @@ import { MiCuentaComponent } from './components/pages/mi-cuenta/mi-cuenta.compon
 import { NecesitoAyudaComponent } from './components/pages/necesito-ayuda/necesito-ayuda.component';
 import { AdministrarSociosComponent } from './components/pages/administrar-socios/administrar-socios.component';
 import { FormSociosComponent } from './components/utilities/form-socios/form-socios.component';
+import { AuthInterceptorService } from './services/interceptor.service';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -75,7 +76,7 @@ const routes: Routes = [
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
