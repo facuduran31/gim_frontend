@@ -23,6 +23,10 @@ export class InscripcionesService {
     return this.http.delete(`${this.urlApi}/${idInscripcion}`, {withCredentials: true})
   }
 
+  createInscripcion(inscripcion:Inscripcion){
+    return this.http.post(this.urlApi, inscripcion, {withCredentials:true})
+  }
+
 
 
 }

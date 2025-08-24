@@ -37,7 +37,7 @@ export class GimnasioComponent implements OnInit{
     this.route.paramMap.subscribe(params => {
       this.id = parseInt(params.get('id') || '0');
       this.gimnasioService.getGimnasioById(this.id).subscribe((gim:any) => {
-        this.gimnasio = gim[0];
+        this.gimnasio = gim;
       });
     })
     
@@ -45,7 +45,6 @@ export class GimnasioComponent implements OnInit{
 
   toggleModoEditar() {
     this.modoEditarGimnasio = !this.modoEditarGimnasio;
-    console.log(this.modoEditarGimnasio);
     
   }
 

@@ -4,37 +4,30 @@
       <div class="text-center">
         <h1 class="h4 text-gray-900 mb-4">{{ modoEditar ? 'Editar' : "Crear" }} Inscripción</h1>
       </div>
-      <form class="user">
-        <!-- Lista de socios --> <!--ME FALTA TERMINAR LOS DESPLEGABLES-->
-        <div class="form-group">
-          <select class="form-control form-control-user"
-                  [(ngModel)]="inputDniSocio"
-                  name="dniSocio">
-            <option  value="" disabled selected>Seleccionar socio</option>
-            <option *ngFor="let socio of socios" [value]="socio.dni">
-              {{ socio.dni }} - {{ socio.nombre }} {{ socio.apellido }}
-            </option>
-          </select>
+      <form class="user"  [formGroup]="formInscripcion" (ngSubmit)="modoEditar ? editarInscripcion() : crearInscripcion()">
+        <!--ME FALTA TERMINAR LOS DESPLEGABLES-->
+        <div class="form-group"> 
+          <input type="number" class="form-control form-control-user" id="exampleDNI" placeholder="DNI del socio" formControlName="dniSocio"> 
         </div>
 
         <!-- Lista de planes -->
+
+
         <div class="form-group">
-          <select class="form-control form-control-user"
-                  [(ngModel)]="inputNombrePlan"
-                  name="nombrePlan">
-            <option value="" disabled selected>Seleccionar plan</option>
-            <option *ngFor="let plan of planes" [value]="plan.nombre">
+          <select class="form-control form-control-user" formControlName="plan">
+            <option *ngFor="let plan of planes" [ngValue]="plan">
               {{ plan.nombre }}
             </option>
           </select>
         </div>
+
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="formInscripcion.invalid">
+          {{ modoEditar ? 'Editar' : "Crear" }} Inscripción
+        </button>
+
       </form>
 
-      <button type="submit"
-              class="btn btn-primary btn-block"
-              (click)="modoEditar ? editarInscripcion() : crearInscripcion()">
-        {{ modoEditar ? 'Editar' : "Crear" }} Inscripción
-      </button>
+      
     </div>
   </div>
 </div>

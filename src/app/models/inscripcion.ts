@@ -1,5 +1,5 @@
 export class Inscripcion{
-    idInscripcion:number;
+    idInscripcion:number| null=null;
     idSocio:number;
     idPlan:number;
     fechaInicio:Date;
@@ -7,7 +7,7 @@ export class Inscripcion{
     nombrePlan:string | null=null;
     dniSocio:string | null=null;
 
-    constructor(idInscripcion:number, idSocio:number,idPlan:number, fechaIni:Date,fechaFin:Date, nomPlan:string|null, dniSoc:string|null){
+    constructor(idInscripcion:number | null, idSocio:number,idPlan:number, fechaIni:Date,fechaFin:Date, nomPlan:string|null, dniSoc:string|null){
         this.idInscripcion=idInscripcion
         this.idSocio= idSocio;
         this.idPlan= idPlan;
