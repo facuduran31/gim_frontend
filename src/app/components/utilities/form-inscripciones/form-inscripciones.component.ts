@@ -17,13 +17,13 @@ import Swal from 'sweetalert2';
 export class FormInscripcionesComponent {
 
   @Input() inscripcion: Inscripcion = new Inscripcion(null, -1, -1, new Date(), new Date(), '', '');
-  
-  constructor(private planService: PlanService, private inscripcionesService: InscripcionesService, private sociosService:SociosService){}
+
+  constructor(private planService: PlanService, private inscripcionesService: InscripcionesService, private sociosService: SociosService) { }
 
 
-  modoEditar:boolean=false;
+  modoEditar: boolean = false;
 
-  planes:Array<Plan>=[];
+  planes: Array<Plan> = [];
 
 
 
@@ -32,76 +32,27 @@ export class FormInscripcionesComponent {
     plan: new FormControl<Plan | null>(null, Validators.required)
   });
 
-  ngOnInit(){
-    this.planService.getPlans().subscribe((planes:any)=>{
-      planes.forEach((plan:any)=>{
-        this.planes.push(new Plan(plan.idPlan,plan.nombre,plan.descripcion,plan.precio,plan.duracion,plan.diasPorSemana, plan.idGimnasio))
+  ngOnInit() {
+    this.planService.getPlans().subscribe((planes: any) => {
+      planes.forEach((plan: any) => {
+        this.planes.push(new Plan(plan.idPlan, plan.nombre, plan.descripcion, plan.precio, plan.duracion, plan.diasPorSemana, plan.idGimnasio))
       })
     })
   }
 
 
 
-  // crearInscripcion(){
+  crearInscripcion() {
 
-  //   this.inscripcion.dniSocio=this.formInscripcion.value.dniSocio!;
-  //   this.inscripcion.idPlan=this.formInscripcion.value.plan!.idPlan;
-  //   this.inscripcion.nombrePlan=this.formInscripcion.value.plan!.nombre;
-  //   this.inscripcion.fechaFin.setMonth(this.inscripcion.fechaFin.getMonth()+this.formInscripcion.value.plan!.duracion)
-
-  //   this.sociosService.getSocioByDni(this.inscripcion.dniSocio).subscribe((socio:any)=>{
-  //     this.inscripcion.idSocio=socio.idSocio
-  //   })
-  //   if(this.inscripcion.dniSocio!=""){
-  //     console.log(this.inscripcion.idSocio)
-  //     this.inscripcionesService.createInscripcion(this.inscripcion).subscribe( (response) => {
-  //     Swal.showLoading();
-  //     Swal.fire({
-  //       title: 'Inscripción creada con exito',
-  //       icon: 'success',
-  //       confirmButtonText: 'Ok',
-  //       confirmButtonColor: '#00aa00',
-  //     }).then((result) => {
-  //         window.location.reload(); // Recarga la página
-  //     })
-  //   },
-  //   (error) => {
-  //     Swal.fire({
-  //       title: 'Error al crear la inscripción',
-  //       text: error,
-  //       icon: 'error',
-  //       confirmButtonText: 'Ok',
-  //       confirmButtonColor: '#0000aa'
-  //     })
-  //   })
-
-  //   }
-  //   else{
-  //     Swal.fire({
-  //       title: 'Error al crear la inscripción',
-  //       text: "Socio con ese DNI no registrado",
-  //       icon: 'error',
-  //       confirmButtonText: 'Ok',
-  //       confirmButtonColor: '#0000aa'
-  //     })
-  //   }
-    
-
-  // }
+    this.inscripcion.dniSocio = this.formInscripcion.value.dniSocio!;
+    this.inscripcion.idPlan = this.formInscripcion.value.plan!.idPlan;
+    this.inscripcion.nombrePlan = this.formInscripcion.value.plan!.nombre;
+    this.inscripcion.fechaFin.setMonth(this.inscripcion.fechaFin.getMonth() + this.formInscripcion.value.plan!.duracion)
 
 
-
-  crearInscripcion(){
-    
-    this.inscripcion.dniSocio=this.formInscripcion.value.dniSocio!;
-    this.inscripcion.idPlan=this.formInscripcion.value.plan!.idPlan;
-    this.inscripcion.nombrePlan=this.formInscripcion.value.plan!.nombre;
-    this.inscripcion.fechaFin.setMonth(this.inscripcion.fechaFin.getMonth()+this.formInscripcion.value.plan!.duracion)
-  
     this.sociosService.getSocioByDni(this.inscripcion.dniSocio).pipe(
-      switchMap((socio:any)=>{
+      switchMap((socio: any) => {
         this.inscripcion.idSocio = socio.idSocio;
-        console.log(this.inscripcion)
         return this.inscripcionesService.createInscripcion(this.inscripcion);
       })
     ).subscribe({
@@ -131,7 +82,7 @@ export class FormInscripcionesComponent {
 
 
 
-  editarInscripcion(){
+  editarInscripcion() {
 
   }
 
