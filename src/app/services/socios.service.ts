@@ -14,23 +14,27 @@ export class SociosService {
 
 
 
-  getSocioById(idSocio:number){
-    return this.http.get<Socio>(`${this.urlApi}/${idSocio}`, {withCredentials: true})
+  getSocioById(idSocio: number) {
+    return this.http.get<Socio>(`${this.urlApi}/${idSocio}`, { withCredentials: true })
   }
 
-  getSociosByIdGimnasio(idGimnasio:number){
-    return this.http.get<Socio[]>(`${this.urlApi}/gimnasio/${idGimnasio}`, {withCredentials: true})
+  getSociosByIdGimnasio(idGimnasio: number) {
+    return this.http.get<Socio[]>(`${this.urlApi}/gimnasio/${idGimnasio}`, { withCredentials: true })
   }
 
-  getSocioByDni(dni:string){
-    return this.http.get<Socio>(`${this.urlApi}/dni/${dni}`, {withCredentials: true})
+  getSocioByDni(dni: string) {
+    return this.http.get<Socio>(`${this.urlApi}/dni/${dni}`, { withCredentials: true })
   }
 
-  createSocio(socio:Socio){
-    return this.http.post(this.urlApi, socio, {withCredentials:true})
+  createSocio(socio: Socio) {
+    return this.http.post(this.urlApi, socio, { withCredentials: true })
   }
 
-  deleteSocio(idSocio:number){
-    return this.http.delete(`${this.urlApi}/${idSocio}`, {withCredentials: true})
+  deleteSocio(idSocio: number) {
+    return this.http.delete(`${this.urlApi}/${idSocio}`, { withCredentials: true })
+  }
+
+  validarIngreso(dni: string) {
+    return this.http.get(`${this.urlApi}/ingreso/${dni}`, { withCredentials: true })
   }
 }

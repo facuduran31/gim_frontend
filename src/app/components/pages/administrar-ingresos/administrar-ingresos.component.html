@@ -1,0 +1,34 @@
+<body id="page-top">
+  <div id="wrapper">
+
+    <app-sidebar></app-sidebar>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <app-navbar></app-navbar>
+
+      <!-- Main content-->
+
+
+      <div class="row">
+        <div class="col-lg-6 m-auto">
+          <div class="p-5">
+            <div class="text-center">[
+              <h1 class="h4 text-gray-900 mb-4">Validar ingreso</h1>
+            </div>
+            <form class="user" [formGroup]="formIngreso" (ngSubmit)="validarIngreso()">
+              <div class="form-group">
+                <input type="number" class="form-control form-control-user" id="exampleDNI" placeholder="DNI del socio"
+                  formControlName="dniSocio">
+              </div>
+              <button class="btn btn-primary btn-block" type="submit" [disabled]="formIngreso.invalid">Validar
+                ingreso</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <app-footer></app-footer>
+    </div>
+  </div>
+</body>

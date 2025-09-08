@@ -29,21 +29,23 @@ import { AdministrarSociosComponent } from './components/pages/administrar-socio
 import { FormSociosComponent } from './components/utilities/form-socios/form-socios.component';
 import { AdministrarInscripcionesComponent } from './components/pages/administrar-inscripciones/administrar-inscripciones.component';
 import { FormInscripcionesComponent } from './components/utilities/form-inscripciones/form-inscripciones.component';
+import { AdministrarIngresosComponent } from './components/pages/administrar-ingresos/administrar-ingresos.component';
 
 const routes: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'main', component: MainComponent, canActivate: [AuthGuard]},
-  {path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id', component: GimnasioComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id/planes', component: PlanesComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id/planes/agregar', component: FormPlanesComponent, canActivate: [AuthGuard]},
-  {path: 'forgot-password', component: ForgotPasswordComponent},
-  {path: 'reset-password/:t', component: ResetPasswordComponent},
-  {path: 'mi-cuenta', component: MiCuentaComponent, canActivate: [AuthGuard]},
-  {path: 'necesito-ayuda', component: NecesitoAyudaComponent},
-  {path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id/administrar-inscripciones', component: AdministrarInscripcionesComponent, canActivate: [AuthGuard]}
+  { path: '', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'main', component: MainComponent, canActivate: [AuthGuard] },
+  { path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard] },
+  { path: 'gimnasio/:id', component: GimnasioComponent, canActivate: [AuthGuard] },
+  { path: 'gimnasio/:id/planes', component: PlanesComponent, canActivate: [AuthGuard] },
+  { path: 'gimnasio/:id/planes/agregar', component: FormPlanesComponent, canActivate: [AuthGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password/:t', component: ResetPasswordComponent },
+  { path: 'mi-cuenta', component: MiCuentaComponent, canActivate: [AuthGuard] },
+  { path: 'necesito-ayuda', component: NecesitoAyudaComponent },
+  { path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard] },
+  { path: 'gimnasio/:id/administrar-inscripciones', component: AdministrarInscripcionesComponent, canActivate: [AuthGuard] },
+  { path: 'ingresos', component: AdministrarIngresosComponent, canActivate: [AuthGuard] }
 
 ];
 @NgModule({
@@ -69,7 +71,8 @@ const routes: Routes = [
     AdministrarSociosComponent,
     FormSociosComponent,
     AdministrarInscripcionesComponent,
-    FormInscripcionesComponent
+    FormInscripcionesComponent,
+    AdministrarIngresosComponent,
   ],
   imports: [
     BrowserModule,
