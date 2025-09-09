@@ -24,7 +24,7 @@ export class FormGimnasioComponent implements OnInit {
 
   ngOnInit(): void {
     this.inputNombreGimnasio = this.gimnasio.nombre;
-    if(this.inputNombreGimnasio != '') {
+    if (this.inputNombreGimnasio != '') {
       this.modoEditar = true;
     }
   }
@@ -77,7 +77,7 @@ export class FormGimnasioComponent implements OnInit {
       (error) => {
         Swal.fire({
           title: 'Error al editar el gimnasio',
-          text: error,
+          text: error.error,
           icon: 'error',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#0000aa'

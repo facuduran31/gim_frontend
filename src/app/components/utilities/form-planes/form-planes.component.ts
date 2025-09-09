@@ -31,7 +31,7 @@ export class FormPlanesComponent implements OnInit {
     this.router.paramMap.subscribe(params => {
       this.plan.idGimnasio = parseInt(params.get('id')!);
     });
-    if(this.inputNombrePlan != '') {
+    if (this.inputNombrePlan != '') {
       this.modoEditar = true;
     }
   }
@@ -58,7 +58,7 @@ export class FormPlanesComponent implements OnInit {
       (error) => {
         Swal.fire({
           title: 'Error al crear el plan',
-          text: error,
+          text: error.error,
           icon: 'error',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#0000aa'
@@ -90,7 +90,7 @@ export class FormPlanesComponent implements OnInit {
       (error) => {
         Swal.fire({
           title: 'Error al editar el plan',
-          text: error,
+          text: error.error,
           icon: 'error',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#0000aa'

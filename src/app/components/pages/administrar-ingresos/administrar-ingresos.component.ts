@@ -35,9 +35,10 @@ export class AdministrarIngresosComponent {
       })
     },
       (error) => {
+        console.log(error)
         Swal.fire({
-          title: 'Error al validar la inscripción',
-          text: error,
+          title: 'Error al validar el ingreso',
+          text: error.error,
           icon: 'error',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#0000aa'
