@@ -9800,6 +9800,8 @@
     background-color: #f8f9fc;
     width: 100%;
     overflow-x: hidden;
+    margin-left: 225px; /* Deja espacio suficiente para el sidebar */
+    min-height: 100vh;  /* Opcional: ocupa toda la altura de la ventana */
   }
   
   #wrapper #content-wrapper #content {

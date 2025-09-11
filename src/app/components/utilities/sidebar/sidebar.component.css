@@ -1,0 +1,15 @@
+#accordionSidebar {
+    position: fixed;   /* Se queda fijo al hacer scroll */
+    top: 0;
+    left: 0;
+    height: 100vh;     /* Ocupa toda la altura */
+    width: 250px;      /* Ancho fijo */
+    overflow-y: auto;  /* Scroll interno si hay muchos items */
+    z-index: 1000;
+}
+
+/* Contenido a la derecha del sidebar */
+#content-wrapper {
+    margin-left: 250px; /* Deja espacio suficiente para el sidebar */
+    min-height: 100vh;  /* Opcional: ocupa toda la altura de la ventana */
+}

@@ -17,7 +17,7 @@ export class PlanService {
   }
 
   getPlanById(id:number){
-    return this.http.get<Plan>(`${this.urlApi}/planes/${id}`, {withCredentials: true});
+    return this.http.get<Plan[]>(`${this.urlApi}/planes/${id}`, {withCredentials: true});
   }
 
   getPlanesByIdGimnasio(idGimnasio:number){

@@ -23,12 +23,18 @@ export class AuthService {
 
 
   logout(): void {
-    // Eliminar el token al cerrar sesión
-    const url = `${this.apiUrl}/usuarios/logout`;
-    this.http.post<any>(url,{},{withCredentials: true}).subscribe(res=>{
+  const url = `${this.apiUrl}/usuarios/logout`;
+  this.http.post<any>(url, {}, { withCredentials: true }).subscribe({
+    next: () => {
       this.router.navigate(['/']);
-    });
-  }
+    },
+    error: () => {
+      // Aunque falle, limpiamos y redirigimos
+      this.router.navigate(['/']);
+    }
+  });
+}
+
 
   isLoggedIn(): boolean {
     // Verificar si el token existe y no ha expirado
