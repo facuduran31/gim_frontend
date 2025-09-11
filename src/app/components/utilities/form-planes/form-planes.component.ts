@@ -28,6 +28,7 @@ export class FormPlanesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
   // Captura de parámetros
   this.route.params.subscribe(params => {
     const idPlan = params['idplan'];
@@ -59,6 +60,7 @@ export class FormPlanesComponent implements OnInit {
   guardarPlan() {
     this.plan.nombre = this.inputNombrePlan;
     this.plan.descripcion = this.inputDescripcion;
+
     this.plan.precio = Number(this.inputPrecio);
     this.plan.duracion = Number(this.inputDuracion);
     this.plan.diasPorSemana = Number(this.inputDiasPorSemana);
@@ -79,5 +81,6 @@ export class FormPlanesComponent implements OnInit {
         Swal.fire('Error', 'No se pudo crear el plan', 'error');
       });
     }
+
   }
 }

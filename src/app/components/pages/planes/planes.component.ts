@@ -16,7 +16,7 @@ export class PlanesComponent implements OnInit {
   plan: Plan = new Plan(0, '', '', 0, 0, 0, 0);
   planes: Array<Plan> = [];
 
-  constructor(private planesService: PlanService, private route:ActivatedRoute, private router:Router) { }
+  constructor(private planesService: PlanService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     console.log(this.plan);

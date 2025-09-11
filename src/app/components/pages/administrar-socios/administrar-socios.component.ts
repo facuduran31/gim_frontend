@@ -12,16 +12,16 @@ import Swal from 'sweetalert2';
 export class AdministrarSociosComponent {
 
 
-  modoAgregarSocio:boolean=false;
-  socios:Array<Socio>=[];
+  modoAgregarSocio: boolean = false;
+  socios: Array<Socio> = [];
 
-  constructor(private route:ActivatedRoute, private sociosService: SociosService){}
+  constructor(private route: ActivatedRoute, private sociosService: SociosService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const idGimnasio = parseInt(params.get('id') || '0')
       this.sociosService.getSociosByIdGimnasio(idGimnasio).subscribe(socios => {
-        socios.forEach((socio:any)=>{
+        socios.forEach((socio: any) => {
           this.socios.push(new Socio(socio.idSocio, socio.dni, socio.nombre, socio.apellido, socio.telefono, socio.activo))
         })
       });
@@ -30,51 +30,50 @@ export class AdministrarSociosComponent {
 
 
 
-  toggleModoAgregarSocio(){
-    this.modoAgregarSocio=!this.modoAgregarSocio;
+  toggleModoAgregarSocio() {
+    this.modoAgregarSocio = !this.modoAgregarSocio;
   }
 
 
-  borrarSocio(id:number){
+  borrarSocio(id: number) {
     Swal.fire({
-          title: '¡ADVERTENCIA!',
-          text: 'SI BORRAS EL SOCIO TODA LA INFORMACIÓN SE PERDERÁ DE MANERA DEFINITIVA',
-          icon: 'warning',
-          showConfirmButton: true,
-          showCloseButton: true,
-          showDenyButton: true,
-          confirmButtonText: 'BORRAR',
-          denyButtonText: 'Cancelar',
-          confirmButtonColor: '#ff0000',
-          denyButtonColor: '#555555'
-        }).then((result) => {
-          if(result.isConfirmed)
-          {
-            this.sociosService.deleteSocio(id).subscribe(() => {
-              Swal.fire({
-                title: 'Socio borrado con exito',
-                icon: 'success',
-                confirmButtonText: 'Ok',
-                confirmButtonColor: '#00aa00',
-              }).then((result) => {
-                  window.location.reload(); // Recarga la página
-              })
-            },
+      title: '¡ADVERTENCIA!',
+      text: 'SI BORRAS EL SOCIO TODA LA INFORMACIÓN SE PERDERÁ DE MANERA DEFINITIVA',
+      icon: 'warning',
+      showConfirmButton: true,
+      showCloseButton: true,
+      showDenyButton: true,
+      confirmButtonText: 'BORRAR',
+      denyButtonText: 'Cancelar',
+      confirmButtonColor: '#ff0000',
+      denyButtonColor: '#555555'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.sociosService.deleteSocio(id).subscribe(() => {
+          Swal.fire({
+            title: 'Socio borrado con exito',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            confirmButtonColor: '#00aa00',
+          }).then((result) => {
+            window.location.reload(); // Recarga la página
+          })
+        },
           (error) => {
-                        Swal.fire({
-                          title: 'Error al borrar el socio',
-                          text: error,
-                          icon: 'error',
-                          confirmButtonText: 'Ok',
-                          confirmButtonColor: '#0000aa'
-                        })
-              });
-          }
-          
-        })
+            Swal.fire({
+              title: 'Error al borrar el socio',
+              text: error.error,
+              icon: 'error',
+              confirmButtonText: 'Ok',
+              confirmButtonColor: '#0000aa'
+            })
+          });
       }
-            
-          
+
+    })
   }
+
+
+}
 
 
