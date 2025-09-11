@@ -40,7 +40,7 @@ ngOnInit() {
             inscripcion.idPlan,
             inscripcion.fechaInicio,
             inscripcion.fechaFin,
-            plan.nombre,
+            plan[0].nombre,
             socio.dni
           ))
         );
