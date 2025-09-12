@@ -47,6 +47,7 @@ const routes: Routes = [
   {path: 'mi-cuenta', component: MiCuentaComponent, canActivate: [AuthGuard]},
   {path: 'necesito-ayuda', component: NecesitoAyudaComponent},
   {path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard]},
+  {path:'gimnasio/:id/administrar-socios/:idSocio', component:FormSociosComponent, canActivate:[AuthGuard]},
   { path: 'gimnasio/:id/administrar-inscripciones', component: AdministrarInscripcionesComponent, canActivate: [AuthGuard] },
   { path: 'ingresos', component: AdministrarIngresosComponent, canActivate: [AuthGuard] }
 ];

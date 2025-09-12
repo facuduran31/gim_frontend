@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Socio } from 'src/app/models/socio';
 import { SociosService } from 'src/app/services/socios.service';
 import Swal from 'sweetalert2';
+import { Plan } from 'src/app/models/plan';
+import { PlanService } from 'src/app/services/plan.service';
 
 @Component({
   selector: 'app-form-socios',
@@ -11,18 +14,22 @@ import Swal from 'sweetalert2';
 export class FormSociosComponent {
 
   modoEditar: boolean = false;
+  
 
-  @Input() socio: Socio = new Socio(0, "", "", "", "", false);
+  @Input() socio: Socio = new Socio(0, "", "", "", "", false, 0);
+
+  planes:Array<Plan>=[];
 
 
 
-  constructor(private sociosService: SociosService) { }
+  constructor(private sociosService: SociosService, private route: ActivatedRoute, private planService: PlanService) { }
 
   inputDniSocio: string = "";
   inputNombreSocio: string = "";
   inputApellidoSocio: string = "";
   inputTelefonoSocio: string = "";
   inputEstadoSocio: boolean = false;
+  plan:Plan=this.planes[0];
 
 
   ngOnInit() {
@@ -31,6 +38,14 @@ export class FormSociosComponent {
     this.inputApellidoSocio = this.socio.apellido;
     this.inputTelefonoSocio = this.socio.telefono;
     this.inputEstadoSocio = this.socio.estado;
+     this.route.paramMap.subscribe(params => {
+      this.socio.idGimnasio = parseInt(params.get('id') || '0')
+    });
+    this.planService.getPlans().subscribe((res:any)=>{
+      res.forEach((plan:any)=>{
+        this.planes.push(new Plan(plan.idPlan, plan.nombre, plan.descripcion, plan.precio, plan.duracion, plan.diasPorSemana, plan.idGimnasio))
+      })
+    })
   }
 
 
