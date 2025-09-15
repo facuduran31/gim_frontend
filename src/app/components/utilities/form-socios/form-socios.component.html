@@ -29,8 +29,8 @@
                     <label class="form-check-label" for="estadoSocio">Activo</label>
                 </div>
                 <div class="form-group">
-                    <select class="form-control form-control-user"  [(ngModel)]="inputDniSocio" name="plan">
-                        <option *ngFor="let plan of planes" [ngValue]="plan">
+                    <select class="form-control" [(ngModel)]="inputPlan" name="plan">
+                        <option  *ngFor="let plan of planes" [ngValue]="plan">
                             {{ plan.nombre }}
                         </option>
                     </select>

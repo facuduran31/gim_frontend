@@ -18,7 +18,7 @@ export class FormSociosComponent {
 
   @Input() socio: Socio = new Socio(0, "", "", "", "", false, 0);
 
-  planes:Array<Plan>=[];
+  planes:Array<Plan>=[new Plan(0,'Seleccione un plan','',0,0,0,0)];
 
 
 
@@ -29,17 +29,28 @@ export class FormSociosComponent {
   inputApellidoSocio: string = "";
   inputTelefonoSocio: string = "";
   inputEstadoSocio: boolean = false;
-  plan:Plan=this.planes[0];
+  inputPlan:Plan= this.planes[0];
 
 
   ngOnInit() {
-    this.inputDniSocio = this.socio.dni;
-    this.inputNombreSocio = this.socio.nombre;
-    this.inputApellidoSocio = this.socio.apellido;
-    this.inputTelefonoSocio = this.socio.telefono;
-    this.inputEstadoSocio = this.socio.estado;
-     this.route.paramMap.subscribe(params => {
-      this.socio.idGimnasio = parseInt(params.get('id') || '0')
+    this.route.paramMap.subscribe(params =>{
+      this.socio.idSocio=parseInt(params.get('idSocio') || '0');
+      if(this.socio.idSocio>0){
+        this.modoEditar=true;
+        this.sociosService.getSocioById(this.socio.idSocio).subscribe((res:any)=>{
+          this.socio.nombre=res.nombre;
+          this.socio.apellido=res.apellido;
+          this.socio.dni=res.dni;
+          this.socio.estado=res.activo;
+          this.socio.idGimnasio=res.idGimnasio;
+          this.socio.telefono=res.telefono;
+          this.inputDniSocio = this.socio.dni;
+          this.inputNombreSocio = this.socio.nombre;
+          this.inputApellidoSocio = this.socio.apellido;
+          this.inputTelefonoSocio = this.socio.telefono;
+          this.inputEstadoSocio = this.socio.estado;
+        })
+      }
     });
     this.planService.getPlans().subscribe((res:any)=>{
       res.forEach((plan:any)=>{
