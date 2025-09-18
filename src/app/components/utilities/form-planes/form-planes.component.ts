@@ -60,7 +60,6 @@ export class FormPlanesComponent implements OnInit {
   guardarPlan() {
     this.plan.nombre = this.inputNombrePlan;
     this.plan.descripcion = this.inputDescripcion;
-
     this.plan.precio = Number(this.inputPrecio);
     this.plan.duracion = Number(this.inputDuracion);
     this.plan.diasPorSemana = Number(this.inputDiasPorSemana);
