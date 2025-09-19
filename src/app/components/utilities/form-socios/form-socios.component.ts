@@ -41,35 +41,50 @@ export class FormSociosComponent {
     this.route.paramMap.subscribe(params => {
       this.socio.idGimnasio = parseInt(params.get('id') || '0');
       this.socio.idSocio = parseInt(params.get('idSocio') || '0');
-      if (this.socio.idSocio > 0) {
-        this.modoEditar = true;
-        this.sociosService.getSocioById(this.socio.idSocio).subscribe((res: any) => {
-          this.socio.nombre = res.nombre;
-          this.socio.apellido = res.apellido;
-          this.socio.dni = res.dni;
-          this.socio.estado = res.activo;
-          this.socio.idGimnasio = res.idGimnasio;
-          this.socio.telefono = res.telefono;
-          this.inputDniSocio = this.socio.dni;
-          this.inputNombreSocio = this.socio.nombre;
-          this.inputApellidoSocio = this.socio.apellido;
-          this.inputTelefonoSocio = this.socio.telefono;
-          this.inputEstadoSocio = this.socio.estado;
-        })
-      }
+
+      // Cargar planes primero
+      this.planService.getPlans().subscribe((res: any) => {
+        this.planes = [new Plan(0, 'Seleccione un plan', '', 0, 0, 0, 0)];
+        res.forEach((plan: any) => {
+          this.planes.push(new Plan(plan.idPlan, plan.nombre, plan.descripcion, plan.precio, plan.duracion, plan.diasPorSemana, plan.idGimnasio));
+        });
+
+        // Si estamos en modo edición
+        if (this.socio.idSocio > 0) {
+          this.modoEditar = true;
+
+          this.sociosService.getSocioById(this.socio.idSocio).subscribe((res: any) => {
+            this.socio.nombre = res.nombre;
+            this.socio.apellido = res.apellido;
+            this.socio.dni = res.dni;
+            this.socio.estado = res.activo;
+            this.socio.idGimnasio = res.idGimnasio;
+            this.socio.telefono = res.telefono;
+            this.inputDniSocio = this.socio.dni;
+            this.inputNombreSocio = this.socio.nombre;
+            this.inputApellidoSocio = this.socio.apellido;
+            this.inputTelefonoSocio = this.socio.telefono;
+            this.inputEstadoSocio = this.socio.estado;
+          });
+
+          this.inscripcionesService.getLastInscripcion(this.socio.idSocio).subscribe((plan: any) => {
+            // Buscar el plan en la lista ya cargada
+            const planSeleccionado = this.planes.find(p => p.idPlan === plan.idPlan);
+            if (planSeleccionado) {
+              this.inputPlan = planSeleccionado;
+            }
+          });
+        }
+      });
     });
-    this.planService.getPlans().subscribe((res: any) => {
-      res.forEach((plan: any) => {
-        this.planes.push(new Plan(plan.idPlan, plan.nombre, plan.descripcion, plan.precio, plan.duracion, plan.diasPorSemana, plan.idGimnasio))
-      })
-    })
   }
 
 
 
 
-  editarSocio() {
 
+  editarSocio() {
+    //SEGUIR ACA
   }
 
 
