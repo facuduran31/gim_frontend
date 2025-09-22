@@ -69,7 +69,8 @@ export class FormSociosComponent {
 
           this.inscripcionesService.getLastInscripcion(this.socio.idSocio).subscribe((plan: any) => {
             // Buscar el plan en la lista ya cargada
-            const planSeleccionado = this.planes.find(p => p.idPlan === plan.idPlan);
+            let idPlan = plan ? plan.idPlan : 0;
+            const planSeleccionado = this.planes.find(p => p.idPlan === idPlan);
             if (planSeleccionado) {
               this.inputPlan = planSeleccionado;
             }
@@ -84,7 +85,42 @@ export class FormSociosComponent {
 
 
   editarSocio() {
-    //SEGUIR ACA
+    this.socio.dni = this.inputDniSocio;
+    this.socio.nombre = this.inputNombreSocio;
+    this.socio.apellido = this.inputApellidoSocio;
+    this.socio.telefono = this.inputTelefonoSocio;
+    this.socio.estado = this.inputEstadoSocio;
+    this.sociosService.updateSocio(this.socio).pipe(
+      switchMap((res: any) => {
+        let fechaIni = new Date();
+        let fechaFin = new Date();
+        fechaFin.setMonth(fechaIni.getMonth() + this.inputPlan.duracion)
+        const inscripcion = new Inscripcion(null, this.socio.idSocio, this.inputPlan.idPlan, fechaIni, fechaFin, this.inputPlan.nombre, this.socio.dni);
+        return this.inscripcionesService.createInscripcion(inscripcion);
+      })
+    ).subscribe(
+      {
+        next: (res: any) => {
+          Swal.fire({
+            title: 'Socio actualizado con éxito',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            confirmButtonColor: '#00aa00',
+          }).then(() => {
+            window.location.reload(); // Recarga la página
+          });
+        },
+        error: (error: any) => {
+          Swal.fire({
+            title: 'Error al actualizar el socio',
+            text: error.message || error,
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            confirmButtonColor: '#0000aa'
+          });
+        }
+      }
+    )
   }
 
 
@@ -107,7 +143,7 @@ export class FormSociosComponent {
       next: (response: any) => {
         Swal.showLoading();
         Swal.fire({
-          title: 'Inscripción creada con éxito',
+          title: 'Socio creado con éxito',
           icon: 'success',
           confirmButtonText: 'Ok',
           confirmButtonColor: '#00aa00',
@@ -117,7 +153,7 @@ export class FormSociosComponent {
       },
       error: (error: any) => {
         Swal.fire({
-          title: 'Error al crear la inscripción',
+          title: 'Error al crear el socio',
           text: error.message || error,
           icon: 'error',
           confirmButtonText: 'Ok',
