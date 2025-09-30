@@ -7,7 +7,7 @@ import { Plan } from 'src/app/models/plan';
 import { PlanService } from 'src/app/services/plan.service';
 import { Inscripcion } from 'src/app/models/inscripcion';
 import { InscripcionesService } from 'src/app/services/inscripciones.service';
-import { switchMap } from 'rxjs';
+import { switchMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-form-socios',
@@ -96,7 +96,10 @@ export class FormSociosComponent {
         let fechaFin = new Date();
         fechaFin.setMonth(fechaIni.getMonth() + this.inputPlan.duracion)
         const inscripcion = new Inscripcion(null, this.socio.idSocio, this.inputPlan.idPlan, fechaIni, fechaFin, this.inputPlan.nombre, this.socio.dni);
-        return this.inscripcionesService.createInscripcion(inscripcion);
+        if (inscripcion.idPlan != 0) {
+          return this.inscripcionesService.createInscripcion(inscripcion);
+        }
+        return of(res)
       })
     ).subscribe(
       {
@@ -137,7 +140,11 @@ export class FormSociosComponent {
         let fechaFin = new Date();
         fechaFin.setMonth(fechaIni.getMonth() + this.inputPlan.duracion)
         const inscripcion = new Inscripcion(null, res.idSocio, this.inputPlan.idPlan, fechaIni, fechaFin, this.inputPlan.nombre, this.socio.dni);
-        return this.inscripcionesService.createInscripcion(inscripcion);
+        console.log(inscripcion)
+        if (inscripcion.idPlan != 0) {
+          return this.inscripcionesService.createInscripcion(inscripcion);
+        }
+        return of(res)
       })
     ).subscribe({
       next: (response: any) => {
@@ -152,6 +159,7 @@ export class FormSociosComponent {
         });
       },
       error: (error: any) => {
+        console.log(error)
         Swal.fire({
           title: 'Error al crear el socio',
           text: error.message || error,
