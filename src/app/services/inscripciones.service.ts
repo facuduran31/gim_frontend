@@ -15,16 +15,20 @@ export class InscripcionesService {
 
 
 
-  getInscripcionesByIdGimnasio(idGimnasio:number){
-    return this.http.get<Inscripcion[]>(`${this.urlApi}/gimnasio/${idGimnasio}`, {withCredentials: true})
+  getInscripcionesByIdGimnasio(idGimnasio: number) {
+    return this.http.get<Inscripcion[]>(`${this.urlApi}/gimnasio/${idGimnasio}`, { withCredentials: true })
   }
 
-  deleteInscripcion(idInscripcion:number){
-    return this.http.delete(`${this.urlApi}/${idInscripcion}`, {withCredentials: true})
+  getLastInscripcion(idSocio: number) {
+    return this.http.get<Inscripcion>(`${this.urlApi}/actual/${idSocio}`, { withCredentials: true })
   }
 
-  createInscripcion(inscripcion:Inscripcion){
-    return this.http.post(this.urlApi, inscripcion, {withCredentials:true})
+  deleteInscripcion(idInscripcion: number) {
+    return this.http.delete(`${this.urlApi}/${idInscripcion}`, { withCredentials: true })
+  }
+
+  createInscripcion(inscripcion: Inscripcion) {
+    return this.http.post(this.urlApi, inscripcion, { withCredentials: true })
   }
 
 

@@ -4,10 +4,12 @@
       <div class="text-center">
         <h1 class="h4 text-gray-900 mb-4">{{ modoEditar ? 'Editar' : "Crear" }} Inscripción</h1>
       </div>
-      <form class="user"  [formGroup]="formInscripcion" (ngSubmit)="modoEditar ? editarInscripcion() : crearInscripcion()">
+      <form class="user" [formGroup]="formInscripcion"
+        (ngSubmit)="modoEditar ? editarInscripcion() : crearInscripcion()">
         <!--ME FALTA TERMINAR LOS DESPLEGABLES-->
-        <div class="form-group"> 
-          <input type="number" class="form-control form-control-user" id="exampleDNI" placeholder="DNI del socio" formControlName="dniSocio"> 
+        <div class="form-group">
+          <input type="number" class="form-control form-control-user" id="exampleDNI" placeholder="DNI del socio"
+            formControlName="dniSocio">
         </div>
 
         <!-- Lista de planes -->
@@ -27,7 +29,7 @@
 
       </form>
 
-      
+
     </div>
   </div>
 </div>

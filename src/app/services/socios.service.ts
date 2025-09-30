@@ -30,6 +30,11 @@ export class SociosService {
     return this.http.post(this.urlApi, socio, { withCredentials: true })
   }
 
+  updateSocio(socio: Socio) {
+    return this.http.put(`${this.urlApi}/${socio.idSocio}`, socio, { withCredentials: true })
+  }
+
+
   deleteSocio(idSocio: number) {
     return this.http.delete(`${this.urlApi}/${idSocio}`, { withCredentials: true })
   }

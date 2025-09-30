@@ -25,36 +25,35 @@ export class FormPlanesComponent implements OnInit {
     private planesService: PlanService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
-  // Captura de parámetros
-  this.route.params.subscribe(params => {
-    const idPlan = params['idplan'];
-    if (idPlan > 0) {
-      this.modoEditar = true;
-      this.planesService.getPlanById(idPlan).subscribe(res => {
-        if (res.length > 0) {
-          const plan = res[0];  // ⚠️ Tomamos el primer elemento del array
-          this.plan = plan;
+    // Captura de parámetros
+    this.route.params.subscribe(params => {
+      const idPlan = params['idplan'];
+      if (idPlan > 0) {
+        this.modoEditar = true;
+        this.planesService.getPlanById(idPlan).subscribe(res => {
+          if (res.length > 0) {
+            const plan = res[0];  // ⚠️ Tomamos el primer elemento del array
+            this.plan = plan;
 
-          this.inputNombrePlan = plan.nombre;
-          this.inputDescripcion = plan.descripcion;
-          this.inputPrecio = plan.precio;
-          this.inputDuracion = plan.duracion;
-          this.inputDiasPorSemana = plan.diasPorSemana;
+            this.inputNombrePlan = plan.nombre;
+            this.inputDescripcion = plan.descripcion;
+            this.inputPrecio = plan.precio;
+            this.inputDuracion = plan.duracion;
+            this.inputDiasPorSemana = plan.diasPorSemana;
 
-          console.log('Plan cargado:', this.plan);
-        } else {
-          Swal.fire('Error', 'No se encontró el plan', 'error');
-        }
-      }, error => {
-        Swal.fire('Error', 'No se pudo cargar el plan', 'error');
-      });
-    }
-  });
-}
+          } else {
+            Swal.fire('Error', 'No se encontró el plan', 'error');
+          }
+        }, error => {
+          Swal.fire('Error', 'No se pudo cargar el plan', 'error');
+        });
+      }
+    });
+  }
 
 
   guardarPlan() {
@@ -64,7 +63,7 @@ export class FormPlanesComponent implements OnInit {
     this.plan.duracion = Number(this.inputDuracion);
     this.plan.diasPorSemana = Number(this.inputDiasPorSemana);
     this.plan.idGimnasio = Number(this.route.snapshot.paramMap.get('id'));
-    
+
     if (this.modoEditar) {
       this.planesService.updatePlan(this.plan).subscribe(() => {
         Swal.fire('Éxito', 'Plan editado correctamente', 'success')
