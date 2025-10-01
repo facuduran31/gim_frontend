@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Plan } from 'src/app/models/plan';
+import { HistoricoPreciosService } from 'src/app/services/historico-precios.service';
 import { PlanService } from 'src/app/services/plan.service';
 import Swal from 'sweetalert2';
 
@@ -24,7 +25,8 @@ export class FormPlanesComponent implements OnInit {
   constructor(
     private planesService: PlanService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private historicoService: HistoricoPreciosService
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +46,19 @@ export class FormPlanesComponent implements OnInit {
             this.inputPrecio = plan.precio;
             this.inputDuracion = plan.duracion;
             this.inputDiasPorSemana = plan.diasPorSemana;
+
+            //busca el histórico de precios más reciente para mostrar el precio actual
+            this.historicoService.getHistoricoByPlan(plan.idPlan).subscribe(hist => {
+              if (hist && hist.length > 0) {
+                const precioActual = hist.find(h => h.fechaHasta === null) || hist[0];
+                this.inputPrecio = precioActual.precio;
+              } else {
+                this.inputPrecio = 0;
+              }
+            }, error => {
+              console.error('Error al obtener histórico de precios del plan', error);
+              this.inputPrecio = 0;
+            });
 
           } else {
             Swal.fire('Error', 'No se encontró el plan', 'error');
