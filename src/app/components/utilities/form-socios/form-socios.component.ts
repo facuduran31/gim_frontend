@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Socio } from 'src/app/models/socio';
 import { SociosService } from 'src/app/services/socios.service';
 import Swal from 'sweetalert2';
@@ -27,7 +27,7 @@ export class FormSociosComponent {
 
 
 
-  constructor(private sociosService: SociosService, private route: ActivatedRoute, private planService: PlanService, private inscripcionesService: InscripcionesService) { }
+  constructor(private sociosService: SociosService, private route: ActivatedRoute, private planService: PlanService, private inscripcionesService: InscripcionesService, private router: Router) { }
 
   inputDniSocio: string = "";
   inputNombreSocio: string = "";
@@ -110,7 +110,7 @@ export class FormSociosComponent {
             confirmButtonText: 'Ok',
             confirmButtonColor: '#00aa00',
           }).then(() => {
-            window.location.reload(); // Recarga la página
+            this.router.navigate(["../"], {relativeTo: this.route})
           });
         },
         error: (error: any) => {
@@ -155,7 +155,7 @@ export class FormSociosComponent {
           confirmButtonText: 'Ok',
           confirmButtonColor: '#00aa00',
         }).then(() => {
-          window.location.reload(); // Recarga la página
+          this.router.navigate(["../"], {relativeTo: this.route})
         });
       },
       error: (error: any) => {
