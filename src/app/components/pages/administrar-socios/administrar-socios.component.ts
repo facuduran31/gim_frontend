@@ -22,7 +22,7 @@ export class AdministrarSociosComponent {
       const idGimnasio = parseInt(params.get('id') || '0')
       this.sociosService.getSociosByIdGimnasio(idGimnasio).subscribe(socios => {
         socios.forEach((socio: any) => {
-          this.socios.push(new Socio(socio.idSocio, socio.dni, socio.nombre, socio.apellido, socio.telefono, socio.activo, socio.idGimnasio))
+          this.socios.push(new Socio(socio.idSocio, socio.dni, socio.nombre, socio.apellido, socio.telefono, socio.activo, socio.diaDePago, socio.idGimnasio))
         })
       });
     });

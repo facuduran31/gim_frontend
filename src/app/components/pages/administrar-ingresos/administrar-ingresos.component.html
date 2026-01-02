@@ -1,47 +1,91 @@
-
 <body id="page-top">
   <div id="wrapper">
     <app-sidebar></app-sidebar>
+
     <div id="content-wrapper" class="d-flex flex-column">
       <app-navbar></app-navbar>
 
-            <!-- Main content-->
-            <div class="p-3 d-flex">
-                <a routerLink="../" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
-                <form class="w-100 d-flex" [formGroup]="formIngreso" (ngSubmit)="validarIngreso()">
-                  <input type="number" class="form-control w-25 ms-2" id="exampleDNI" placeholder="DNI del socio"
-                  formControlName="dniSocio" autofocus>
-                  <button class="btn btn-success ms-2" type="submit">Ingresar</button>
-                </form>
-            </div>
+      <!-- Main content -->
+      <div class="p-3 d-flex align-items-center">
+        <a routerLink="../" class="btn btn-primary">
+          <i class="fas fa-angle-left"></i>
+        </a>
 
-            
-            <div class="container-fluid">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h1 class="m-0 font-weight-bold text-primary">Ingresos</h1>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Día de pago</th>
-                                        <th>Plan</th>
-                                        <th>Hora ingreso</th>
-                                        <th class="text-center">Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+        <form
+          class="w-100 d-flex ms-2"
+          [formGroup]="formIngreso"
+          (ngSubmit)="validarIngreso()"
+        >
+          <input
+            type="number"
+            class="form-control w-25"
+            placeholder="DNI del socio"
+            formControlName="dniSocio"
+            autofocus
+          />
+          <button
+            class="btn btn-success ms-2"
+            type="submit"
+            [disabled]="formIngreso.invalid"
+          >
+            Ingresar
+          </button>
+        </form>
+      </div>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+      <!-- Tabla de ingresos -->
+      <div class="container-fluid">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h1 class="m-0 font-weight-bold text-primary">
+              Ingresos
+            </h1>
+          </div>
+
+          <div class="card-body">
+            <div class="table-responsive">
+              <table
+                class="table table-bordered table-hover"
+                width="100%"
+                cellspacing="0"
+              >
+                <thead class="table-light">
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Hora ingreso</th>
+                    <th class="text-center">Acción</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr *ngIf="ingresos.length === 0">
+                    <td colspan="4" class="text-center text-muted">
+                      No hay ingresos registrados
+                    </td>
+                  </tr>
+
+                  <tr *ngFor="let ingreso of ingresos">
+                    <td>{{ ingreso.socio?.nombre }} {{ ingreso.socio?.apellido }}</td>
+                    <td>{{ ingreso.socio?.telefono }}</td>
+                    <td>{{ ingreso.horaIngreso }}</td>
+                    <td class="text-center">
+                      <span
+                        class="badge"
+                        [ngClass]="ingreso.esValido ? 'bg-success' : 'bg-secondary'"
+                      >
+                        {{ ingreso.esValido ? 'Válido' : 'Inválido' }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <app-footer></app-footer>
+          </div>
         </div>
+      </div>
+
+      <app-footer></app-footer>
     </div>
+  </div>
 </body>

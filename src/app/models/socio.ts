@@ -5,15 +5,17 @@ export class Socio{
     apellido:string;
     telefono:string;
     estado:boolean;
+    diaDePago: number;
     idGimnasio:number;
 
-    constructor(id:number,dni:string, nombre:string,apellido:string,tel:string,estado:boolean, idGim:number){
+    constructor(id:number,dni:string, nombre:string,apellido:string,tel:string,estado:boolean, diaDePago:number, idGim:number){
         this.idSocio= id;
         this.dni= dni;
         this.nombre= nombre;
         this.apellido= apellido;
         this.telefono= tel;
         this.estado= estado;
+        this.diaDePago = diaDePago;
         this.idGimnasio=idGim;
     }
 }

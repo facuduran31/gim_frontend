@@ -11,7 +11,7 @@ export class IngresoService {
   constructor(private http: HttpClient) { }
   
   
-    urlApi = `${environment.urlApi}/ingreso`;
+    urlApi = `${environment.urlApi}/ingresos`;
   
   
   

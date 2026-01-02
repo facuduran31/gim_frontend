@@ -49,7 +49,7 @@ const routes: Routes = [
   {path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard]},
   {path:'gimnasio/:id/administrar-socios/:idSocio', component:FormSociosComponent, canActivate:[AuthGuard]},
   { path: 'gimnasio/:id/administrar-inscripciones', component: AdministrarInscripcionesComponent, canActivate: [AuthGuard] },
-  { path: 'ingresos', component: AdministrarIngresosComponent, canActivate: [AuthGuard] }
+  { path: 'gimnasio/:id/ingresos', component: AdministrarIngresosComponent, canActivate: [AuthGuard] }
 ];
 @NgModule({
   declarations: [
