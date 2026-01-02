@@ -141,6 +141,71 @@ export class AdministrarSociosComponent {
   this.pagos = [];
 }
 
+crearPago() {
+  if (!this.socioSeleccionado) return;
+
+  // Usamos SweetAlert para pedir los datos del pago
+  Swal.fire({
+    title: `Registrar pago para ${this.socioSeleccionado.nombre} ${this.socioSeleccionado.apellido}`,
+    html:
+      `<input type="number" id="monto" class="swal2-input" placeholder="Monto">` +
+      `<select id="metodo" class="swal2-input">
+          <option value="" disabled selected>Seleccione método</option>
+          <option *ngFor="let metodo of metodosPago" value="{{metodo.idMetodoPago}}">
+            {{metodo.nombre}}
+          </option>
+       </select>` +
+      `<input type="date" id="fechaPago" class="swal2-input" value="${new Date().toISOString().split('T')[0]}">`,
+    focusConfirm: false,
+    preConfirm: () => {
+      const montoInput = (document.getElementById('monto') as HTMLInputElement).value;
+      const metodoInput = (document.getElementById('metodo') as HTMLSelectElement).value;
+      const fechaInput = (document.getElementById('fechaPago') as HTMLInputElement).value;
+
+      if (!montoInput || !metodoInput || !fechaInput) {
+        Swal.showValidationMessage(`Por favor complete todos los campos`);
+        return;
+      }
+
+      return {
+        monto: parseFloat(montoInput),
+        idMetodoPago: parseInt(metodoInput),
+        fechaPago: fechaInput
+      };
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Construimos el objeto pago
+      const nuevoPago = {
+        idSocioPlan: this.socioSeleccionado.idSocioPlan,
+        idMetodoPago: result.value.idMetodoPago,
+        monto: result.value.monto,
+        fechaPago: result.value.fechaPago
+      };
+
+      // Llamamos al servicio para guardar en backend
+      this.pagosService.create(nuevoPago).subscribe(
+        (res) => {
+          Swal.fire({
+            title: 'Pago registrado',
+            icon: 'success',
+            confirmButtonColor: '#00aa00'
+          });
+          // Recargamos los pagos para actualizar la tabla
+          this.openPagos(this.socioSeleccionado.idSocio);
+        },
+        (err) => {
+          Swal.fire({
+            title: 'Error al registrar pago',
+            text: err.error?.message || 'Revise la consola',
+            icon: 'error',
+            confirmButtonColor: '#aa0000'
+          });
+        }
+      );
+    }
+  });
+}
 
 
 
