@@ -16,7 +16,7 @@ export class IngresoService {
   
   
     getIngresosByIdGimnasio(idGimnasio: number) {
-      return this.http.get<Ingreso[]>(`${this.urlApi}/gimnasio/${idGimnasio}`, { withCredentials: true })
+      return this.http.get<Ingreso[]>(`${this.urlApi}/${idGimnasio}`, { withCredentials: true })
     }
   
     deleteIngreso(idIngreso: number) {
