@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Pago } from 'src/app/models/pago';
 import { Socio } from 'src/app/models/socio';
+import { PagosService } from 'src/app/services/pago.service';
 import { SociosService } from 'src/app/services/socios.service';
 import Swal from 'sweetalert2';
 
@@ -14,15 +16,20 @@ export class AdministrarSociosComponent {
 
   modoAgregarSocio: boolean = false;
   socios: Array<Socio> = [];
+  pagos: Pago[] = [];
+  idSocioPlanSeleccionado!: number;
+  mostrarModalPagos = false;
+  socioSeleccionado!: Socio;
 
-  constructor(private route: ActivatedRoute, private sociosService: SociosService) { }
+
+  constructor(private route: ActivatedRoute, private sociosService: SociosService, private pagosService: PagosService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const idGimnasio = parseInt(params.get('id') || '0')
       this.sociosService.getSociosByIdGimnasio(idGimnasio).subscribe(socios => {
         socios.forEach((socio: any) => {
-          this.socios.push(new Socio(socio.idSocio, socio.dni, socio.nombre, socio.apellido, socio.telefono, socio.activo, socio.diaDePago, socio.idGimnasio))
+          this.socios.push(new Socio(socio.idSocio, socio.dni, socio.nombre, socio.apellido, socio.telefono, socio.activo, socio.diaDePago, socio.idGimnasio, socio.idSocioPlan))
         })
       });
     });
@@ -76,6 +83,67 @@ export class AdministrarSociosComponent {
   inscribirSocio(idSocio:number){
 
   }
+
+  openPagos(idSocio: number) {
+    const socio = this.socios.find(s => s.idSocio === idSocio);
+    if (!socio) return;
+
+    this.socioSeleccionado = socio;
+
+    // ESTE dato idealmente viene del backend
+    this.idSocioPlanSeleccionado = socio.idSocioPlan;
+
+    this.pagosService.getBySocioPlan(this.idSocioPlanSeleccionado).subscribe({
+        next: pagos => {
+          this.pagos = pagos;
+          this.mostrarModalPagos = true;
+          console.log(this.mostrarModalPagos);
+          
+        },
+        error: () => {
+          Swal.fire('Error', 'No se pudieron cargar los pagos', 'error');
+        }
+      });
+    }
+
+    cobrarCuota() {
+    const nuevoPago = {
+      idSocioPlan: this.idSocioPlanSeleccionado,
+      idMetodoPago: 1, // efectivo por ejemplo
+      monto: 5000,
+      fechaPago: new Date()
+    };
+
+    this.pagosService.create(nuevoPago).subscribe(() => {
+      Swal.fire('Pago registrado', '', 'success');
+      this.openPagos(this.socioSeleccionado.idSocio);
+    });
+  }
+
+  eliminarPago(idPago: number) {
+    Swal.fire({
+      title: 'Eliminar pago',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ff0000',
+      confirmButtonText: 'Eliminar'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.pagosService.delete(idPago).subscribe(() => {
+          this.pagos = this.pagos.filter(p => p.idPago !== idPago);
+        });
+      }
+    });
+  }
+
+  cerrarModal() {
+  this.mostrarModalPagos = false;
+  this.pagos = [];
+}
+
+
+
+
 
 
 }

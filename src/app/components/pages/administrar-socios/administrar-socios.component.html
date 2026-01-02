@@ -54,6 +54,7 @@
                                                 class="btn btn-warning ms-2">
                                                 <i class="fas fa-pencil"></i>
                                             </a>
+                                            <button type="button" class="ms-2 btn btn-success" (click)="openPagos(socio.idSocio)"><i class="fas fa-eye"></i></button>
                                          
                                         </td>
                                     </tr>
@@ -67,4 +68,72 @@
             <app-footer></app-footer>
         </div>
     </div>
+
+    <!-- MODAL PAGOS -->
+<div class="modal fade show d-block"
+     *ngIf="mostrarModalPagos"
+     style="background: rgba(0,0,0,.5)">
+
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">
+          Pagos - {{ socioSeleccionado.nombre }} {{ socioSeleccionado.apellido }}
+        </h5>
+        <button type="button"
+                class="btn-close btn-close-white"
+                (click)="cerrarModal()"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Monto</th>
+              <th>Método</th>
+              <th class="text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pago of pagos">
+              <td>{{ pago.fechaPago | date:'dd/MM/yyyy' }}</td>
+              <td>${{ pago.monto }}</td>
+              <td>{{ pago.idMetodoPago }}</td>
+              <td class="text-center">
+                <button class="btn btn-danger btn-sm"
+                        (click)="eliminarPago(pago.idPago)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngIf="pagos.length === 0">
+              <td colspan="4" class="text-center text-muted">
+                No hay pagos registrados
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-success"
+                >
+          <i class="fas fa-plus"></i> Registrar pago
+        </button>
+
+        <button class="btn btn-secondary"
+                (click)="cerrarModal()">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 </body>

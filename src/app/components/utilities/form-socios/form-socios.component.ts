@@ -19,7 +19,7 @@ export class FormSociosComponent {
   modoEditar: boolean = false;
 
 
-  @Input() socio: Socio = new Socio(0, "", "", "", "", false, 0, 0);
+  @Input() socio: Socio = new Socio(0, "", "", "", "", false, 0, 0, 0);
 
   planes: Array<Plan> = [new Plan(0, 'Seleccione un plan', '', 0, 0, 0, 0)];
 
