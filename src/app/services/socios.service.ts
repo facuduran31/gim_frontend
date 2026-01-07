@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Socio } from '../models/socio';
+import { Socio, SocioCrear } from '../models/socio';
 import { environment } from 'environment';
 
 @Injectable({
@@ -26,12 +26,12 @@ export class SociosService {
     return this.http.get<Socio>(`${this.urlApi}/dni/${dni}`, { withCredentials: true })
   }
 
-  createSocio(socio: Socio) {
-    return this.http.post(this.urlApi, socio, { withCredentials: true })
+  createSocio(socio: SocioCrear) {
+    return this.http.post(`${this.urlApi}/`, socio, { withCredentials: true });
   }
 
-  updateSocio(socio: Socio) {
-    return this.http.put(`${this.urlApi}/${socio.idSocio}`, socio, { withCredentials: true })
+  updateSocio(socio: Socio & { idPlan?: number; duracion?: number }) {
+    return this.http.put(`${this.urlApi}/${socio.idSocio}`, socio);
   }
 
   deleteSocio(idSocio: number) {

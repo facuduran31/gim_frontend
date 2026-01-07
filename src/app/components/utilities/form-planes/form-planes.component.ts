@@ -13,7 +13,14 @@ import Swal from 'sweetalert2';
 export class FormPlanesComponent implements OnInit {
 
   modoEditar: boolean = false; // determina si es edición o creación
-  plan: Plan = new Plan(0, '', '', 0, 0, 0, 0);
+  plan: Plan = {
+    idPlan: 0,
+    nombre: '',
+    descripcion: '',
+    precio: 0,
+    duracion: 0,
+    diasPorSemana: 0
+  }
 
   // Inputs ligados al ngModel
   inputNombrePlan: string = '';

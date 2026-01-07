@@ -31,6 +31,9 @@ export class InscripcionesService {
     return this.http.post(this.urlApi, inscripcion, { withCredentials: true })
   }
 
-
+  updateSocioPlan(inscripcion : Inscripcion) {
+    // Asumimos que tu backend tiene ruta PUT /inscripciones/:idSocio para actualizar plan
+    return this.http.put(`${this.urlApi}/${inscripcion.idSocio}`, inscripcion, { withCredentials: true });
+  }
 
 }

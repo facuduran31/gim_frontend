@@ -104,7 +104,7 @@
                   <td>{{ pago.idMetodoPago }}</td>
                   <td class="text-center">
                     <button class="btn btn-danger btn-sm"
-                            (click)="eliminarPago(pago.idPago)">
+                            (click)="eliminarPago(pago.idPago ?? 0)">
                       <i class="fas fa-trash"></i>
                     </button>
                   </td>

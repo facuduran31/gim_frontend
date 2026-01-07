@@ -1,11 +1,6 @@
-export class Gimnasio {
-    idGimnasio: number | undefined;
+export interface Gimnasio {
+    idGimnasio?: number;
     nombre: string;
     logo: string;
-    idUsuario: number | undefined;
-
-    constructor(nombre: string, logo: string) {
-        this.nombre = nombre;
-        this.logo = logo;
-    }
+    idUsuario?: number;
 }

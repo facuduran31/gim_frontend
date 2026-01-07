@@ -18,7 +18,6 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
 import { AuthGuard } from './guard/guard';
 import { FormGimnasioComponent } from './components/utilities/form-gimnasio/form-gimnasio.component';
 import { GimnasioComponent } from './components/pages/gimnasio/gimnasio.component';
-import { Gimnasio } from './models/gimnasio';
 import { PlanesComponent } from './components/pages/planes/planes.component';
 import { ForgotPasswordComponent } from './components/pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/pages/reset-password/reset-password.component';
@@ -28,8 +27,6 @@ import { NecesitoAyudaComponent } from './components/pages/necesito-ayuda/necesi
 import { AdministrarSociosComponent } from './components/pages/administrar-socios/administrar-socios.component';
 import { FormSociosComponent } from './components/utilities/form-socios/form-socios.component';
 import { AuthInterceptorService } from './services/interceptor.service';
-import { AdministrarInscripcionesComponent } from './components/pages/administrar-inscripciones/administrar-inscripciones.component';
-import { FormInscripcionesComponent } from './components/utilities/form-inscripciones/form-inscripciones.component';
 import { AdministrarIngresosComponent } from './components/pages/administrar-ingresos/administrar-ingresos.component';
 
 
@@ -48,7 +45,6 @@ const routes: Routes = [
   {path: 'necesito-ayuda', component: NecesitoAyudaComponent},
   {path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard]},
   {path:'gimnasio/:id/administrar-socios/:idSocio', component:FormSociosComponent, canActivate:[AuthGuard]},
-  { path: 'gimnasio/:id/administrar-inscripciones', component: AdministrarInscripcionesComponent, canActivate: [AuthGuard] },
   { path: 'gimnasio/:id/ingresos', component: AdministrarIngresosComponent, canActivate: [AuthGuard] }
 ];
 @NgModule({
@@ -73,8 +69,6 @@ const routes: Routes = [
     NecesitoAyudaComponent,
     AdministrarSociosComponent,
     FormSociosComponent,
-    AdministrarInscripcionesComponent,
-    FormInscripcionesComponent,
     AdministrarIngresosComponent,
 
   ],

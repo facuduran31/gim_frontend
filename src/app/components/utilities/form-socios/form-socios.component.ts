@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Socio } from 'src/app/models/socio';
+import { SocioCrear } from 'src/app/models/socio';
 import { SociosService } from 'src/app/services/socios.service';
-import Swal from 'sweetalert2';
 import { Plan } from 'src/app/models/plan';
 import { PlanService } from 'src/app/services/plan.service';
-import { Inscripcion } from 'src/app/models/inscripcion';
 import { InscripcionesService } from 'src/app/services/inscripciones.service';
+import Swal from 'sweetalert2';
 import { switchMap, of } from 'rxjs';
+import { Inscripcion } from 'src/app/models/inscripcion';
 
 @Component({
   selector: 'app-form-socios',
@@ -18,70 +19,66 @@ export class FormSociosComponent {
 
   modoEditar: boolean = false;
 
-
   @Input() socio: Socio = {
-  idSocio: 0,
-  dni: "",
-  nombre: "",
-  apellido: "",
-  telefono: "",
-  estado: false,
-  idGimnasio: 0
-};
+    idSocio: 0,
+    dni: '',
+    nombre: '',
+    apellido: '',
+    telefono: '',
+    estado: false,
+    idGimnasio: 0
+  };
 
+  planes: Plan[] = [];
 
-  planes: Array<Plan> = [new Plan(0, 'Seleccione un plan', '', 0, 0, 0, 0)];
-
-  inscripcion: Inscripcion = new Inscripcion(null, 0, 0, new Date(), new Date(), '', '');
-
-
-
-  constructor(private sociosService: SociosService, private route: ActivatedRoute, private planService: PlanService, private inscripcionesService: InscripcionesService, private router: Router) { }
-
-  inputDniSocio: string = "";
-  inputNombreSocio: string = "";
-  inputApellidoSocio: string = "";
-  inputTelefonoSocio: string = "";
+  // Inputs de formulario
+  inputDniSocio: string = '';
+  inputNombreSocio: string = '';
+  inputApellidoSocio: string = '';
+  inputTelefonoSocio: string = '';
   inputEstadoSocio: boolean = false;
-  inputPlan: Plan = this.planes[0];
+  inputPlan: Plan | null = null;
 
+  // Guardar idSocioPlan actual para actualizaciones
+  ultimoSocioPlanId: number | null = null;
 
-  ngOnInit() {
+  constructor(
+    private sociosService: SociosService,
+    private route: ActivatedRoute,
+    private planService: PlanService,
+    private inscripcionesService: InscripcionesService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.socio.idGimnasio = parseInt(params.get('id') || '0');
       this.socio.idSocio = parseInt(params.get('idSocio') || '0');
 
-      // Cargar planes primero
-      this.planService.getPlans().subscribe((res: any) => {
-        this.planes = [new Plan(0, 'Seleccione un plan', '', 0, 0, 0, 0)];
-        res.forEach((plan: any) => {
-          this.planes.push(new Plan(plan.idPlan, plan.nombre, plan.descripcion, plan.precio, plan.duracion, plan.diasPorSemana, plan.idGimnasio));
-        });
+      // Cargar planes
+      this.planService.getPlans().subscribe((res: Plan[]) => {
+        this.planes = res;
 
-        // Si estamos en modo edición
         if (this.socio.idSocio > 0) {
           this.modoEditar = true;
 
-          this.sociosService.getSocioById(this.socio.idSocio).subscribe((res: any) => {
-            this.socio.nombre = res.nombre;
-            this.socio.apellido = res.apellido;
-            this.socio.dni = res.dni;
-            this.socio.estado = res.activo;
-            this.socio.idGimnasio = res.idGimnasio;
-            this.socio.telefono = res.telefono;
-            this.inputDniSocio = this.socio.dni;
-            this.inputNombreSocio = this.socio.nombre;
-            this.inputApellidoSocio = this.socio.apellido;
-            this.inputTelefonoSocio = this.socio.telefono;
-            this.inputEstadoSocio = this.socio.estado;
+          // Cargar datos del socio
+          this.sociosService.getSocioById(this.socio.idSocio).subscribe(res => {
+            this.socio = res;
+            this.inputDniSocio = res.dni;
+            this.inputNombreSocio = res.nombre;
+            this.inputApellidoSocio = res.apellido;
+            this.inputTelefonoSocio = res.telefono;
+            this.inputEstadoSocio = res.estado;
           });
 
-          this.inscripcionesService.getLastInscripcion(this.socio.idSocio).subscribe((plan: any) => {
-            // Buscar el plan en la lista ya cargada
-            let idPlan = plan ? plan.idPlan : 0;
-            const planSeleccionado = this.planes.find(p => p.idPlan === idPlan);
-            if (planSeleccionado) {
-              this.inputPlan = planSeleccionado;
+          // Cargar último plan del socio
+          this.inscripcionesService.getLastInscripcion(this.socio.idSocio).subscribe(plan => {
+            if (plan) {
+              const planSeleccionado = this.planes.find(p => p.idPlan === plan.idPlan);
+              if (planSeleccionado) this.inputPlan = planSeleccionado;
+
+              this.ultimoSocioPlanId = plan.idPlan; // Guardar idSocioPlan actual
             }
           });
         }
@@ -89,98 +86,66 @@ export class FormSociosComponent {
     });
   }
 
-
-
-
-
-  editarSocio() {
-    this.socio.dni = this.inputDniSocio;
-    this.socio.nombre = this.inputNombreSocio;
-    this.socio.apellido = this.inputApellidoSocio;
-    this.socio.telefono = this.inputTelefonoSocio;
-    this.socio.estado = this.inputEstadoSocio;
-    this.sociosService.updateSocio(this.socio).pipe(
-      switchMap((res: any) => {
-        let fechaIni = new Date();
-        let fechaFin = new Date();
-        fechaFin.setMonth(fechaIni.getMonth() + this.inputPlan.duracion)
-        const inscripcion = new Inscripcion(null, this.socio.idSocio, this.inputPlan.idPlan, fechaIni, fechaFin, this.inputPlan.nombre, this.socio.dni);
-        if (inscripcion.idPlan != 0) {
-          return this.inscripcionesService.createInscripcion(inscripcion);
-        }
-        return of(res)
-      })
-    ).subscribe(
-      {
-        next: (res: any) => {
-          Swal.fire({
-            title: 'Socio actualizado con éxito',
-            icon: 'success',
-            confirmButtonText: 'Ok',
-            confirmButtonColor: '#00aa00',
-          }).then(() => {
-            this.router.navigate(["../"], {relativeTo: this.route})
-          });
-        },
-        error: (error: any) => {
-          Swal.fire({
-            title: 'Error al actualizar el socio',
-            text: error.message || error,
-            icon: 'error',
-            confirmButtonText: 'Ok',
-            confirmButtonColor: '#0000aa'
-          });
-        }
-      }
-    )
+  editarSocio(): void {
+  if (!this.inputPlan) {
+    Swal.fire('Error', 'Debe seleccionar un plan', 'error');
+    return;
   }
 
+  // Construir objeto socio actualizado
+  const socioActualizado: Socio & { idPlan?: number; duracion?: number } = {
+    ...this.socio,
+    dni: this.inputDniSocio,
+    nombre: this.inputNombreSocio,
+    apellido: this.inputApellidoSocio,
+    telefono: this.inputTelefonoSocio,
+    estado: this.inputEstadoSocio,
+    idPlan: this.inputPlan.idPlan,
+    duracion: this.inputPlan.duracion
+  };
 
-
-  crearSocio() {
-    this.socio.dni = this.inputDniSocio;
-    this.socio.nombre = this.inputNombreSocio;
-    this.socio.apellido = this.inputApellidoSocio;
-    this.socio.telefono = this.inputTelefonoSocio;
-    this.socio.estado = this.inputEstadoSocio;
-    this.sociosService.createSocio(this.socio).pipe(
-      switchMap((res: any) => {
-        let fechaIni = new Date();
-        let fechaFin = new Date();
-        fechaFin.setMonth(fechaIni.getMonth() + this.inputPlan.duracion)
-        const inscripcion = new Inscripcion(null, res.idSocio, this.inputPlan.idPlan, fechaIni, fechaFin, this.inputPlan.nombre, this.socio.dni);
-        console.log(inscripcion)
-        if (inscripcion.idPlan != 0) {
-          return this.inscripcionesService.createInscripcion(inscripcion);
-        }
-        return of(res)
-      })
-    ).subscribe({
-      next: (response: any) => {
-        Swal.showLoading();
-        Swal.fire({
-          title: 'Socio creado con éxito',
-          icon: 'success',
-          confirmButtonText: 'Ok',
-          confirmButtonColor: '#00aa00',
-        }).then(() => {
-          this.router.navigate(["../"], {relativeTo: this.route})
-        });
-      },
-      error: (error: any) => {
-        console.log(error)
-        Swal.fire({
-          title: 'Error al crear el socio',
-          text: error.message || error,
-          icon: 'error',
-          confirmButtonText: 'Ok',
-          confirmButtonColor: '#0000aa'
-        });
-      }
+  this.sociosService.updateSocio(socioActualizado).subscribe({
+    next: () => {
+      Swal.fire('Éxito', 'Socio actualizado correctamente', 'success').then(() => {
+        this.router.navigate(['../'], { relativeTo: this.route });
+      });
+    },
+    error: err => {
+      Swal.fire('Error', err.message || err, 'error');
     }
-    )
+  });
+}
+
+
+crearSocio(): void {
+  if (!this.inputPlan) {
+    Swal.fire('Error', 'Debe seleccionar un plan', 'error');
+    return;
   }
 
+  const socioCrear: SocioCrear = {
+    dni: this.inputDniSocio,
+    nombre: this.inputNombreSocio,
+    apellido: this.inputApellidoSocio,
+    telefono: this.inputTelefonoSocio,
+    estado: this.inputEstadoSocio,
+    idGimnasio: this.socio.idGimnasio,
+    idPlan: this.inputPlan.idPlan,
+    duracion: this.inputPlan.duracion
+  };
+
+  this.sociosService.createSocio(socioCrear).subscribe({
+    next: (res: any) => {
+      Swal.fire('Éxito', 'Socio creado correctamente con plan', 'success').then(() => {
+        this.router.navigate(['../'], { relativeTo: this.route });
+      });
+    },
+    error: err => {
+      console.error(err);
+      Swal.fire('Error', err.error?.error || err.message || 'Error desconocido', 'error');
+    }
+  });
+}
 
 
 

@@ -57,10 +57,6 @@ export class AdministrarSociosComponent {
     const dd = String(hoy.getDate()).padStart(2, '0');
 
     this.nuevoPago = {
-      idPago: 0,
-      idSocioPlan: null, // se llenará al abrir el modal
-      idMetodoPago: null,
-      monto: null,
       fechaPago: new Date()
     };
   }

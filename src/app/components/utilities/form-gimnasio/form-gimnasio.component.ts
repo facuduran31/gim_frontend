@@ -17,7 +17,11 @@ export class FormGimnasioComponent implements OnInit {
 
   constructor(private gimnasioService: GimnasioService, private authService: AuthService, private route: Router) { }
 
-  @Input() gimnasio: Gimnasio = new Gimnasio('', '');
+  @Input() gimnasio: Gimnasio = {
+    idGimnasio: 0,
+    logo: '',
+    nombre: ''
+  }
   usuarioLogeado: Usuario = this.authService.getUsuario();
   inputNombreGimnasio: string = '';
   inputLogoGimnasio: string = '';

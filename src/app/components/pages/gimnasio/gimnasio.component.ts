@@ -12,7 +12,11 @@ import Swal from 'sweetalert2';
 export class GimnasioComponent implements OnInit {
 
   id: number = 0;
-  gimnasio: Gimnasio = new Gimnasio('', '');
+  gimnasio: Gimnasio = {
+    idGimnasio: 0,
+    logo: '',
+    nombre: ''
+  };
   options: any;
   modoEditarGimnasio = false;
 
