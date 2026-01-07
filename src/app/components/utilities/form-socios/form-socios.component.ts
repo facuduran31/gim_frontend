@@ -19,7 +19,7 @@ export class FormSociosComponent {
   modoEditar: boolean = false;
 
 
-  @Input() socio: Socio = new Socio(0, "", "", "", "", false, 0, 0, 0);
+  @Input() socio: Socio = new Socio(0, "", "", "", "", false, 0, 0);
 
   planes: Array<Plan> = [new Plan(0, 'Seleccione un plan', '', 0, 0, 0, 0)];
 
@@ -134,8 +134,6 @@ export class FormSociosComponent {
     this.socio.apellido = this.inputApellidoSocio;
     this.socio.telefono = this.inputTelefonoSocio;
     this.socio.estado = this.inputEstadoSocio;
-    this.socio.diaDePago = Date.prototype.getDay();
-    if(this.socio.diaDePago > 28){ this.socio.diaDePago = 28}
     this.sociosService.createSocio(this.socio).pipe(
       switchMap((res: any) => {
         let fechaIni = new Date();
