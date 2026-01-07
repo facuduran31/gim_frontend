@@ -1,21 +1,15 @@
-export class Socio{
-    idSocio:number;
-    dni:string;
-    nombre:string;
-    apellido:string;
-    telefono:string;
-    estado:boolean;
-    idGimnasio:number;
-    idSocioPlan!: number;
+import { Plan } from "./plan";
 
-    constructor(id:number,dni:string, nombre:string,apellido:string,tel:string,estado:boolean, idGim:number, idSocioPlan: number){
-        this.idSocio= id;
-        this.dni= dni;
-        this.nombre= nombre;
-        this.apellido= apellido;
-        this.telefono= tel;
-        this.estado= estado;
-        this.idGimnasio=idGim;
-        this.idSocioPlan = idSocioPlan;
-    }
+export interface Socio {
+    idSocio: number;
+    dni: string;
+    nombre: string;
+    apellido: string;
+    telefono: string;
+    estado: boolean;
+    idGimnasio: number;
+    
+    // Opcionales
+    idSocioPlan?: number;
+    planActual?: Plan;
 }

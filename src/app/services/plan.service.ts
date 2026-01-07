@@ -24,6 +24,10 @@ export class PlanService {
     return this.http.get<Plan[]>(`${this.urlApi}/planes/gimnasio/${idGimnasio}`, {withCredentials: true});
   }
 
+  getPlanActualByIdSocio(idSocio: number){
+    return this.http.get<Plan>(`${this.urlApi}/planes/socio/${idSocio}/planActual`, {withCredentials: true});
+  }
+
   createPlan(plan:Plan){
     return this.http.post(`${this.urlApi}/planes`, plan, {withCredentials: true});
   }

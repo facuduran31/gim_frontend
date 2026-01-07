@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Pago } from 'src/app/models/pago';
+import { Plan } from 'src/app/models/plan';
 import { Socio } from 'src/app/models/socio';
 import { PagosService } from 'src/app/services/pago.service';
+import { PlanService } from 'src/app/services/plan.service';
 import { SociosService } from 'src/app/services/socios.service';
 import Swal from 'sweetalert2';
 
@@ -15,23 +17,37 @@ export class AdministrarSociosComponent {
 
 
   modoAgregarSocio: boolean = false;
-  socios: Array<Socio> = [];
+  socios: Array<any> = [];
   pagos: Pago[] = [];
   idSocioPlanSeleccionado!: number;
   mostrarModalPagos = false;
   mostrarModalCrearPago = false;
   socioSeleccionado!: Socio;
   nuevoPago! : Pago;
+  planActivo! : Plan;
   
   
-  constructor(private route: ActivatedRoute, private sociosService: SociosService, private pagosService: PagosService) { }
+  constructor(private route: ActivatedRoute, private sociosService: SociosService, private pagosService: PagosService, private planesService: PlanService) { }
   
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const idGimnasio = parseInt(params.get('id') || '0')
       this.sociosService.getSociosByIdGimnasio(idGimnasio).subscribe(socios => {
         socios.forEach((socio: any) => {
-          this.socios.push(new Socio(socio.idSocio, socio.dni, socio.nombre, socio.apellido, socio.telefono, socio.activo, socio.idGimnasio, socio.idSocioPlan))
+          this.planesService.getPlanActualByIdSocio(socio.idSocio).subscribe(planActivo => {
+            this.socios.push({
+              idSocio: socio.idSocio,
+              dni: socio.dni,
+              nombre: socio.nombre,
+              apellido: socio.apellido,
+              telefono: socio.telefono,
+              estado: socio.activo,
+              idGimnasio: socio.idGimnasio,
+              idSocioPlan: socio.idSocioPlan,
+              planActual: planActivo
+            });
+            
+          })
         })
       });
     });
@@ -104,7 +120,7 @@ export class AdministrarSociosComponent {
 
     this.socioSeleccionado = socio;
 
-    this.idSocioPlanSeleccionado = socio.idSocioPlan;
+    this.idSocioPlanSeleccionado = socio.idSocioPlan ?? 0;
 
     this.pagosService.getBySocioPlan(this.idSocioPlanSeleccionado).subscribe({
         next: pagos => {
