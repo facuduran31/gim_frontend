@@ -19,11 +19,13 @@ export class AdministrarSociosComponent {
   pagos: Pago[] = [];
   idSocioPlanSeleccionado!: number;
   mostrarModalPagos = false;
+  mostrarModalCrearPago = false;
   socioSeleccionado!: Socio;
-
-
+  nuevoPago! : Pago;
+  
+  
   constructor(private route: ActivatedRoute, private sociosService: SociosService, private pagosService: PagosService) { }
-
+  
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const idGimnasio = parseInt(params.get('id') || '0')
@@ -33,6 +35,18 @@ export class AdministrarSociosComponent {
         })
       });
     });
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dd = String(hoy.getDate()).padStart(2, '0');
+
+    this.nuevoPago = {
+      idPago: 0,
+      idSocioPlan: null, // se llenará al abrir el modal
+      idMetodoPago: null,
+      monto: null,
+      fechaPago: new Date()
+    };
   }
 
 
@@ -90,15 +104,12 @@ export class AdministrarSociosComponent {
 
     this.socioSeleccionado = socio;
 
-    // ESTE dato idealmente viene del backend
     this.idSocioPlanSeleccionado = socio.idSocioPlan;
 
     this.pagosService.getBySocioPlan(this.idSocioPlanSeleccionado).subscribe({
         next: pagos => {
           this.pagos = pagos;
           this.mostrarModalPagos = true;
-          console.log(this.mostrarModalPagos);
-          
         },
         error: () => {
           Swal.fire('Error', 'No se pudieron cargar los pagos', 'error');
@@ -141,70 +152,23 @@ export class AdministrarSociosComponent {
   this.pagos = [];
 }
 
+cerrarModalPago(){
+  this.mostrarModalCrearPago = false;
+}
+
+registrarPago(){
+  
+}
+
+$eventAsDate(value: string): Date {
+  return new Date(value);
+}
+
+
 crearPago() {
-  if (!this.socioSeleccionado) return;
-
-  // Usamos SweetAlert para pedir los datos del pago
-  Swal.fire({
-    title: `Registrar pago para ${this.socioSeleccionado.nombre} ${this.socioSeleccionado.apellido}`,
-    html:
-      `<input type="number" id="monto" class="swal2-input" placeholder="Monto">` +
-      `<select id="metodo" class="swal2-input">
-          <option value="" disabled selected>Seleccione método</option>
-          <option *ngFor="let metodo of metodosPago" value="{{metodo.idMetodoPago}}">
-            {{metodo.nombre}}
-          </option>
-       </select>` +
-      `<input type="date" id="fechaPago" class="swal2-input" value="${new Date().toISOString().split('T')[0]}">`,
-    focusConfirm: false,
-    preConfirm: () => {
-      const montoInput = (document.getElementById('monto') as HTMLInputElement).value;
-      const metodoInput = (document.getElementById('metodo') as HTMLSelectElement).value;
-      const fechaInput = (document.getElementById('fechaPago') as HTMLInputElement).value;
-
-      if (!montoInput || !metodoInput || !fechaInput) {
-        Swal.showValidationMessage(`Por favor complete todos los campos`);
-        return;
-      }
-
-      return {
-        monto: parseFloat(montoInput),
-        idMetodoPago: parseInt(metodoInput),
-        fechaPago: fechaInput
-      };
-    }
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // Construimos el objeto pago
-      const nuevoPago = {
-        idSocioPlan: this.socioSeleccionado.idSocioPlan,
-        idMetodoPago: result.value.idMetodoPago,
-        monto: result.value.monto,
-        fechaPago: result.value.fechaPago
-      };
-
-      // Llamamos al servicio para guardar en backend
-      this.pagosService.create(nuevoPago).subscribe(
-        (res) => {
-          Swal.fire({
-            title: 'Pago registrado',
-            icon: 'success',
-            confirmButtonColor: '#00aa00'
-          });
-          // Recargamos los pagos para actualizar la tabla
-          this.openPagos(this.socioSeleccionado.idSocio);
-        },
-        (err) => {
-          Swal.fire({
-            title: 'Error al registrar pago',
-            text: err.error?.message || 'Revise la consola',
-            icon: 'error',
-            confirmButtonColor: '#aa0000'
-          });
-        }
-      );
-    }
-  });
+  this.mostrarModalCrearPago = true;
+  console.log(this.nuevoPago.fechaPago);
+  
 }
 
 

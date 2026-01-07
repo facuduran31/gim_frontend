@@ -1,9 +1,9 @@
 export class Pago {
   idPago!: number;
-  idSocioPlan!: number;
-  idMetodoPago!: number;
-  monto!: number;
-  fechaPago!: Date;
+  idSocioPlan!: number | null;
+  idMetodoPago!: number | null;
+  monto!: number | null;
+  fechaPago!: Date | null;
 
   constructor(
     idPago: number,
