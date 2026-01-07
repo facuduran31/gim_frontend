@@ -92,7 +92,9 @@ export class FormSociosComponent {
     return;
   }
 
-  // Construir objeto socio actualizado
+  // Asegurarse de enviar idGimnasio y estado
+  const idGimnasio = this.socio.idGimnasio || parseInt(this.route.snapshot.paramMap.get('id') || '0');
+
   const socioActualizado: Socio & { idPlan?: number; duracion?: number } = {
     ...this.socio,
     dni: this.inputDniSocio,
@@ -100,6 +102,7 @@ export class FormSociosComponent {
     apellido: this.inputApellidoSocio,
     telefono: this.inputTelefonoSocio,
     estado: this.inputEstadoSocio,
+    idGimnasio: idGimnasio,
     idPlan: this.inputPlan.idPlan,
     duracion: this.inputPlan.duracion
   };
@@ -107,37 +110,7 @@ export class FormSociosComponent {
   this.sociosService.updateSocio(socioActualizado).subscribe({
     next: () => {
       Swal.fire('Éxito', 'Socio actualizado correctamente', 'success').then(() => {
-        this.router.navigate(['../'], { relativeTo: this.route });
-      });
-    },
-    error: err => {
-      Swal.fire('Error', err.message || err, 'error');
-    }
-  });
-}
-
-
-crearSocio(): void {
-  if (!this.inputPlan) {
-    Swal.fire('Error', 'Debe seleccionar un plan', 'error');
-    return;
-  }
-
-  const socioCrear: SocioCrear = {
-    dni: this.inputDniSocio,
-    nombre: this.inputNombreSocio,
-    apellido: this.inputApellidoSocio,
-    telefono: this.inputTelefonoSocio,
-    estado: this.inputEstadoSocio,
-    idGimnasio: this.socio.idGimnasio,
-    idPlan: this.inputPlan.idPlan,
-    duracion: this.inputPlan.duracion
-  };
-
-  this.sociosService.createSocio(socioCrear).subscribe({
-    next: (res: any) => {
-      Swal.fire('Éxito', 'Socio creado correctamente con plan', 'success').then(() => {
-        this.router.navigate(['../'], { relativeTo: this.route });
+        this.router.navigate([`/gimnasio/${idGimnasio}/administrar-socios`]);
       });
     },
     error: err => {
@@ -146,6 +119,44 @@ crearSocio(): void {
     }
   });
 }
+
+
+
+crearSocio(): void {
+  if (!this.inputPlan) {
+    Swal.fire('Error', 'Debe seleccionar un plan', 'error');
+    return;
+  }
+
+  // Asegurarse de que el idGimnasio viene de la URL
+  const idGimnasio = this.socio.idGimnasio || parseInt(this.route.snapshot.paramMap.get('id') || '0');
+
+  const socioCrear: SocioCrear = {
+    dni: this.inputDniSocio,
+    nombre: this.inputNombreSocio,
+    apellido: this.inputApellidoSocio,
+    telefono: this.inputTelefonoSocio,
+    estado: this.inputEstadoSocio,
+    idGimnasio: idGimnasio,
+    idPlan: this.inputPlan.idPlan,
+    duracion: this.inputPlan.duracion
+  };
+
+  // Enviar la petición al backend con la URL completa
+  this.sociosService.createSocio(socioCrear).subscribe({
+    next: (res: any) => {
+      Swal.fire('Éxito', 'Socio creado correctamente con plan', 'success').then(() => {
+        // Redirigir al listado de socios del gimnasio
+        this.router.navigate([`/gimnasio/${idGimnasio}/administrar-socios`]);
+      });
+    },
+    error: err => {
+      console.error(err);
+      Swal.fire('Error', err.error?.error || err.message || 'Error desconocido', 'error');
+    }
+  });
+}
+
 
 
 
