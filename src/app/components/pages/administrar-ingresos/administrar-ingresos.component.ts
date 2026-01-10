@@ -21,9 +21,14 @@ export class AdministrarIngresosComponent implements OnInit {
 
   ingresos: IngresoConSocio[] = [];
   idGimnasio!: number;
+  procesando: boolean = false; // Para controlar el estado del botón
 
   formIngreso = new FormGroup({
-    dniSocio: new FormControl('', Validators.required)
+    dniSocio: new FormControl('', [
+      Validators.required,
+      Validators.minLength(7),
+      Validators.maxLength(10)
+    ])
   });
 
   constructor(
@@ -50,68 +55,66 @@ export class AdministrarIngresosComponent implements OnInit {
   cargarIngresos() {
     this.ingresoService.getIngresosByIdGimnasio(this.idGimnasio).subscribe({
       next: (ingresos: Ingreso[]) => {
-        const ingresosConSocio$ = ingresos.map(ingreso =>
-          this.sociosService.getSocioById(ingreso.idSocio).pipe(
+        const ingresosConDatos$ = ingresos.map(ing =>
+          this.sociosService.getSocioById(ing.idSocio).pipe(
             map(socio => ({
-              ...ingreso,
+              ...ing,
               socio
             }))
           )
         );
 
-        forkJoin(ingresosConSocio$).subscribe({
-          next: (ingresosEnriquecidos: IngresoConSocio[]) => {
-            this.ingresos = ingresosEnriquecidos;
-          },
-          error: (err) => {
-            console.error(err);
-            Swal.fire({
-              title: 'Error',
-              text: 'No se pudieron cargar los socios de los ingresos',
-              icon: 'error'
-            });
-          }
+        forkJoin(ingresosConDatos$).subscribe({
+          next: (resultado) => this.ingresos = resultado,
+          error: () =>
+            Swal.fire('Error', 'No se pudieron cargar los datos de los socios', 'error')
         });
+
       },
-      error: (err) => {
-        console.error(err);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudieron cargar los ingresos',
-          icon: 'error'
-        });
-      }
+      error: () =>
+        Swal.fire('Error', 'No se pudieron cargar los ingresos', 'error')
     });
   }
 
   validarIngreso() {
-    if (this.formIngreso.invalid) return;
+    if (this.formIngreso.invalid) {
+      Swal.fire('Error', 'Debes ingresar un DNI válido', 'error');
+      return;
+    }
 
     const dni = this.formIngreso.value.dniSocio!;
+    this.procesando = true; // Deshabilita el botón
+
     Swal.showLoading();
 
-    this.sociosService.validarIngreso(dni).subscribe({
+    this.ingresoService.validarIngreso(dni, this.idGimnasio).subscribe({
       next: () => {
         Swal.fire({
-          title: 'Ingreso validado con éxito',
-          icon: 'success',
-          confirmButtonText: 'Ok',
-          confirmButtonColor: '#00aa00',
+          title: 'Ingreso validado',
+          icon: 'success'
         }).then(() => {
-          this.cargarIngresos(); // recarga los ingresos sin recargar la página
+          this.cargarIngresos();
+
+          // Reseteamos el formulario correctamente
           this.formIngreso.reset();
-          console.log(this.ingresos);
-          
+          this.formIngreso.markAsPristine();
+          this.formIngreso.markAsUntouched();
+          this.formIngreso.updateValueAndValidity();
+
+          this.procesando = false; // Rehabilita el botón
         });
       },
       error: (err) => {
-        console.error(err);
         Swal.fire({
-          title: 'Error al validar el ingreso',
-          text: err.error || 'Ocurrió un error',
-          icon: 'error',
-          confirmButtonText: 'Ok',
-          confirmButtonColor: '#0000aa'
+          title: 'Error al validar',
+          text: err.error?.error ?? 'Ocurrió un error inesperado',
+          icon: 'error'
+        }).then(() => {
+          // Restaurar formulario y habilitar botón
+          this.formIngreso.markAsPristine();
+          this.formIngreso.markAsUntouched();
+          this.formIngreso.updateValueAndValidity();
+          this.procesando = false;
         });
       }
     });

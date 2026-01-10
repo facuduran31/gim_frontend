@@ -26,7 +26,6 @@
           <button
             class="btn btn-success ms-2"
             type="submit"
-            [disabled]="formIngreso.invalid"
           >
             Ingresar
           </button>
@@ -52,7 +51,6 @@
                 <thead class="table-light">
                   <tr>
                     <th>Nombre</th>
-                    <th>Teléfono</th>
                     <th>Hora ingreso</th>
                     <th class="text-center">Acción</th>
                   </tr>
@@ -67,7 +65,6 @@
 
                   <tr *ngFor="let ingreso of ingresos">
                     <td>{{ ingreso.socio?.nombre }} {{ ingreso.socio?.apellido }}</td>
-                    <td>{{ ingreso.socio?.telefono }}</td>
                     <td>{{ ingreso.horaIngreso }}</td>
                     <td class="text-center">
                       <span
