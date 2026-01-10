@@ -35,6 +35,7 @@ export class AdministrarSociosComponent {
       this.sociosService.getSociosByIdGimnasio(idGimnasio).subscribe(socios => {
         socios.forEach((socio: any) => {
           this.planesService.getPlanActualByIdSocio(socio.idSocio).subscribe(planActivo => {
+            
             this.socios.push({
               idSocio: socio.idSocio,
               dni: socio.dni,

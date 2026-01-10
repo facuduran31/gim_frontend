@@ -25,7 +25,7 @@ export class PlanService {
   }
 
   getPlanActualByIdSocio(idSocio: number){
-    return this.http.get<Plan>(`${this.urlApi}/planes/socio/${idSocio}/planActual`, {withCredentials: true});
+    return this.http.get<Plan>(`${this.urlApi}/planes/actual/${idSocio}`, {withCredentials: true});
   }
 
   createPlan(plan:Plan){
