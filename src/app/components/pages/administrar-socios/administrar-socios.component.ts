@@ -94,6 +94,8 @@ export class AdministrarSociosComponent {
           })
         },
           (error) => {
+            console.log(error);
+            
             Swal.fire({
               title: 'Error al borrar el socio',
               text: error.error,
