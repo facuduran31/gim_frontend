@@ -8,10 +8,9 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-form-planes',
   templateUrl: './form-planes.component.html',
-  styleUrls: ['./form-planes.component.css']
+  styleUrls: ['./form-planes.component.css'],
 })
 export class FormPlanesComponent implements OnInit {
-
   modoEditar: boolean = false; // determina si es edición o creación
   plan: Plan = {
     idPlan: 0,
@@ -19,8 +18,8 @@ export class FormPlanesComponent implements OnInit {
     descripcion: '',
     precio: 0,
     duracion: 0,
-    diasPorSemana: 0
-  }
+    diasPorSemana: 0,
+  };
 
   // Inputs ligados al ngModel
   inputNombrePlan: string = '';
@@ -33,50 +32,57 @@ export class FormPlanesComponent implements OnInit {
     private planesService: PlanService,
     private router: Router,
     private route: ActivatedRoute,
-    private historicoService: HistoricoPreciosService
-  ) { }
+    private historicoService: HistoricoPreciosService,
+  ) {}
 
   ngOnInit(): void {
-
     // Captura de parámetros
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       const idPlan = params['idplan'];
       if (idPlan > 0) {
         this.modoEditar = true;
-        this.planesService.getPlanById(idPlan).subscribe(res => {
-          if (res.length > 0) {
-            const plan = res[0];  // ⚠️ Tomamos el primer elemento del array
-            this.plan = plan;
+        this.planesService.getPlanById(idPlan).subscribe(
+          (res) => {
+            if (res.length > 0) {
+              const plan = res[0]; // ⚠️ Tomamos el primer elemento del array
+              this.plan = plan;
 
-            this.inputNombrePlan = plan.nombre;
-            this.inputDescripcion = plan.descripcion;
-            this.inputPrecio = plan.precio;
-            this.inputDuracion = plan.duracion;
-            this.inputDiasPorSemana = plan.diasPorSemana;
+              this.inputNombrePlan = plan.nombre;
+              this.inputDescripcion = plan.descripcion;
+              this.inputPrecio = plan.precio;
+              this.inputDuracion = plan.duracion;
+              this.inputDiasPorSemana = plan.diasPorSemana;
 
-            //busca el histórico de precios más reciente para mostrar el precio actual
-            this.historicoService.getHistoricoByPlan(plan.idPlan).subscribe(hist => {
-              if (hist && hist.length > 0) {
-                const precioActual = hist.find(h => h.fechaHasta === null) || hist[0];
-                this.inputPrecio = precioActual.precio;
-              } else {
-                this.inputPrecio = 0;
-              }
-            }, error => {
-              console.error('Error al obtener histórico de precios del plan', error);
-              this.inputPrecio = 0;
-            });
-
-          } else {
-            Swal.fire('Error', 'No se encontró el plan', 'error');
-          }
-        }, error => {
-          Swal.fire('Error', 'No se pudo cargar el plan', 'error');
-        });
+              //busca el histórico de precios más reciente para mostrar el precio actual
+              this.historicoService.getHistoricoByPlan(plan.idPlan).subscribe(
+                (hist) => {
+                  if (hist && hist.length > 0) {
+                    const precioActual =
+                      hist.find((h) => h.fechaHasta === null) || hist[0];
+                    this.inputPrecio = precioActual.precio;
+                  } else {
+                    this.inputPrecio = 0;
+                  }
+                },
+                (error) => {
+                  console.error(
+                    'Error al obtener histórico de precios del plan',
+                    error,
+                  );
+                  this.inputPrecio = 0;
+                },
+              );
+            } else {
+              Swal.fire('Error', 'No se encontró el plan', 'error');
+            }
+          },
+          (error) => {
+            Swal.fire('Error', 'No se pudo cargar el plan', 'error');
+          },
+        );
       }
     });
   }
-
 
   guardarPlan() {
     this.plan.nombre = this.inputNombrePlan;
@@ -87,20 +93,27 @@ export class FormPlanesComponent implements OnInit {
     this.plan.idGimnasio = Number(this.route.snapshot.paramMap.get('id'));
 
     if (this.modoEditar) {
-      this.planesService.updatePlan(this.plan).subscribe(() => {
-        Swal.fire('Éxito', 'Plan editado correctamente', 'success')
-          .then(() => this.router.navigate(['/gimnasio', this.plan.idGimnasio, 'planes']));
-      }, error => {
-        Swal.fire('Error', 'No se pudo editar el plan', 'error');
-      });
+      this.planesService.updatePlan(this.plan).subscribe(
+        () => {
+          Swal.fire('Éxito', 'Plan editado correctamente', 'success').then(() =>
+            this.router.navigate(['/gimnasio', this.plan.idGimnasio, 'planes']),
+          );
+        },
+        (error) => {
+          Swal.fire('Error', 'No se pudo editar el plan', 'error');
+        },
+      );
     } else {
-      this.planesService.createPlan(this.plan).subscribe(() => {
-        Swal.fire('Éxito', 'Plan creado correctamente', 'success')
-          .then(() => this.router.navigate(['/gimnasio', this.plan.idGimnasio, 'planes']));
-      }, error => {
-        Swal.fire('Error', 'No se pudo crear el plan', 'error');
-      });
+      this.planesService.createPlan(this.plan).subscribe(
+        () => {
+          Swal.fire('Éxito', 'Plan creado correctamente', 'success').then(() =>
+            this.router.navigate(['/gimnasio', this.plan.idGimnasio, 'planes']),
+          );
+        },
+        (error) => {
+          Swal.fire('Error', 'No se pudo crear el plan', 'error');
+        },
+      );
     }
-
   }
 }

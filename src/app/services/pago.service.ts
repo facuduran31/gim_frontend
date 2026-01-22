@@ -4,10 +4,9 @@ import { Pago } from '../models/pago';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PagosService {
-
   private apiUrl = 'http://localhost:3000/pagos';
 
   constructor(private http: HttpClient) {}

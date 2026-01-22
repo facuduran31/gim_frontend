@@ -4,10 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-card-main',
   templateUrl: './card-main.component.html',
-  styleUrls: ['./card-main.component.css']
+  styleUrls: ['./card-main.component.css'],
 })
 export class CardMainComponent {
-
   constructor(private route: Router) {}
 
   @Input() title: string = '';
@@ -18,9 +17,8 @@ export class CardMainComponent {
   @Input() object: any;
 
   redirigir() {
-    if(this.redirectTo != null) {
+    if (this.redirectTo != null) {
       this.route.navigate([this.redirectTo]);
     }
   }
-
 }

@@ -1,48 +1,48 @@
 <body id="page-top">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <app-sidebar></app-sidebar>
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-        <app-sidebar></app-sidebar>
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-
-            <app-navbar></app-navbar>
-            <!-- Main Content -->
-            <div class="row p-3">
-                <div *ngFor="let card of options" class="col-xl-3 col-md-6 mb-4">
-                    <app-card-main [title]="card.title" [subtitle]="card.subtitle" [classes]="card.classes" [color]="card.color" [redirectTo]="card.redirectTo"></app-card-main>
-                </div>
-            </div>
-            <app-footer></app-footer>
-
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <app-navbar></app-navbar>
+      <!-- Main Content -->
+      <div class="row p-3">
+        <div *ngFor="let card of options" class="col-xl-3 col-md-6 mb-4">
+          <app-card-main
+            [title]="card.title"
+            [subtitle]="card.subtitle"
+            [classes]="card.classes"
+            [color]="card.color"
+            [redirectTo]="card.redirectTo"
+          ></app-card-main>
         </div>
-        <!-- End of Content Wrapper -->
-
+      </div>
+      <app-footer></app-footer>
     </div>
-    <!-- End of Page Wrapper -->
+    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+  <!-- Page level plugins -->
+  <script src="vendor/chart.js/Chart.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-
+  <!-- Page level custom scripts -->
+  <script src="js/demo/chart-area-demo.js"></script>
+  <script src="js/demo/chart-pie-demo.js"></script>
 </body>

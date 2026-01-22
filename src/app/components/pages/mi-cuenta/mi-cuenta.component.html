@@ -1,39 +1,59 @@
 <body id="page-top">
-    <div id="wrapper">
-        
-        <app-sidebar></app-sidebar>
+  <div id="wrapper">
+    <app-sidebar></app-sidebar>
 
-        <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content-wrapper" class="d-flex flex-column">
+      <app-navbar></app-navbar>
 
-            <app-navbar></app-navbar>
+      <!-- Main content-->
 
-            <!-- Main content-->
-          
-
-            <div class="row">
-                <div class="col-lg-6 m-auto">
-                    <div class="p-5">
-                        <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Editar usuario</h1>
-                        </div>
-                        <form class="user">
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Nombre" [(ngModel)]="inputNombreUsuario" name="nombreUsuario">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Apellido" [(ngModel)]="inputApellidoUsuario" name="apellidoUsuario">
-                            </div>
-
-                        </form>
-                        <button type="submit" class="btn btn-primary btn-block" (click)="editarUsuario()">Editar usuario</button>
-                        <button type="submit" class="btn btn-secondary btn-block" (click)="editarPassword()">Editar contraseña</button>
-                    </div>
-                </div>
+      <div class="row">
+        <div class="col-lg-6 m-auto">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4">Editar usuario</h1>
             </div>
-
-
-
-            <app-footer></app-footer>
+            <form class="user">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control form-control-user"
+                  id="exampleFirstName"
+                  placeholder="Nombre"
+                  [(ngModel)]="inputNombreUsuario"
+                  name="nombreUsuario"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control form-control-user"
+                  id="exampleLastName"
+                  placeholder="Apellido"
+                  [(ngModel)]="inputApellidoUsuario"
+                  name="apellidoUsuario"
+                />
+              </div>
+            </form>
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
+              (click)="editarUsuario()"
+            >
+              Editar usuario
+            </button>
+            <button
+              type="submit"
+              class="btn btn-secondary btn-block"
+              (click)="editarPassword()"
+            >
+              Editar contraseña
+            </button>
+          </div>
         </div>
+      </div>
+
+      <app-footer></app-footer>
     </div>
+  </div>
 </body>

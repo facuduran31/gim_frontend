@@ -4,26 +4,29 @@ import { Socio, SocioCrear } from '../models/socio';
 import { environment } from 'environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SociosService {
-
   urlApi = environment.urlApi + '/socios';
 
-  constructor(private http: HttpClient) { }
-
-
+  constructor(private http: HttpClient) {}
 
   getSocioById(idSocio: number) {
-    return this.http.get<Socio>(`${this.urlApi}/${idSocio}`, { withCredentials: true })
+    return this.http.get<Socio>(`${this.urlApi}/${idSocio}`, {
+      withCredentials: true,
+    });
   }
 
   getSociosByIdGimnasio(idGimnasio: number) {
-    return this.http.get<Socio[]>(`${this.urlApi}/gimnasio/${idGimnasio}`, { withCredentials: true })
+    return this.http.get<Socio[]>(`${this.urlApi}/gimnasio/${idGimnasio}`, {
+      withCredentials: true,
+    });
   }
 
   getSocioByDni(dni: string) {
-    return this.http.get<Socio>(`${this.urlApi}/dni/${dni}`, { withCredentials: true })
+    return this.http.get<Socio>(`${this.urlApi}/dni/${dni}`, {
+      withCredentials: true,
+    });
   }
 
   createSocio(socio: SocioCrear) {
@@ -35,10 +38,14 @@ export class SociosService {
   }
 
   deleteSocio(idSocio: number) {
-    return this.http.delete(`${this.urlApi}/${idSocio}`, { withCredentials: true })
+    return this.http.delete(`${this.urlApi}/${idSocio}`, {
+      withCredentials: true,
+    });
   }
 
   validarIngreso(dni: string) {
-    return this.http.get(`${this.urlApi}/ingreso/${dni}`, { withCredentials: true })
+    return this.http.get(`${this.urlApi}/ingreso/${dni}`, {
+      withCredentials: true,
+    });
   }
 }

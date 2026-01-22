@@ -23,12 +23,7 @@
             formControlName="dniSocio"
             autofocus
           />
-          <button
-            class="btn btn-success ms-2"
-            type="submit"
-          >
-            Ingresar
-          </button>
+          <button class="btn btn-success ms-2" type="submit">Ingresar</button>
         </form>
       </div>
 
@@ -36,9 +31,7 @@
       <div class="container-fluid">
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            <h1 class="m-0 font-weight-bold text-primary">
-              Ingresos
-            </h1>
+            <h1 class="m-0 font-weight-bold text-primary">Ingresos</h1>
           </div>
 
           <div class="card-body">
@@ -64,14 +57,18 @@
                   </tr>
 
                   <tr *ngFor="let ingreso of ingresos">
-                    <td>{{ ingreso.socio.nombre }} {{ ingreso.socio.apellido }}</td>
+                    <td>
+                      {{ ingreso.socio.nombre }} {{ ingreso.socio.apellido }}
+                    </td>
                     <td>{{ ingreso.horaIngreso }}</td>
                     <td class="text-center">
                       <span
                         class="badge"
-                        [ngClass]="ingreso.esValido ? 'bg-success' : 'bg-secondary'"
+                        [ngClass]="
+                          ingreso.esValido ? 'bg-success' : 'bg-secondary'
+                        "
                       >
-                        {{ ingreso.esValido ? 'Válido' : 'Inválido' }}
+                        {{ ingreso.esValido ? "Válido" : "Inválido" }}
                       </span>
                     </td>
                   </tr>

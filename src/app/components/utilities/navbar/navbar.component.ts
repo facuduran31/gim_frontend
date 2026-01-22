@@ -7,17 +7,23 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
-
   usuarioLogeado: Usuario = this.authService.getUsuario();
 
   notificaciones = [
-    {redirectTo: '#', mensaje: 'Notificacion 1', fecha: '17 de Diciembre de 2024'}
+    {
+      redirectTo: '#',
+      mensaje: 'Notificacion 1',
+      fecha: '17 de Diciembre de 2024',
+    },
   ];
 
-  constructor(private authService: AuthService, private route: Router) { }
+  constructor(
+    private authService: AuthService,
+    private route: Router,
+  ) {}
 
   logout() {
     this.authService.logout();
@@ -26,5 +32,4 @@ export class NavbarComponent {
   getUsuario() {
     return this.authService.getUsuario();
   }
-
 }

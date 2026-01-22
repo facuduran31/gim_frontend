@@ -4,16 +4,17 @@ import { environment } from 'environment';
 import { Ingreso } from '../models/ingreso';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IngresoService {
-
   urlApi = `${environment.urlApi}/ingresos`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getIngresosByIdGimnasio(idGimnasio: number) {
-    return this.http.get<Ingreso[]>(`${this.urlApi}/${idGimnasio}`, { withCredentials: true });
+    return this.http.get<Ingreso[]>(`${this.urlApi}/${idGimnasio}`, {
+      withCredentials: true,
+    });
   }
 
   createIngreso(ingreso: Ingreso) {
@@ -21,7 +22,9 @@ export class IngresoService {
   }
 
   deleteIngreso(idIngreso: number) {
-    return this.http.delete(`${this.urlApi}/${idIngreso}`, { withCredentials: true });
+    return this.http.delete(`${this.urlApi}/${idIngreso}`, {
+      withCredentials: true,
+    });
   }
 
   /**
@@ -31,7 +34,7 @@ export class IngresoService {
     return this.http.post(
       `${this.urlApi}/validar`,
       { dni, idGimnasio },
-      { withCredentials: true }
+      { withCredentials: true },
     );
   }
 }

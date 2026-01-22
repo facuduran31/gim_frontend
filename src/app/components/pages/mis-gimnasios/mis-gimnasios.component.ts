@@ -6,11 +6,15 @@ import { GimnasioService } from 'src/app/services/gimnasio.service';
 @Component({
   selector: 'app-mis-gimnasios',
   templateUrl: './mis-gimnasios.component.html',
-  styleUrls: ['./mis-gimnasios.component.css']
+  styleUrls: ['./mis-gimnasios.component.css'],
 })
 export class MisGimnasiosComponent {
-
-  constructor(private authService: AuthService, private gimnasioService: GimnasioService) { this.obtenerGimnasios() }
+  constructor(
+    private authService: AuthService,
+    private gimnasioService: GimnasioService,
+  ) {
+    this.obtenerGimnasios();
+  }
 
   modoCrearGimnasio = false;
   usuarioLogeado = this.authService.getUsuario();
@@ -18,8 +22,9 @@ export class MisGimnasiosComponent {
 
   obtenerGimnasios() {
     if (this.usuarioLogeado.id) {
-      this.gimnasioService.getGimnasiosByIdUsuario(this.usuarioLogeado.id).subscribe(gimnasio => 
-        {
+      this.gimnasioService
+        .getGimnasiosByIdUsuario(this.usuarioLogeado.id)
+        .subscribe((gimnasio) => {
           this.gimnasios = [...gimnasio];
         });
     }

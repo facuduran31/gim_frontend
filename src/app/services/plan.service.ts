@@ -4,39 +4,53 @@ import { HttpClient } from '@angular/common/http';
 import { Plan } from 'src/app/models/plan';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlanService {
-
   urlApi = environment.urlApi;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getPlans(){
-    return this.http.get<Plan[]>(`${this.urlApi}/planes`, {withCredentials: true});
+  getPlans() {
+    return this.http.get<Plan[]>(`${this.urlApi}/planes`, {
+      withCredentials: true,
+    });
   }
 
-  getPlanById(id:number){
-    return this.http.get<Plan[]>(`${this.urlApi}/planes/${id}`, {withCredentials: true});
+  getPlanById(id: number) {
+    return this.http.get<Plan[]>(`${this.urlApi}/planes/${id}`, {
+      withCredentials: true,
+    });
   }
 
-  getPlanesByIdGimnasio(idGimnasio:number){
-    return this.http.get<Plan[]>(`${this.urlApi}/planes/gimnasio/${idGimnasio}`, {withCredentials: true});
+  getPlanesByIdGimnasio(idGimnasio: number) {
+    return this.http.get<Plan[]>(
+      `${this.urlApi}/planes/gimnasio/${idGimnasio}`,
+      { withCredentials: true },
+    );
   }
 
-  getPlanActualByIdSocio(idSocio: number){
-    return this.http.get<Plan>(`${this.urlApi}/planes/actual/${idSocio}`, {withCredentials: true});
+  getPlanActualByIdSocio(idSocio: number) {
+    return this.http.get<Plan>(`${this.urlApi}/planes/actual/${idSocio}`, {
+      withCredentials: true,
+    });
   }
 
-  createPlan(plan:Plan){
-    return this.http.post(`${this.urlApi}/planes`, plan, {withCredentials: true});
+  createPlan(plan: Plan) {
+    return this.http.post(`${this.urlApi}/planes`, plan, {
+      withCredentials: true,
+    });
   }
 
-  updatePlan(plan:Plan){
-    return this.http.put(`${this.urlApi}/planes/${plan.idPlan}`, plan, {withCredentials: true});
+  updatePlan(plan: Plan) {
+    return this.http.put(`${this.urlApi}/planes/${plan.idPlan}`, plan, {
+      withCredentials: true,
+    });
   }
 
-  deletePlan(id:number){
-    return this.http.delete(`${this.urlApi}/planes/${id}`, {withCredentials: true});
+  deletePlan(id: number) {
+    return this.http.delete(`${this.urlApi}/planes/${id}`, {
+      withCredentials: true,
+    });
   }
 }

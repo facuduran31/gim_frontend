@@ -8,7 +8,7 @@ describe('AdministrarIngresosComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AdministrarIngresosComponent]
+      declarations: [AdministrarIngresosComponent],
     });
     fixture = TestBed.createComponent(AdministrarIngresosComponent);
     component = fixture.componentInstance;

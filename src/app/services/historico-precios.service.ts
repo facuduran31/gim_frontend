@@ -12,34 +12,37 @@ export interface HistoricoPrecio {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HistoricoPreciosService {
-
   private urlApi = environment.urlApi + '/historico-precios';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // Obtener todo el histórico de un plan
   getHistoricoByPlan(idPlan: number): Observable<HistoricoPrecio[]> {
-    return this.http.get<HistoricoPrecio[]>(`${this.urlApi}/plan/${idPlan}`, { withCredentials: true });
+    return this.http.get<HistoricoPrecio[]>(`${this.urlApi}/plan/${idPlan}`, {
+      withCredentials: true,
+    });
   }
 
   // Obtener el precio más reciente de un plan
   getPrecioActual(idPlan: number): Observable<number> {
     return this.getHistoricoByPlan(idPlan).pipe(
-      map(hist => hist.length > 0 ? hist[0].precio : 0)
+      map((hist) => (hist.length > 0 ? hist[0].precio : 0)),
     );
   }
 
   // Crear un histórico de precio
-  createHistorico(hist: { idPlan: number, precio: number }): Observable<any> {
+  createHistorico(hist: { idPlan: number; precio: number }): Observable<any> {
     return this.http.post(this.urlApi, hist, { withCredentials: true });
   }
 
   // Actualizar un histórico
   updateHistorico(hist: HistoricoPrecio): Observable<any> {
-    return this.http.put(`${this.urlApi}/${hist.idHistoricoPrecios}`, hist, { withCredentials: true });
+    return this.http.put(`${this.urlApi}/${hist.idHistoricoPrecios}`, hist, {
+      withCredentials: true,
+    });
   }
 
   // Eliminar un histórico

@@ -15,10 +15,9 @@ interface IngresoConSocio extends Ingreso {
 @Component({
   selector: 'app-administrar-ingresos',
   templateUrl: './administrar-ingresos.component.html',
-  styleUrls: ['./administrar-ingresos.component.css']
+  styleUrls: ['./administrar-ingresos.component.css'],
 })
 export class AdministrarIngresosComponent implements OnInit {
-
   ingresos: IngresoConSocio[] = [];
   idGimnasio!: number;
   procesando: boolean = false; // Para controlar el estado del botón
@@ -27,15 +26,15 @@ export class AdministrarIngresosComponent implements OnInit {
     dniSocio: new FormControl('', [
       Validators.required,
       Validators.minLength(7),
-      Validators.maxLength(10)
-    ])
+      Validators.maxLength(10),
+    ]),
   });
 
   constructor(
     private sociosService: SociosService,
     private ingresoService: IngresoService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
     this.idGimnasio = Number(this.route.snapshot.paramMap.get('id'));
@@ -44,7 +43,7 @@ export class AdministrarIngresosComponent implements OnInit {
       Swal.fire({
         title: 'Error',
         text: 'Gimnasio inválido',
-        icon: 'error'
+        icon: 'error',
       });
       return;
     }
@@ -55,24 +54,27 @@ export class AdministrarIngresosComponent implements OnInit {
   cargarIngresos() {
     this.ingresoService.getIngresosByIdGimnasio(this.idGimnasio).subscribe({
       next: (ingresos: Ingreso[]) => {
-        const ingresosConDatos$ = ingresos.map(ing =>
+        const ingresosConDatos$ = ingresos.map((ing) =>
           this.sociosService.getSocioById(ing.idSocio).pipe(
-            map(socio => ({
+            map((socio) => ({
               ...ing,
-              socio
-            }))
-          )
+              socio,
+            })),
+          ),
         );
 
         forkJoin(ingresosConDatos$).subscribe({
-          next: (resultado) => this.ingresos = resultado,
+          next: (resultado) => (this.ingresos = resultado),
           error: () =>
-            Swal.fire('Error', 'No se pudieron cargar los datos de los socios', 'error')
+            Swal.fire(
+              'Error',
+              'No se pudieron cargar los datos de los socios',
+              'error',
+            ),
         });
-
       },
       error: () =>
-        Swal.fire('Error', 'No se pudieron cargar los ingresos', 'error')
+        Swal.fire('Error', 'No se pudieron cargar los ingresos', 'error'),
     });
   }
 
@@ -91,7 +93,7 @@ export class AdministrarIngresosComponent implements OnInit {
       next: () => {
         Swal.fire({
           title: 'Ingreso validado',
-          icon: 'success'
+          icon: 'success',
         }).then(() => {
           this.cargarIngresos();
 
@@ -108,7 +110,7 @@ export class AdministrarIngresosComponent implements OnInit {
         Swal.fire({
           title: 'Error al validar',
           text: err.error?.error ?? 'Ocurrió un error inesperado',
-          icon: 'error'
+          icon: 'error',
         }).then(() => {
           // Restaurar formulario y habilitar botón
           this.formIngreso.markAsPristine();
@@ -116,7 +118,7 @@ export class AdministrarIngresosComponent implements OnInit {
           this.formIngreso.updateValueAndValidity();
           this.procesando = false;
         });
-      }
+      },
     });
   }
 }

@@ -14,7 +14,11 @@ import { CardMainComponent } from './components/utilities/card-main/card-main.co
 import { MisGimnasiosComponent } from './components/pages/mis-gimnasios/mis-gimnasios.component';
 import { RegisterComponent } from './components/pages/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpClientModule,
+} from '@angular/common/http';
 import { AuthGuard } from './guard/guard';
 import { FormGimnasioComponent } from './components/utilities/form-gimnasio/form-gimnasio.component';
 import { GimnasioComponent } from './components/pages/gimnasio/gimnasio.component';
@@ -29,23 +33,54 @@ import { FormSociosComponent } from './components/utilities/form-socios/form-soc
 import { AuthInterceptorService } from './services/interceptor.service';
 import { AdministrarIngresosComponent } from './components/pages/administrar-ingresos/administrar-ingresos.component';
 
-
 const routes: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'main', component: MainComponent, canActivate: [AuthGuard]},
-  {path: 'mis-gimnasios', component: MisGimnasiosComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id', component: GimnasioComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id/planes', component: PlanesComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id/planes/:idplan', component: FormPlanesComponent, canActivate: [AuthGuard]},
-  {path: 'gimnasio/:id/planes/agregar', component: FormPlanesComponent, canActivate: [AuthGuard]},
-  {path: 'forgot-password', component: ForgotPasswordComponent},
-  {path: 'reset-password/:t', component: ResetPasswordComponent}, //Necesita guard? no boludo
-  {path: 'mi-cuenta', component: MiCuentaComponent, canActivate: [AuthGuard]},
-  {path: 'necesito-ayuda', component: NecesitoAyudaComponent},
-  {path: 'gimnasio/:id/administrar-socios', component: AdministrarSociosComponent, canActivate: [AuthGuard]},
-  {path:'gimnasio/:id/administrar-socios/:idSocio', component:FormSociosComponent, canActivate:[AuthGuard]},
-  { path: 'gimnasio/:id/ingresos', component: AdministrarIngresosComponent, canActivate: [AuthGuard] }
+  { path: '', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'main', component: MainComponent, canActivate: [AuthGuard] },
+  {
+    path: 'mis-gimnasios',
+    component: MisGimnasiosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'gimnasio/:id',
+    component: GimnasioComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'gimnasio/:id/planes',
+    component: PlanesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'gimnasio/:id/planes/:idplan',
+    component: FormPlanesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'gimnasio/:id/planes/agregar',
+    component: FormPlanesComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password/:t', component: ResetPasswordComponent }, //Necesita guard? no boludo
+  { path: 'mi-cuenta', component: MiCuentaComponent, canActivate: [AuthGuard] },
+  { path: 'necesito-ayuda', component: NecesitoAyudaComponent },
+  {
+    path: 'gimnasio/:id/administrar-socios',
+    component: AdministrarSociosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'gimnasio/:id/administrar-socios/:idSocio',
+    component: FormSociosComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'gimnasio/:id/ingresos',
+    component: AdministrarIngresosComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 @NgModule({
   declarations: [
@@ -70,7 +105,6 @@ const routes: Routes = [
     AdministrarSociosComponent,
     FormSociosComponent,
     AdministrarIngresosComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -79,9 +113,15 @@ const routes: Routes = [
     NgbModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

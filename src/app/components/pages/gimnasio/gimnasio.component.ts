@@ -7,43 +7,69 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-gimnasio',
   templateUrl: './gimnasio.component.html',
-  styleUrls: ['./gimnasio.component.css']
+  styleUrls: ['./gimnasio.component.css'],
 })
 export class GimnasioComponent implements OnInit {
-
   id: number = 0;
   gimnasio: Gimnasio = {
     idGimnasio: 0,
     logo: '',
-    nombre: ''
+    nombre: '',
   };
   options: any;
   modoEditarGimnasio = false;
 
-  constructor(private route: ActivatedRoute, private gimnasioService: GimnasioService, private router: Router) { }
+  constructor(
+    private route: ActivatedRoute,
+    private gimnasioService: GimnasioService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
-    this.obtenerGimnasio()
+    this.obtenerGimnasio();
     this.definirOptions();
   }
 
   definirOptions() {
     this.options = [
-      { title: 'Editar informacion', subtitle: 'Modificar gimnasio', classes: 'fas fa-dumbbell', color: 'primary', redirectTo: null },
-      { title: 'Agregar o editar planes', subtitle: 'Administrar planes', classes: 'fas fa-dollar-sign', color: 'success', redirectTo: '/gimnasio/' + this.id + '/planes' },
-      { title: 'Administrar socios', subtitle: 'Socios', classes: 'fas fa-user', color: 'danger', redirectTo: '/gimnasio/' + this.id + '/administrar-socios' },
-      { title: 'Validar ingresos', subtitle: 'Ingresos', classes: 'fas fa-table', color: 'warning', redirectTo: 'gimnasio/' + this.id + '/ingresos' }
+      {
+        title: 'Editar informacion',
+        subtitle: 'Modificar gimnasio',
+        classes: 'fas fa-dumbbell',
+        color: 'primary',
+        redirectTo: null,
+      },
+      {
+        title: 'Agregar o editar planes',
+        subtitle: 'Administrar planes',
+        classes: 'fas fa-dollar-sign',
+        color: 'success',
+        redirectTo: '/gimnasio/' + this.id + '/planes',
+      },
+      {
+        title: 'Administrar socios',
+        subtitle: 'Socios',
+        classes: 'fas fa-user',
+        color: 'danger',
+        redirectTo: '/gimnasio/' + this.id + '/administrar-socios',
+      },
+      {
+        title: 'Validar ingresos',
+        subtitle: 'Ingresos',
+        classes: 'fas fa-table',
+        color: 'warning',
+        redirectTo: 'gimnasio/' + this.id + '/ingresos',
+      },
     ];
   }
 
   obtenerGimnasio() {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.id = parseInt(params.get('id') || '0');
       this.gimnasioService.getGimnasioById(this.id).subscribe((gim: any) => {
         this.gimnasio = gim;
       });
-    })
-
+    });
   }
 
   toggleModoEditar() {
@@ -61,7 +87,7 @@ export class GimnasioComponent implements OnInit {
       confirmButtonText: 'BORRAR',
       denyButtonText: 'Cancelar',
       confirmButtonColor: '#ff0000',
-      denyButtonColor: '#555555'
+      denyButtonColor: '#555555',
     }).then((result) => {
       if (result.isConfirmed) {
         this.gimnasioService.deleteGimnasio(this.id).subscribe(() => {
@@ -72,10 +98,9 @@ export class GimnasioComponent implements OnInit {
             confirmButtonColor: '#00aa00',
           }).then((result) => {
             this.router.navigate(['/mis-gimnasios']);
-          })
+          });
         });
       }
-
-    })
+    });
   }
 }

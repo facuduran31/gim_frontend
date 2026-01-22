@@ -1,41 +1,52 @@
 <body id="page-top">
-    <div id="wrapper">
-        
-        <app-sidebar></app-sidebar>
+  <div id="wrapper">
+    <app-sidebar></app-sidebar>
 
-        <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content-wrapper" class="d-flex flex-column">
+      <app-navbar></app-navbar>
+      <!-- Main content -->
 
-            <app-navbar></app-navbar>
-            <!-- Main content -->
-          
+      <div class="row">
+        <div class="col-lg-6 m-auto">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4">Contáctenos</h1>
+            </div>
 
-            <div class="row">
-                <div class="col-lg-6 m-auto">
-                    <div class="p-5">
-                        <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Contáctenos</h1>
-                        </div>
-                        
-                        <form class="user" [formGroup]="needHelpForm" (ngSubmit)="sendEmail()">
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Correo electrónico" formControlName="email" required>
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-control" id="exampleLastName" placeholder="Tu mensaje" formControlName="message" rows="10" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
-                        </form>
-                        
-                    </div>
-                </div>
-            </div> 
-
-            
-
-
-
-            <app-footer></app-footer>
+            <form
+              class="user"
+              [formGroup]="needHelpForm"
+              (ngSubmit)="sendEmail()"
+            >
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control form-control-user"
+                  id="exampleFirstName"
+                  placeholder="Correo electrónico"
+                  formControlName="email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <textarea
+                  class="form-control"
+                  id="exampleLastName"
+                  placeholder="Tu mensaje"
+                  formControlName="message"
+                  rows="10"
+                  required
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                Enviar
+              </button>
+            </form>
+          </div>
         </div>
-    </div>
-</body>
+      </div>
 
+      <app-footer></app-footer>
+    </div>
+  </div>
+</body>

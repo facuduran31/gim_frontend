@@ -1,25 +1,42 @@
 <body id="page-top">
-    <div id="wrapper">
-        
-        <app-sidebar></app-sidebar>
+  <div id="wrapper">
+    <app-sidebar></app-sidebar>
 
-        <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content-wrapper" class="d-flex flex-column">
+      <app-navbar></app-navbar>
 
-            <app-navbar></app-navbar>
-
-            <!-- Main content-->
-            <div class="p-3">
-                <a [href]="modoCrearGimnasio ? '/mis-gimnasios': '/main'" class="btn btn-primary"><i class="fas fa-angle-left"></i></a>
-                <button class="btn btn-success ms-3" *ngIf="!modoCrearGimnasio" (click)="toggleModoCrearGimnasio()"><i class="fas fa-plus"></i> Crear gimnasio</button>
-                <div class="row mt-3" *ngIf="!modoCrearGimnasio">
-                    <!-- Faltan definir bien los parametros del app card main -->
-                    <div *ngFor="let gimnasio of gimnasios" class="col-xl-3 col-md-6 mb-4">
-                        <app-card-main [title]="gimnasio.nombre" [subtitle]="gimnasio.nombre" [color]="'primary'" [redirectTo]="'gimnasio/'+gimnasio.idGimnasio" [object]="gimnasio"></app-card-main>
-                    </div>
-                </div>
-                <app-form-gimnasio *ngIf="modoCrearGimnasio"></app-form-gimnasio>
-            </div>
-            <app-footer></app-footer>
+      <!-- Main content-->
+      <div class="p-3">
+        <a
+          [href]="modoCrearGimnasio ? '/mis-gimnasios' : '/main'"
+          class="btn btn-primary"
+          ><i class="fas fa-angle-left"></i
+        ></a>
+        <button
+          class="btn btn-success ms-3"
+          *ngIf="!modoCrearGimnasio"
+          (click)="toggleModoCrearGimnasio()"
+        >
+          <i class="fas fa-plus"></i> Crear gimnasio
+        </button>
+        <div class="row mt-3" *ngIf="!modoCrearGimnasio">
+          <!-- Faltan definir bien los parametros del app card main -->
+          <div
+            *ngFor="let gimnasio of gimnasios"
+            class="col-xl-3 col-md-6 mb-4"
+          >
+            <app-card-main
+              [title]="gimnasio.nombre"
+              [subtitle]="gimnasio.nombre"
+              [color]="'primary'"
+              [redirectTo]="'gimnasio/' + gimnasio.idGimnasio"
+              [object]="gimnasio"
+            ></app-card-main>
+          </div>
         </div>
+        <app-form-gimnasio *ngIf="modoCrearGimnasio"></app-form-gimnasio>
+      </div>
+      <app-footer></app-footer>
     </div>
+  </div>
 </body>

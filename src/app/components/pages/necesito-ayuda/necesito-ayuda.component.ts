@@ -6,39 +6,36 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-necesito-ayuda',
   templateUrl: './necesito-ayuda.component.html',
-  styleUrls: ['./necesito-ayuda.component.css']
+  styleUrls: ['./necesito-ayuda.component.css'],
 })
 export class NecesitoAyudaComponent {
-
-  constructor(private userService: UsuarioService) { }
+  constructor(private userService: UsuarioService) {}
 
   needHelpForm = new FormGroup({
     subject: new FormControl('Nuevo mensaje de GymManagment'),
     email: new FormControl('', [Validators.required, Validators.email]),
-    message: new FormControl('', [Validators.required])
+    message: new FormControl('', [Validators.required]),
   });
 
-
-  sendEmail(){
+  sendEmail() {
     Swal.showLoading();
     this.userService.sendEmail(this.needHelpForm.value).subscribe({
       next: (res) => {
         Swal.fire({
-                    title: "Confirmado",
-                    text: "Email enviado correctamente",
-                    icon: "success"
-                  });
+          title: 'Confirmado',
+          text: 'Email enviado correctamente',
+          icon: 'success',
+        });
         this.needHelpForm.reset();
-      }
-      , error: (error:any) => {
+      },
+      error: (error: any) => {
         console.error('Error al enviar el email:', error);
         Swal.fire({
-                    title: "Error al enviar el email",
-                    text: "Intenta de nuevo más tarde",
-                    icon: "error"
-                  });
-      }
+          title: 'Error al enviar el email',
+          text: 'Intenta de nuevo más tarde',
+          icon: 'error',
+        });
+      },
     });
   }
-
 }

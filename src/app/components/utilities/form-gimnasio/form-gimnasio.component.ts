@@ -9,19 +9,22 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-form-gimnasio',
   templateUrl: './form-gimnasio.component.html',
-  styleUrls: ['./form-gimnasio.component.css']
+  styleUrls: ['./form-gimnasio.component.css'],
 })
 export class FormGimnasioComponent implements OnInit {
-
   modoEditar: boolean = false;
 
-  constructor(private gimnasioService: GimnasioService, private authService: AuthService, private route: Router) { }
+  constructor(
+    private gimnasioService: GimnasioService,
+    private authService: AuthService,
+    private route: Router,
+  ) {}
 
   @Input() gimnasio: Gimnasio = {
     idGimnasio: 0,
     logo: '',
-    nombre: ''
-  }
+    nombre: '',
+  };
   usuarioLogeado: Usuario = this.authService.getUsuario();
   inputNombreGimnasio: string = '';
   inputLogoGimnasio: string = '';
@@ -45,10 +48,12 @@ export class FormGimnasioComponent implements OnInit {
           confirmButtonText: 'Ok',
           confirmButtonColor: '#00aa00',
         }).then((result) => {
-          this.route.navigateByUrl('/mis-gimnasios', { skipLocationChange: true }).then(() => {
-            window.location.reload(); // Recarga la página
-          });
-        })
+          this.route
+            .navigateByUrl('/mis-gimnasios', { skipLocationChange: true })
+            .then(() => {
+              window.location.reload(); // Recarga la página
+            });
+        });
       },
       (error) => {
         Swal.fire({
@@ -56,9 +61,9 @@ export class FormGimnasioComponent implements OnInit {
           text: error,
           icon: 'error',
           confirmButtonText: 'Ok',
-          confirmButtonColor: '#0000aa'
-        })
-      }
+          confirmButtonColor: '#0000aa',
+        });
+      },
     );
   }
 
@@ -73,10 +78,12 @@ export class FormGimnasioComponent implements OnInit {
           confirmButtonText: 'Ok',
           confirmButtonColor: '#00aa00',
         }).then((result) => {
-          this.route.navigateByUrl('/mis-gimnasios', { skipLocationChange: true }).then(() => {
-            window.location.reload(); // Recarga la página
-          });
-        })
+          this.route
+            .navigateByUrl('/mis-gimnasios', { skipLocationChange: true })
+            .then(() => {
+              window.location.reload(); // Recarga la página
+            });
+        });
       },
       (error) => {
         Swal.fire({
@@ -84,10 +91,9 @@ export class FormGimnasioComponent implements OnInit {
           text: error.error,
           icon: 'error',
           confirmButtonText: 'Ok',
-          confirmButtonColor: '#0000aa'
-        })
-      }
+          confirmButtonColor: '#0000aa',
+        });
+      },
     );
   }
-
 }
