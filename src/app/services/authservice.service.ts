@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'environment';
 import { Usuario } from '../models/usuario';
@@ -37,13 +37,20 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    // Verificar si el token existe y no ha expirado
-    return !!this.getCookie('user');
+    return this.currentUser$.value !== null;
   }
 
-  // getToken(): string | null { //NO LA BORRO POR LAS DUDAS PERO NO HACE FALTA
-  //   return localStorage.getItem('token');
-  // }
+  private currentUser$ = new BehaviorSubject<Usuario | null>(null);
+
+  me(): Observable<Usuario> {
+    return this.http
+      .get<Usuario>(`${this.apiUrl}/usuarios/me`, { withCredentials: true })
+      .pipe(tap((u) => this.currentUser$.next(u)));
+  }
+
+  getCurrentUser(): Observable<Usuario | null> {
+    return this.currentUser$.asObservable();
+  }
 
   getCookie(name: any) {
     //Obtiene solo la cookie que tiene los datos del usuario

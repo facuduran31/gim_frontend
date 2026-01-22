@@ -28,32 +28,40 @@ export class AdministrarSociosComponent {
     private route: ActivatedRoute,
     private sociosService: SociosService,
     private pagosService: PagosService,
-    private planesService: PlanService,
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const idGimnasio = parseInt(params.get('id') || '0');
+      this.socios = []; // limpiar por si cambia el param
+
       this.sociosService
-        .getSociosByIdGimnasio(idGimnasio)
-        .subscribe((socios) => {
-          socios.forEach((socio: any) => {
-            this.planesService
-              .getPlanActualByIdSocio(socio.idSocio)
-              .subscribe((planActivo) => {
-                this.socios.push({
-                  idSocio: socio.idSocio,
-                  dni: socio.dni,
-                  nombre: socio.nombre,
-                  apellido: socio.apellido,
-                  telefono: socio.telefono,
-                  estado: socio.activo,
-                  idGimnasio: socio.idGimnasio,
-                  idSocioPlan: socio.idSocioPlan,
-                  planActual: planActivo,
-                });
-              });
-          });
+        .getSociosByIdGimnasioConPlanActual(idGimnasio)
+        .subscribe({
+          next: (rows) => {
+            // `rows` ya viene con nombrePlan, fechas, etc. según el JOIN del backend
+            this.socios = rows.map((r: any) => ({
+              idSocio: r.idSocio,
+              dni: r.dni,
+              nombre: r.nombre,
+              apellido: r.apellido,
+              telefono: r.telefono,
+              estado: r.activo,
+              idGimnasio: r.idGimnasio,
+              planActual: r.nombrePlan
+                ? {
+                    idPlan: r.idPlan,
+                    nombre: r.nombrePlan,
+                    descripcion: r.descripcion,
+                    duracion: r.duracion,
+                    diasPorSemana: r.diasPorSemana,
+                    fechaInicio: r.fechaInicio,
+                    fechaFin: r.fechaFin,
+                  }
+                : null,
+            }));
+          },
+          error: (err) => console.error(err),
         });
     });
     const hoy = new Date();

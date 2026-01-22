@@ -20,7 +20,8 @@ export class AuthInterceptorService implements HttpInterceptor {
   private ignoredUrls = [
     '/usuarios/login',
     '/usuarios/logout',
-    '/usuarios/register',
+    '/usuarios/request-password-reset',
+    '/usuarios/password-reset',
   ];
 
   constructor(

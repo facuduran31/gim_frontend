@@ -23,6 +23,13 @@ export class SociosService {
     });
   }
 
+  getSociosByIdGimnasioConPlanActual(idGimnasio: number) {
+    return this.http.get<any[]>(
+      `${this.urlApi}/gimnasio/${idGimnasio}/con-plan-actual`,
+      { withCredentials: true },
+    );
+  }
+
   getSocioByDni(dni: string) {
     return this.http.get<Socio>(`${this.urlApi}/dni/${dni}`, {
       withCredentials: true,

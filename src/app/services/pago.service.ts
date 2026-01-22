@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pago } from '../models/pago';
 import { Observable } from 'rxjs';
+import { environment } from 'environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PagosService {
-  private apiUrl = 'http://localhost:3000/pagos';
+  private apiUrl = `${environment.urlApi}/pagos`;
 
   constructor(private http: HttpClient) {}
 
@@ -17,6 +18,21 @@ export class PagosService {
 
   getById(idPago: number): Observable<Pago> {
     return this.http.get<Pago>(`${this.apiUrl}/${idPago}`);
+  }
+
+  getByGimnasio(
+    idGimnasio: number,
+    from?: string,
+    to?: string,
+  ): Observable<Pago[]> {
+    const params: any = {};
+    if (from) params.from = from;
+    if (to) params.to = to;
+
+    return this.http.get<Pago[]>(`${this.apiUrl}/gimnasio/${idGimnasio}`, {
+      params,
+      withCredentials: true,
+    });
   }
 
   getBySocioPlan(idSocioPlan: number): Observable<Pago[]> {
