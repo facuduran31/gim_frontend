@@ -24,10 +24,7 @@ export class AuthInterceptorService implements HttpInterceptor {
     '/usuarios/password-reset',
   ];
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   intercept(
     req: HttpRequest<any>,
