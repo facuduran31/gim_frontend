@@ -32,9 +32,12 @@ import { AdministrarSociosComponent } from './components/pages/administrar-socio
 import { FormSociosComponent } from './components/utilities/form-socios/form-socios.component';
 import { AuthInterceptorService } from './services/interceptor.service';
 import { AdministrarIngresosComponent } from './components/pages/administrar-ingresos/administrar-ingresos.component';
+import { AuthCallbackComponent } from './components/pages/auth-callback/auth-callback.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'auth/callback', component: AuthCallbackComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'main', component: MainComponent, canActivate: [AuthGuard] },
   {
@@ -81,6 +84,8 @@ const routes: Routes = [
     component: AdministrarIngresosComponent,
     canActivate: [AuthGuard],
   },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login' },
 ];
 @NgModule({
   declarations: [
@@ -105,6 +110,7 @@ const routes: Routes = [
     AdministrarSociosComponent,
     FormSociosComponent,
     AdministrarIngresosComponent,
+    AuthCallbackComponent,
   ],
   imports: [
     BrowserModule,

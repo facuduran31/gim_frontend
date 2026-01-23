@@ -8,7 +8,6 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { AuthService } from './authservice.service';
 
@@ -16,13 +15,7 @@ import { AuthService } from './authservice.service';
   providedIn: 'root',
 })
 export class AuthInterceptorService implements HttpInterceptor {
-  private alreadyRedirecting = false; // evita bucle infinito
-  private ignoredUrls = [
-    '/usuarios/login',
-    '/usuarios/logout',
-    '/usuarios/request-password-reset',
-    '/usuarios/password-reset',
-  ];
+  private alreadyRedirecting = false;
 
   constructor(private authService: AuthService) {}
 
@@ -30,19 +23,26 @@ export class AuthInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    // Ignorar ciertas URLs
-    if (this.ignoredUrls.some((url) => req.url.includes(url))) {
-      return next.handle(req);
-    }
+    // ✅ Siempre enviar credenciales (cookies httpOnly)
+    const authReq = req.clone({ withCredentials: true });
 
-    const authReq = req.clone({
-      withCredentials: true,
-    });
+    // No queremos alertar por 401 “esperables” en endpoints de auth-check
+    const isMeEndpoint = req.url.includes('/usuarios/me');
+    const isLoginEndpoint = req.url.includes('/usuarios/login');
+    const isLogoutEndpoint = req.url.includes('/usuarios/logout');
 
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
+        // ✅ Si es login/logout/me, no rompas el flujo con swal automático
+        if (
+          error.status === 401 &&
+          (isMeEndpoint || isLoginEndpoint || isLogoutEndpoint)
+        ) {
+          return throwError(() => error);
+        }
+
         if (error.status === 401 && !this.alreadyRedirecting) {
-          this.alreadyRedirecting = true; // bloquear múltiples alertas
+          this.alreadyRedirecting = true;
 
           Swal.fire({
             title: 'Sesión expirada',
@@ -51,7 +51,8 @@ export class AuthInterceptorService implements HttpInterceptor {
             confirmButtonText: 'Ir al login',
             confirmButtonColor: '#3085d6',
           }).then(() => {
-            this.authService.logout(); // redirige al login
+            this.authService.logout(); // redirige al login y limpia estado
+            this.alreadyRedirecting = false;
           });
         }
 

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/authservice.service';
-import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/services/authservice.service';
 
 @Component({
   selector: 'app-login',
@@ -16,26 +15,36 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private userService: UsuarioService,
   ) {}
 
   login() {
     this.authService
-      .login({ mail: this.email, password: this.password })
+      .login({ email: this.email, password: this.password })
       .subscribe({
-        next: (res) => {
-          // Redirigir a la página protegida
-          console.log(res);
-          this.router.navigate(['/main']);
+        next: () => {
+          // ✅ Sellar sesión: validar /me antes de entrar a rutas protegidas
+          this.authService.me().subscribe({
+            next: () => this.router.navigate(['/main']),
+            error: () => {
+              Swal.fire({
+                title: 'Sesión no iniciada',
+                text: 'No se pudo validar la sesión. Reintentá.',
+                icon: 'error',
+              });
+            },
+          });
         },
-        error: (error) => {
-          console.error('Error al iniciar sesión:', error);
+        error: () => {
           Swal.fire({
-            title: 'Creedenciales incorrectas',
+            title: 'Credenciales incorrectas',
             text: 'Por favor, verifique su email y contraseña',
             icon: 'error',
           });
         },
       });
+  }
+
+  loginWithGoogle() {
+    this.authService.beginGoogleLogin();
   }
 }
