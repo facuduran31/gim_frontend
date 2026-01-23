@@ -1,3 +1,4 @@
 export const environment = {
-  urlApi: 'http://localhost:3000',
+  apiUrl: 'http://localhost:3000',
+  urlApi: 'http://localhost:3000', // opcional, por compatibilidad si algo lo usa
 };

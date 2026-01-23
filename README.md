@@ -55,7 +55,7 @@ export const environment = {
 ```ts
 export const environment = {
   production: true,
-  apiUrl: "https://TU_BACKEND_EN_PROD",
+  urlApi: "https://TU_BACKEND_EN_PROD",
 };
 ```
 
@@ -212,7 +212,7 @@ Si ya lo configuraste, con `Ctrl + S` se ajusta la indentación automáticamente
 
 ### 2) API URL incorrecta
 
-- Verificar `environment.apiUrl`
+- Verificar `environment.urlApi`
 - Verificar que backend esté corriendo en el puerto correcto
 
 ### 3) Login funciona pero luego no “queda logueado”

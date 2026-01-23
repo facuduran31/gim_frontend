@@ -23,21 +23,20 @@ export class AuthInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    // ✅ Siempre enviar credenciales (cookies httpOnly)
+    // ✅ Siempre enviar cookies
     const authReq = req.clone({ withCredentials: true });
 
-    // No queremos alertar por 401 “esperables” en endpoints de auth-check
-    const isMeEndpoint = req.url.includes('/usuarios/me');
-    const isLoginEndpoint = req.url.includes('/usuarios/login');
-    const isLogoutEndpoint = req.url.includes('/usuarios/logout');
+    // 401 “esperables” donde NO queremos Swal automático
+    const ignore401 =
+      req.url.includes('/usuarios/me') ||
+      req.url.includes('/usuarios/login') ||
+      req.url.includes('/usuarios/logout') ||
+      req.url.includes('/auth/google') ||
+      req.url.includes('/auth/google/callback');
 
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        // ✅ Si es login/logout/me, no rompas el flujo con swal automático
-        if (
-          error.status === 401 &&
-          (isMeEndpoint || isLoginEndpoint || isLogoutEndpoint)
-        ) {
+        if (error.status === 401 && ignore401) {
           return throwError(() => error);
         }
 
@@ -51,7 +50,7 @@ export class AuthInterceptorService implements HttpInterceptor {
             confirmButtonText: 'Ir al login',
             confirmButtonColor: '#3085d6',
           }).then(() => {
-            this.authService.logout(); // redirige al login y limpia estado
+            this.authService.logout();
             this.alreadyRedirecting = false;
           });
         }

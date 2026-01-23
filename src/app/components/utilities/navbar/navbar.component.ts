@@ -10,7 +10,11 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
-  usuarioLogeado: Usuario = this.authService.getUsuario();
+  usuarioLogeado: Usuario | null = null;
+
+  ngOnInit(): void {
+    this.usuarioLogeado = this.authService.getUsuario();
+  }
 
   notificaciones = [
     {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Gimnasio } from 'src/app/models/gimnasio';
+import { Usuario } from 'src/app/models/usuario';
 import { AuthService } from 'src/app/services/authservice.service';
 import { GimnasioService } from 'src/app/services/gimnasio.service';
 
@@ -17,16 +18,23 @@ export class MisGimnasiosComponent {
   }
 
   modoCrearGimnasio = false;
-  usuarioLogeado = this.authService.getUsuario();
+  usuarioLogeado: Usuario | null = null;
+
+  ngOnInit(): void {
+    this.usuarioLogeado = this.authService.getUsuario();
+  }
+
   gimnasios: Gimnasio[] = [];
 
   obtenerGimnasios() {
-    if (this.usuarioLogeado.id) {
-      this.gimnasioService
-        .getGimnasiosByIdUsuario(this.usuarioLogeado.id)
-        .subscribe((gimnasio) => {
-          this.gimnasios = [...gimnasio];
-        });
+    if (this.usuarioLogeado) {
+      if (this.usuarioLogeado.id) {
+        this.gimnasioService
+          .getGimnasiosByIdUsuario(this.usuarioLogeado.id)
+          .subscribe((gimnasio) => {
+            this.gimnasios = [...gimnasio];
+          });
+      }
     }
   }
 

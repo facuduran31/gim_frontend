@@ -25,11 +25,12 @@ export class FormGimnasioComponent implements OnInit {
     logo: '',
     nombre: '',
   };
-  usuarioLogeado: Usuario = this.authService.getUsuario();
+  usuarioLogeado: Usuario | null = null;
   inputNombreGimnasio: string = '';
   inputLogoGimnasio: string = '';
 
   ngOnInit(): void {
+    this.usuarioLogeado = this.authService.getUsuario();
     this.inputNombreGimnasio = this.gimnasio.nombre;
     if (this.inputNombreGimnasio != '') {
       this.modoEditar = true;
@@ -37,34 +38,36 @@ export class FormGimnasioComponent implements OnInit {
   }
 
   crearGimnasio() {
-    this.gimnasio.nombre = this.inputNombreGimnasio;
-    this.gimnasio.logo = this.inputLogoGimnasio;
-    this.gimnasio.idUsuario = this.usuarioLogeado.id;
-    this.gimnasioService.createGimnasio(this.gimnasio).subscribe(
-      (response) => {
-        Swal.fire({
-          title: 'Gimnasio creado con exito',
-          icon: 'success',
-          confirmButtonText: 'Ok',
-          confirmButtonColor: '#00aa00',
-        }).then((result) => {
-          this.route
-            .navigateByUrl('/mis-gimnasios', { skipLocationChange: true })
-            .then(() => {
-              window.location.reload(); // Recarga la página
-            });
-        });
-      },
-      (error) => {
-        Swal.fire({
-          title: 'Error al crear el gimnasio',
-          text: error,
-          icon: 'error',
-          confirmButtonText: 'Ok',
-          confirmButtonColor: '#0000aa',
-        });
-      },
-    );
+    if (this.usuarioLogeado) {
+      this.gimnasio.nombre = this.inputNombreGimnasio;
+      this.gimnasio.logo = this.inputLogoGimnasio;
+      this.gimnasio.idUsuario = this.usuarioLogeado.id;
+      this.gimnasioService.createGimnasio(this.gimnasio).subscribe(
+        (response) => {
+          Swal.fire({
+            title: 'Gimnasio creado con exito',
+            icon: 'success',
+            confirmButtonText: 'Ok',
+            confirmButtonColor: '#00aa00',
+          }).then((result) => {
+            this.route
+              .navigateByUrl('/mis-gimnasios', { skipLocationChange: true })
+              .then(() => {
+                window.location.reload(); // Recarga la página
+              });
+          });
+        },
+        (error) => {
+          Swal.fire({
+            title: 'Error al crear el gimnasio',
+            text: error,
+            icon: 'error',
+            confirmButtonText: 'Ok',
+            confirmButtonColor: '#0000aa',
+          });
+        },
+      );
+    }
   }
 
   editarGimnasio() {
