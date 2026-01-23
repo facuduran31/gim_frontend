@@ -22,6 +22,7 @@ export class MisGimnasiosComponent {
 
   ngOnInit(): void {
     this.usuarioLogeado = this.authService.getUsuario();
+    this.obtenerGimnasios();
   }
 
   gimnasios: Gimnasio[] = [];

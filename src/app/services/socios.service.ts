@@ -7,7 +7,7 @@ import { environment } from 'environment';
   providedIn: 'root',
 })
 export class SociosService {
-  urlApi = environment.urlApi + '/socios';
+  private urlApi = environment.urlApi + '/socios';
 
   constructor(private http: HttpClient) {}
 
@@ -37,11 +37,15 @@ export class SociosService {
   }
 
   createSocio(socio: SocioCrear) {
-    return this.http.post(`${this.urlApi}/`, socio, { withCredentials: true });
+    return this.http.post(`${this.urlApi}`, socio, {
+      withCredentials: true,
+    });
   }
 
   updateSocio(socio: Socio & { idPlan?: number; duracion?: number }) {
-    return this.http.put(`${this.urlApi}/${socio.idSocio}`, socio);
+    return this.http.put(`${this.urlApi}/${socio.idSocio}`, socio, {
+      withCredentials: true,
+    });
   }
 
   deleteSocio(idSocio: number) {
