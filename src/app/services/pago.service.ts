@@ -1,49 +1,45 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Pago } from '../models/pago';
-import { Observable } from 'rxjs';
 import { environment } from 'environment';
+import { Pago } from '../models/pago';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PagosService {
-  private apiUrl = `${environment.urlApi}/pagos`;
+  private urlApi = environment.urlApi + '/pagos';
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Pago[]> {
-    return this.http.get<Pago[]>(this.apiUrl);
+  getAll() {
+    return this.http.get<Pago[]>(`${this.urlApi}`, { withCredentials: true });
   }
 
-  getById(idPago: number): Observable<Pago> {
-    return this.http.get<Pago>(`${this.apiUrl}/${idPago}`);
-  }
-
-  getByGimnasio(
-    idGimnasio: number,
-    from?: string,
-    to?: string,
-  ): Observable<Pago[]> {
-    const params: any = {};
-    if (from) params.from = from;
-    if (to) params.to = to;
-
-    return this.http.get<Pago[]>(`${this.apiUrl}/gimnasio/${idGimnasio}`, {
-      params,
+  getById(idPago: number) {
+    return this.http.get<Pago>(`${this.urlApi}/${idPago}`, {
       withCredentials: true,
     });
   }
 
-  getBySocioPlan(idSocioPlan: number): Observable<Pago[]> {
-    return this.http.get<Pago[]>(`${this.apiUrl}/socio-plan/${idSocioPlan}`);
+  getBySocioPlan(idSocioPlan: number) {
+    return this.http.get<Pago[]>(`${this.urlApi}/socio-plan/${idSocioPlan}`, {
+      withCredentials: true,
+    });
   }
 
-  create(pago: Partial<Pago>): Observable<any> {
-    return this.http.post(this.apiUrl, pago);
+  getBySocio(idSocio: number) {
+    return this.http.get<any[]>(`${this.urlApi}/socio/${idSocio}`, {
+      withCredentials: true,
+    });
   }
 
-  delete(idPago: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${idPago}`);
+  create(payload: any) {
+    return this.http.post(`${this.urlApi}`, payload, { withCredentials: true });
+  }
+
+  delete(idPago: number) {
+    return this.http.delete(`${this.urlApi}/${idPago}`, {
+      withCredentials: true,
+    });
   }
 }

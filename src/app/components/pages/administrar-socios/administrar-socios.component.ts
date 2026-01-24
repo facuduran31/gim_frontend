@@ -4,7 +4,6 @@ import { Pago } from 'src/app/models/pago';
 import { Plan } from 'src/app/models/plan';
 import { Socio } from 'src/app/models/socio';
 import { PagosService } from 'src/app/services/pago.service';
-import { PlanService } from 'src/app/services/plan.service';
 import { SociosService } from 'src/app/services/socios.service';
 import Swal from 'sweetalert2';
 
@@ -16,13 +15,19 @@ import Swal from 'sweetalert2';
 export class AdministrarSociosComponent {
   modoAgregarSocio: boolean = false;
   socios: Array<any> = [];
-  pagos: Pago[] = [];
-  idSocioPlanSeleccionado!: number;
+
+  pagos: any[] = [];
+
   mostrarModalPagos = false;
   mostrarModalCrearPago = false;
-  socioSeleccionado!: Socio;
-  nuevoPago!: Pago;
-  planActivo!: Plan;
+
+  socioSeleccionado: any = null;
+
+  nuevoPago: any = {
+    fechaPago: new Date(),
+    idMetodoPago: null,
+    monto: null,
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -33,13 +38,11 @@ export class AdministrarSociosComponent {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const idGimnasio = parseInt(params.get('id') || '0');
-      this.socios = []; // limpiar por si cambia el param
 
       this.sociosService
         .getSociosByIdGimnasioConPlanActual(idGimnasio)
         .subscribe({
           next: (rows) => {
-            // `rows` ya viene con nombrePlan, fechas, etc. según el JOIN del backend
             this.socios = rows.map((r: any) => ({
               idSocio: r.idSocio,
               dni: r.dni,
@@ -51,12 +54,13 @@ export class AdministrarSociosComponent {
               planActual: r.nombrePlan
                 ? {
                     idPlan: r.idPlan,
-                    nombre: r.nombrePlan,
+                    nombrePlan: r.nombrePlan,
                     descripcion: r.descripcion,
                     duracion: r.duracion,
                     diasPorSemana: r.diasPorSemana,
                     fechaInicio: r.fechaInicio,
                     fechaFin: r.fechaFin,
+                    idSocioPlan: r.idSocioPlan, // si te lo trae
                   }
                 : null,
             }));
@@ -64,18 +68,6 @@ export class AdministrarSociosComponent {
           error: (err) => console.error(err),
         });
     });
-    const hoy = new Date();
-    const yyyy = hoy.getFullYear();
-    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
-    const dd = String(hoy.getDate()).padStart(2, '0');
-
-    this.nuevoPago = {
-      fechaPago: new Date(),
-    };
-  }
-
-  toggleModoAgregarSocio() {
-    this.modoAgregarSocio = !this.modoAgregarSocio;
   }
 
   borrarSocio(id: number) {
@@ -99,19 +91,13 @@ export class AdministrarSociosComponent {
               icon: 'success',
               confirmButtonText: 'Ok',
               confirmButtonColor: '#00aa00',
-            }).then((result) => {
-              window.location.reload(); // Recarga la página
-            });
+            }).then(() => window.location.reload());
           },
           (error) => {
-            console.log(error);
-
             Swal.fire({
               title: 'Error al borrar el socio',
-              text: error.error,
+              text: error?.error ?? 'Error',
               icon: 'error',
-              confirmButtonText: 'Ok',
-              confirmButtonColor: '#0000aa',
             });
           },
         );
@@ -119,38 +105,19 @@ export class AdministrarSociosComponent {
     });
   }
 
-  inscribirSocio(idSocio: number) {}
-
   openPagos(idSocio: number) {
     const socio = this.socios.find((s) => s.idSocio === idSocio);
     if (!socio) return;
 
     this.socioSeleccionado = socio;
 
-    this.idSocioPlanSeleccionado = socio.idSocioPlan ?? 0;
-
-    this.pagosService.getBySocioPlan(this.idSocioPlanSeleccionado).subscribe({
-      next: (pagos) => {
-        this.pagos = pagos;
+    this.pagosService.getBySocio(idSocio).subscribe({
+      next: (rows) => {
+        this.pagos = rows;
         this.mostrarModalPagos = true;
       },
-      error: () => {
-        Swal.fire('Error', 'No se pudieron cargar los pagos', 'error');
-      },
-    });
-  }
-
-  cobrarCuota() {
-    const nuevoPago = {
-      idSocioPlan: this.idSocioPlanSeleccionado,
-      idMetodoPago: 1, // efectivo por ejemplo
-      monto: 5000,
-      fechaPago: new Date(),
-    };
-
-    this.pagosService.create(nuevoPago).subscribe(() => {
-      Swal.fire('Pago registrado', '', 'success');
-      this.openPagos(this.socioSeleccionado.idSocio);
+      error: () =>
+        Swal.fire('Error', 'No se pudieron cargar los pagos', 'error'),
     });
   }
 
@@ -175,18 +142,53 @@ export class AdministrarSociosComponent {
     this.pagos = [];
   }
 
+  crearPago() {
+    if (!this.socioSeleccionado?.planActual?.idSocioPlan) {
+      Swal.fire(
+        'Atención',
+        'Este socio no tiene un plan activo para registrar pagos.',
+        'info',
+      );
+      return;
+    }
+
+    this.nuevoPago = {
+      idSocioPlan: this.socioSeleccionado.planActual.idSocioPlan,
+      idMetodoPago: 1,
+      monto: null,
+      fechaPago: new Date(),
+    };
+
+    this.mostrarModalCrearPago = true;
+  }
+
   cerrarModalPago() {
     this.mostrarModalCrearPago = false;
   }
 
-  registrarPago() {}
+  registrarPago() {
+    if (
+      !this.nuevoPago?.idSocioPlan ||
+      !this.nuevoPago?.idMetodoPago ||
+      !this.nuevoPago?.monto ||
+      !this.nuevoPago?.fechaPago
+    ) {
+      Swal.fire('Faltan datos', 'Completá método, monto y fecha.', 'warning');
+      return;
+    }
+
+    this.pagosService.create(this.nuevoPago).subscribe({
+      next: () => {
+        Swal.fire('Pago registrado', '', 'success');
+        this.mostrarModalCrearPago = false;
+        // recargar lista
+        this.openPagos(this.socioSeleccionado.idSocio);
+      },
+      error: () => Swal.fire('Error', 'No se pudo registrar el pago', 'error'),
+    });
+  }
 
   $eventAsDate(value: string): Date {
     return new Date(value);
-  }
-
-  crearPago() {
-    this.mostrarModalCrearPago = true;
-    console.log(this.nuevoPago.fechaPago);
   }
 }

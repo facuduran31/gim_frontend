@@ -5,11 +5,10 @@
     <div id="content-wrapper" class="d-flex flex-column">
       <app-navbar></app-navbar>
 
-      <!-- Main content-->
       <div class="p-3">
-        <a routerLink="../" class="btn btn-primary"
-          ><i class="fas fa-angle-left"></i
-        ></a>
+        <a routerLink="../" class="btn btn-primary">
+          <i class="fas fa-angle-left"></i>
+        </a>
 
         <a
           [routerLink]="['./agregar']"
@@ -62,6 +61,7 @@
                       >
                         <i class="fas fa-trash"></i>
                       </button>
+
                       <a
                         [routerLink]="[
                           '/gimnasio',
@@ -74,6 +74,7 @@
                       >
                         <i class="fas fa-pencil"></i>
                       </a>
+
                       <button
                         type="button"
                         class="ms-2 btn btn-success"
@@ -104,8 +105,8 @@
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title">
-            Pagos - {{ socioSeleccionado.nombre }}
-            {{ socioSeleccionado.apellido }}
+            Pagos - {{ socioSeleccionado?.nombre }}
+            {{ socioSeleccionado?.apellido }}
           </h5>
           <button
             type="button"
@@ -121,14 +122,28 @@
                 <th>Fecha</th>
                 <th>Monto</th>
                 <th>Método</th>
+                <th>Plan</th>
+                <th>Período</th>
                 <th class="text-center">Acción</th>
               </tr>
             </thead>
+
             <tbody>
               <tr *ngFor="let pago of pagos">
                 <td>{{ pago.fechaPago | date: "dd/MM/yyyy" }}</td>
                 <td>${{ pago.monto }}</td>
-                <td>{{ pago.idMetodoPago }}</td>
+                <td>{{ pago.metodoPago || pago.idMetodoPago }}</td>
+                <td>{{ pago.nombrePlan || "-" }}</td>
+                <td>
+                  <span
+                    *ngIf="pago.fechaInicio && pago.fechaFin; else sinPeriodo"
+                  >
+                    {{ pago.fechaInicio | date: "dd/MM/yyyy" }} -
+                    {{ pago.fechaFin | date: "dd/MM/yyyy" }}
+                  </span>
+                  <ng-template #sinPeriodo>-</ng-template>
+                </td>
+
                 <td class="text-center">
                   <button
                     class="btn btn-danger btn-sm"
@@ -140,7 +155,7 @@
               </tr>
 
               <tr *ngIf="pagos.length === 0">
-                <td colspan="4" class="text-center text-muted">
+                <td colspan="6" class="text-center text-muted">
                   No hay pagos registrados
                 </td>
               </tr>
@@ -161,6 +176,7 @@
     </div>
   </div>
 
+  <!-- MODAL CREAR PAGO -->
   <div
     class="modal fade show d-block"
     *ngIf="mostrarModalCrearPago"
@@ -170,8 +186,8 @@
       <div class="modal-content">
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title">
-            Registrar un nuevo pago - {{ socioSeleccionado.nombre }}
-            {{ socioSeleccionado.apellido }}
+            Registrar un nuevo pago - {{ socioSeleccionado?.nombre }}
+            {{ socioSeleccionado?.apellido }}
           </h5>
           <button
             type="button"
@@ -186,23 +202,22 @@
               <input
                 type="text"
                 class="form-control form-control-user"
-                id="exampleFirstName"
-                placeholder="Metodo de pago"
+                placeholder="Metodo de pago (id)"
                 [(ngModel)]="nuevoPago.idMetodoPago"
                 name="metodopago"
               />
-              <!-- cambiar por form control -->
             </div>
+
             <div class="form-group">
               <input
                 type="text"
                 class="form-control form-control-user"
-                id="exampleLastName"
                 placeholder="Monto"
                 [(ngModel)]="nuevoPago.monto"
                 name="monto"
               />
             </div>
+
             <div class="form-group">
               <input
                 type="date"
@@ -212,14 +227,6 @@
                 name="fechaPago"
               />
             </div>
-            <!-- <div class="form-group">
-                            <select class="form-control" [(ngModel)]="inputPlan" name="plan">
-                                <option  *ngFor="let plan of planes" [ngValue]="plan">
-                                    {{ plan.nombre }}
-                                </option>
-                            </select>
-                        </div>
-                      -->
           </form>
         </div>
 
