@@ -17,6 +17,10 @@
                   {{ modoEditar ? "Editar" : "Crear" }} plan
                 </h1>
               </div>
+              <div *ngIf="cargando" class="alert alert-info">
+                Cargando plan...
+              </div>
+
               <form class="user" (ngSubmit)="guardarPlan()">
                 <div class="form-group">
                   <span>Nombre del plan</span>
@@ -73,8 +77,12 @@
                   />
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">
-                  {{ modoEditar ? "Editar" : "Crear" }} plan
+                <button
+                  class="btn btn-success"
+                  (click)="guardarPlan()"
+                  [disabled]="cargando"
+                >
+                  {{ modoEditar ? "Guardar cambios" : "Crear plan" }}
                 </button>
               </form>
             </div>

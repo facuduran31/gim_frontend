@@ -11,22 +11,23 @@ import Swal from 'sweetalert2';
   styleUrls: ['./form-planes.component.css'],
 })
 export class FormPlanesComponent implements OnInit {
-  modoEditar: boolean = false; // determina si es edición o creación
+  modoEditar = false;
+  cargando = false;
+
   plan: Plan = {
     idPlan: 0,
     nombre: '',
     descripcion: '',
-    precio: 0,
+    precio: 0, // en backend se usa para histórico
     duracion: 0,
     diasPorSemana: 0,
   };
 
-  // Inputs ligados al ngModel
-  inputNombrePlan: string = '';
-  inputDescripcion: string = '';
-  inputPrecio: number = 0;
-  inputDuracion: number = 0;
-  inputDiasPorSemana: number = 0;
+  inputNombrePlan = '';
+  inputDescripcion = '';
+  inputPrecio: number | null = null;
+  inputDuracion: number | null = null;
+  inputDiasPorSemana: number | null = null;
 
   constructor(
     private planesService: PlanService,
@@ -36,84 +37,152 @@ export class FormPlanesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Captura de parámetros
     this.route.params.subscribe((params) => {
-      const idPlan = params['idplan'];
+      const idPlan = Number(params['idplan'] || 0);
+
       if (idPlan > 0) {
         this.modoEditar = true;
-        this.planesService.getPlanById(idPlan).subscribe(
-          (res) => {
-            if (res.length > 0) {
-              const plan = res[0]; // ⚠️ Tomamos el primer elemento del array
-              this.plan = plan;
-
-              this.inputNombrePlan = plan.nombre;
-              this.inputDescripcion = plan.descripcion;
-              this.inputPrecio = plan.precio;
-              this.inputDuracion = plan.duracion;
-              this.inputDiasPorSemana = plan.diasPorSemana;
-
-              //busca el histórico de precios más reciente para mostrar el precio actual
-              this.historicoService.getHistoricoByPlan(plan.idPlan).subscribe(
-                (hist) => {
-                  if (hist && hist.length > 0) {
-                    const precioActual =
-                      hist.find((h) => h.fechaHasta === null) || hist[0];
-                    this.inputPrecio = precioActual.precio;
-                  } else {
-                    this.inputPrecio = 0;
-                  }
-                },
-                (error) => {
-                  console.error(
-                    'Error al obtener histórico de precios del plan',
-                    error,
-                  );
-                  this.inputPrecio = 0;
-                },
-              );
-            } else {
-              Swal.fire('Error', 'No se encontró el plan', 'error');
-            }
-          },
-          (error) => {
-            Swal.fire('Error', 'No se pudo cargar el plan', 'error');
-          },
+        this.cargarPlanParaEditar(idPlan);
+      } else {
+        this.plan.idGimnasio = Number(
+          this.route.snapshot.paramMap.get('id') || 0,
         );
       }
     });
   }
 
+  private cargarPlanParaEditar(idPlan: number) {
+    this.cargando = true;
+
+    this.planesService.getPlanById(idPlan).subscribe({
+      next: (res) => {
+        if (!res || res.length === 0) {
+          this.cargando = false;
+          Swal.fire('Error', 'No se encontró el plan', 'error');
+          return;
+        }
+
+        const p = res[0];
+        this.plan = p;
+
+        this.inputNombrePlan = p.nombre ?? '';
+        this.inputDescripcion = p.descripcion ?? '';
+        this.inputDuracion = Number(p.duracion ?? 0);
+        this.inputDiasPorSemana = Number(p.diasPorSemana ?? 0);
+
+        this.plan.idGimnasio = Number(
+          this.route.snapshot.paramMap.get('id') || 0,
+        );
+
+        this.historicoService.getHistoricoByPlan(p.idPlan).subscribe({
+          next: (hist) => {
+            if (hist && hist.length > 0) {
+              const vigente =
+                hist.find((h: any) => h.fechaHasta === null) ?? hist[0];
+              this.inputPrecio = Number(vigente.precio ?? 0);
+            } else {
+              this.inputPrecio = null;
+            }
+
+            this.cargando = false;
+          },
+          error: (err) => {
+            console.error(
+              'Error al obtener histórico de precios del plan',
+              err,
+            );
+            this.inputPrecio = null;
+            this.cargando = false;
+          },
+        });
+      },
+      error: () => {
+        this.cargando = false;
+        Swal.fire('Error', 'No se pudo cargar el plan', 'error');
+      },
+    });
+  }
+
   guardarPlan() {
-    this.plan.nombre = this.inputNombrePlan;
-    this.plan.descripcion = this.inputDescripcion;
-    this.plan.precio = Number(this.inputPrecio);
-    this.plan.duracion = Number(this.inputDuracion);
-    this.plan.diasPorSemana = Number(this.inputDiasPorSemana);
-    this.plan.idGimnasio = Number(this.route.snapshot.paramMap.get('id'));
+    const idGimnasio = Number(this.route.snapshot.paramMap.get('id') || 0);
+    const precio = Number(this.inputPrecio);
+
+    if (!idGimnasio || Number.isNaN(idGimnasio)) {
+      Swal.fire(
+        'Error',
+        'No se encontró el gimnasio (id inválido en la ruta)',
+        'error',
+      );
+      return;
+    }
+
+    if (!precio || Number.isNaN(precio) || precio <= 0) {
+      Swal.fire('Atención', 'El precio debe ser mayor a 0', 'warning');
+      return;
+    }
+
+    const duracion = Number(this.inputDuracion);
+    const dias = Number(this.inputDiasPorSemana);
+
+    if (!duracion || Number.isNaN(duracion) || duracion <= 0) {
+      Swal.fire('Atención', 'La duración debe ser mayor a 0', 'warning');
+      return;
+    }
+
+    if (!dias || Number.isNaN(dias) || dias <= 0) {
+      Swal.fire(
+        'Atención',
+        'Los días por semana deben ser mayor a 0',
+        'warning',
+      );
+      return;
+    }
+
+    this.plan.nombre = this.inputNombrePlan.trim();
+    this.plan.descripcion = this.inputDescripcion.trim();
+    this.plan.precio = precio;
+    this.plan.duracion = duracion;
+    this.plan.diasPorSemana = dias;
+    this.plan.idGimnasio = idGimnasio;
+
+    Swal.showLoading();
 
     if (this.modoEditar) {
-      this.planesService.updatePlan(this.plan).subscribe(
-        () => {
+      this.planesService.updatePlan(this.plan).subscribe({
+        next: () => {
           Swal.fire('Éxito', 'Plan editado correctamente', 'success').then(() =>
             this.router.navigate(['/gimnasio', this.plan.idGimnasio, 'planes']),
           );
         },
-        (error) => {
-          Swal.fire('Error', 'No se pudo editar el plan', 'error');
+        error: (error) => {
+          console.error(error);
+          Swal.fire(
+            'Error',
+            error?.error?.message ||
+              error?.error?.error ||
+              'No se pudo editar el plan',
+            'error',
+          );
         },
-      );
+      });
     } else {
-      this.planesService.createPlan(this.plan).subscribe(
-        () => {
+      this.planesService.createPlan(this.plan).subscribe({
+        next: () => {
           Swal.fire('Éxito', 'Plan creado correctamente', 'success').then(() =>
             this.router.navigate(['/gimnasio', this.plan.idGimnasio, 'planes']),
           );
         },
-        (error) => {
-          Swal.fire('Error', 'No se pudo crear el plan', 'error');
+        error: (error) => {
+          console.error(error);
+          Swal.fire(
+            'Error',
+            error?.error?.message ||
+              error?.error?.error ||
+              'No se pudo crear el plan',
+            'error',
+          );
         },
-      );
+      });
     }
   }
 }
