@@ -30,15 +30,12 @@ export class FormSociosComponent {
 
   planes: Plan[] = [];
 
-  // Inputs de formulario
   inputDniSocio: string = '';
   inputNombreSocio: string = '';
   inputApellidoSocio: string = '';
   inputTelefonoSocio: string = '';
   inputEstadoSocio: boolean = false;
   inputPlan: Plan | null = null;
-
-  // Guardar idSocioPlan actual para actualizaciones
   ultimoSocioPlanId: number | null = null;
 
   constructor(
@@ -54,14 +51,12 @@ export class FormSociosComponent {
       this.socio.idGimnasio = parseInt(params.get('id') || '0');
       this.socio.idSocio = parseInt(params.get('idSocio') || '0');
 
-      // Cargar planes
       this.planService.getPlans().subscribe((res: Plan[]) => {
         this.planes = res;
 
         if (this.socio.idSocio > 0) {
           this.modoEditar = true;
 
-          // Cargar datos del socio
           this.sociosService
             .getSocioById(this.socio.idSocio)
             .subscribe((res) => {
@@ -73,7 +68,6 @@ export class FormSociosComponent {
               this.inputEstadoSocio = res.estado;
             });
 
-          // Cargar último plan del socio
           this.inscripcionesService
             .getLastInscripcion(this.socio.idSocio)
             .subscribe((plan) => {
@@ -83,7 +77,7 @@ export class FormSociosComponent {
                 );
                 if (planSeleccionado) this.inputPlan = planSeleccionado;
 
-                this.ultimoSocioPlanId = plan.idPlan; // Guardar idSocioPlan actual
+                this.ultimoSocioPlanId = plan.idPlan;
               }
             });
         }
@@ -97,7 +91,6 @@ export class FormSociosComponent {
       return;
     }
 
-    // Asegurarse de enviar idGimnasio y estado
     const idGimnasio =
       this.socio.idGimnasio ||
       parseInt(this.route.snapshot.paramMap.get('id') || '0');
@@ -141,7 +134,6 @@ export class FormSociosComponent {
       return;
     }
 
-    // Asegurarse de que el idGimnasio viene de la URL
     const idGimnasio =
       this.socio.idGimnasio ||
       parseInt(this.route.snapshot.paramMap.get('id') || '0');
@@ -157,7 +149,6 @@ export class FormSociosComponent {
       duracion: this.inputPlan.duracion,
     };
 
-    // Enviar la petición al backend con la URL completa
     this.sociosService.createSocio(socioCrear).subscribe({
       next: (res: any) => {
         Swal.fire(
@@ -165,7 +156,6 @@ export class FormSociosComponent {
           'Socio creado correctamente con plan',
           'success',
         ).then(() => {
-          // Redirigir al listado de socios del gimnasio
           this.router.navigate([`/gimnasio/${idGimnasio}/administrar-socios`]);
         });
       },
