@@ -7,8 +7,6 @@ import { Plan } from 'src/app/models/plan';
 import { PlanService } from 'src/app/services/plan.service';
 import { InscripcionesService } from 'src/app/services/inscripciones.service';
 import Swal from 'sweetalert2';
-import { switchMap, of } from 'rxjs';
-import { Inscripcion } from 'src/app/models/inscripcion';
 
 @Component({
   selector: 'app-form-socios',
